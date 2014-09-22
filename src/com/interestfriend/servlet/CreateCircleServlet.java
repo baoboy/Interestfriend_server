@@ -25,6 +25,7 @@ import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CircleDaoFactory;
+import com.interestfriend.huanxin.EasemobGroupMessage;
 
 public class CreateCircleServlet extends HttpServlet {
 
@@ -164,9 +165,12 @@ public class CreateCircleServlet extends HttpServlet {
 					"circle_description").toString();
 			int user_id = Integer.valueOf(request.getAttribute("user_id")
 					.toString());
+			String group_id = EasemobGroupMessage.createCircleGroup(
+					circle_name, circle_description);
 			circle.setUser_id(user_id);
 			circle.setCircle_description(circle_description);
 			circle.setCircle_name(circle_name);
+			circle.setGroup_id(group_id);
 			CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 			boolean isSuccess = dao.insertCircleToDB(circle);
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -175,12 +179,13 @@ public class CreateCircleServlet extends HttpServlet {
 				params.put("rt", 0);
 			} else {
 				params.put("circle_logo", serverPath);
+				params.put("group_id", group_id);
 				params.put("rt", 1);
-
 			}
 			PrintWriter out = response.getWriter();
 			out.print(JsonUtil.toJsonString(params));
 			System.out.println("Â·¾¶£º" + serverPath);
+			System.out.println(params.toString());
 			out.flush();
 			out.close();
 		} catch (Exception e) {

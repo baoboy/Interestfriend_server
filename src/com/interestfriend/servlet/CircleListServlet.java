@@ -112,6 +112,7 @@ public class CircleListServlet extends HttpServlet {
 						.getString("circle_description"));
 				circle.setCircle_id(res.getInt("circle_id"));
 				circle.setCircle_name(res.getString("circle_name"));
+				circle.setGroup_id(res.getString("group_id"));
 				circleLists.add(circle);
 			}
 		} catch (SQLException e) {

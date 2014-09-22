@@ -6,6 +6,15 @@ public class Circle {
 	private String circle_name = "";
 	private String circle_description = "";
 	private String circle_avatar = "";
+	private String group_id = "";
+
+	public String getGroup_id() {
+		return group_id;
+	}
+
+	public void setGroup_id(String group_id) {
+		this.group_id = group_id;
+	}
 
 	public int getUser_id() {
 		return user_id;

@@ -13,7 +13,7 @@ public class CircleDaoImpl implements CircleDao {
 
 	public boolean insertCircleToDB(Circle circle) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String addSQL = "insert into circle(user_id,circle_name,circle_description,circle_avatar) values(?,?,?,?)";
+		String addSQL = "insert into circle(user_id,circle_name,circle_description,circle_avatar,group_id) values(?,?,?,?,?)";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
@@ -21,6 +21,7 @@ public class CircleDaoImpl implements CircleDao {
 			pstmt.setString(2, circle.getCircle_name());// 设置第二个参数
 			pstmt.setString(3, circle.getCircle_description());
 			pstmt.setString(4, circle.getCircle_avatar());
+			pstmt.setString(5, circle.getGroup_id());
 
 			int count = pstmt.executeUpdate(); // 执行更新
 			return count > 0;
