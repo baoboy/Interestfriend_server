@@ -1,11 +1,15 @@
 package com.interestfriend.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Growth {
 	private int growth_id = 0;
 	private int cid = 0;
 	private int publisher_id = 0;
 	private String time = "";
 	private String content = "";
+	private List<GrowthImage> images = new ArrayList<GrowthImage>();
 
 	public int getGrowth_id() {
 		return growth_id;
@@ -47,4 +51,17 @@ public class Growth {
 		this.content = content;
 	}
 
+	public List<GrowthImage> getImages() {
+		return images;
+	}
+
+	public void setImages(List<GrowthImage> images) {
+		this.images = images;
+	}
+
+	@Override
+	public String toString() {
+		return "gid:" + this.growth_id + "  content:" + this.content
+				+ "  images:" + this.images;
+	}
 }

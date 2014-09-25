@@ -7,12 +7,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -21,8 +25,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.GrowthImageDao;
 import com.interestfriend.Utils.DateUtils;
+import com.interestfriend.Utils.ImageUtil;
 import com.interestfriend.bean.Growth;
 import com.interestfriend.bean.GrowthImage;
+import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.GrowthDaoFactory;
 import com.interestfriend.factory.GrowthImageDaoFactory;
 
@@ -106,6 +112,7 @@ public class AddGrowthServlet extends HttpServlet {
 		factory.setRepository(new File(avatarSavePath));
 		factory.setSizeThreshold(1024 * 1024);
 		ServletFileUpload upload = new ServletFileUpload(factory);
+		int imgIndex = 1;
 		try {
 			// 调用 parseRequest（request）方法 获得上传文件 FileItem 的集合list 可实现多文件上传。
 			@SuppressWarnings("unchecked")
@@ -117,7 +124,6 @@ public class AddGrowthServlet extends HttpServlet {
 					String name = item.getFieldName();
 					// 获取用户具体输入的字符串，
 					String value = item.getString();
-					// System.out.println(value);
 					request.setAttribute(name, value);
 				}
 				// 如果传入的是非简单字符串，而是图片，音频，视频等二进制文件。
@@ -129,12 +135,20 @@ public class AddGrowthServlet extends HttpServlet {
 					// 截取上传文件的 字符串名字。+1是去掉反斜杠。
 					// String filename = value.substring(start + 1);
 					String fileName = DateUtils.getUpLoadFileName()
+							+ "-"
+							+ imgIndex
 							+ value.substring(value.length() - 4,
 									value.length());
+					String path_200 = DateUtils.getUpLoadFileName()
+							+ "-"
+							+ imgIndex
+							+ "_200×200"
+							+ value.substring(value.length() - 4,
+									value.length());
+					imgIndex++;
 					GrowthImage image = new GrowthImage();
 					image.setImg_url(serverPath + fileName);
 					growthImages.add(image);
-					System.out.println("image::::::::" + serverPath + fileName);
 					// request.setAttribute(name, filename);
 					/*
 					 * 第三方提供的方法直接写到文件中。 item.write(new File(path,filename));
@@ -151,25 +165,45 @@ public class AddGrowthServlet extends HttpServlet {
 					in.close();
 					out.close();
 					item.delete();
+					// ImageUtil.resize(new File(avatarSavePath + fileName),
+					// new File(avatarSavePath + path_200), 200, 0.7f);
 				}
 			}
-			String cid = request.getAttribute("cid").toString();
+			int cid = Integer.valueOf(request.getAttribute("cid").toString());
 			String publisher_id = request.getAttribute("publisher_id")
 					.toString();
 			String content = request.getAttribute("content").toString();
 			Growth growth = new Growth();
-			growth.setCid(Integer.valueOf(cid));
+			growth.setCid(cid);
 			growth.setContent(content);
 			growth.setPublisher_id(Integer.valueOf(publisher_id));
 
 			GrowthDao growthDao = GrowthDaoFactory.getGrowthDaoInstance();
-			growthDao.insertGrowthToDB(growth);
+			int growth_id = growthDao.insertGrowthToDB(growth);
+			for (GrowthImage img : growthImages) {
+				img.setCid(cid);
+				img.setGrowth_id(growth_id);
+			}
 			GrowthImageDao imgDao = GrowthImageDaoFactory
 					.getGrowthImageDaoInstance();
 			imgDao.insertGrowthImageToDB(growthImages);
+			Map<String, Object> params = new HashMap<String, Object>();
+			if (growth_id > 0) {
+				params.put("rt", 1);
+				params.put("gid", growth_id);
+				params.put("images", growthImages);
+			} else {
+				params.put("rt", 0);
+				params.put("err", ErrorEnum.INVALID.name());
+			}
+			JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
+			System.out.println(jsonObjectFromMap.toString());
+			PrintWriter out = response.getWriter();
+			out.print(jsonObjectFromMap.toString());
+			out.flush();
+			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.toString());
 		}
 	}
 
