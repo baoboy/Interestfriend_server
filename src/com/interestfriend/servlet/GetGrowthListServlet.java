@@ -92,7 +92,7 @@ public class GetGrowthListServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html");
+		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		int cid = Integer.valueOf(request.getParameter("cid"));
 		GrowthDao dao = GrowthDaoFactory.getGrowthDaoInstance();
