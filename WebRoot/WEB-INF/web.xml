@@ -47,6 +47,27 @@
     <servlet-name>GetCircleCategoryServlet</servlet-name>
     <servlet-class>com.interestfriend.servlet.GetCircleCategoryServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetCirclesByCategoryServlet</servlet-name>
+    <servlet-class>com.interestfriend.servlet.GetCirclesByCategoryServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>JoinOfficialCircleServlet</servlet-name>
+    <servlet-class>com.interestfriend.servlet.JoinOfficialCircleServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetMembersByCircleIDServlet</servlet-name>
+    <servlet-class>com.interestfriend.servlet.GetMembersByCircleIDServlet</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -81,6 +102,18 @@
   <servlet-mapping>
     <servlet-name>GetCircleCategoryServlet</servlet-name>
     <url-pattern>/servlet/GetCircleCategoryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetCirclesByCategoryServlet</servlet-name>
+    <url-pattern>/servlet/GetCirclesByCategoryServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>JoinOfficialCircleServlet</servlet-name>
+    <url-pattern>/servlet/JoinOfficialCircleServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetMembersByCircleIDServlet</servlet-name>
+    <url-pattern>/servlet/GetMembersByCircleIDServlet</url-pattern>
   </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

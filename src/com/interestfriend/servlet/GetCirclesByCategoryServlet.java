@@ -14,31 +14,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONException;
-
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.CircleDao;
-import com.interestfriend.Idao.MembersDao;
-import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.bean.Circle;
-import com.interestfriend.daoImpl.MembersDapImpl;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.factory.CircleDaoFactory;
-import com.interestfriend.factory.MembersDaoFactory;
 
-public class CircleListServlet extends HttpServlet {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class GetCirclesByCategoryServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public CircleListServlet() {
+	public GetCirclesByCategoryServlet() {
 		super();
 	}
 
@@ -66,7 +54,6 @@ public class CircleListServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		doPost(request, response);
 	}
 
@@ -87,13 +74,14 @@ public class CircleListServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
 
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
-		// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
-		MembersDao dao = MembersDaoFactory.getInstance();
-		ResultSet res = dao.findCirclesByUserID(user_id);
+		int category = Integer.valueOf(request.getParameter("category"));
+
+		CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
+		ResultSet res = dao.findCirclesByCategory(category);
 		List<Circle> circleLists = new ArrayList<Circle>();
 		try {
 			while (res.next()) {
@@ -120,7 +108,6 @@ public class CircleListServlet extends HttpServlet {
 		out.print(jsonObjectFromMap.toString());
 		out.flush();
 		out.close();
-
 	}
 
 	/**
@@ -130,6 +117,7 @@ public class CircleListServlet extends HttpServlet {
 	 *             if an error occurs
 	 */
 	public void init() throws ServletException {
+		// Put your code here
 	}
 
 }

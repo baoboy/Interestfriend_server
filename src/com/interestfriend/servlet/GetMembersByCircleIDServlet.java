@@ -14,31 +14,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONException;
-
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import com.interestfriend.Idao.CircleDao;
 import com.interestfriend.Idao.MembersDao;
-import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.bean.Circle;
-import com.interestfriend.daoImpl.MembersDapImpl;
+import com.interestfriend.bean.User;
 import com.interestfriend.db.DBConnection;
-import com.interestfriend.factory.CircleDaoFactory;
 import com.interestfriend.factory.MembersDaoFactory;
 
-public class CircleListServlet extends HttpServlet {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class GetMembersByCircleIDServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public CircleListServlet() {
+	public GetMembersByCircleIDServlet() {
 		super();
 	}
 
@@ -68,6 +57,7 @@ public class CircleListServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		doPost(request, response);
+
 	}
 
 	/**
@@ -87,24 +77,21 @@ public class CircleListServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
 
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
+		int cid = Integer.valueOf(request.getParameter("circle_id"));
 		// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		MembersDao dao = MembersDaoFactory.getInstance();
-		ResultSet res = dao.findCirclesByUserID(user_id);
-		List<Circle> circleLists = new ArrayList<Circle>();
+		ResultSet res = dao.findMembersByCircleID(cid);
+		List<User> userLists = new ArrayList<User>();
 		try {
 			while (res.next()) {
-				Circle circle = new Circle();
-				circle.setCircle_avatar(res.getString("circle_avatar"));
-				circle.setCircle_description(res
-						.getString("circle_description"));
-				circle.setCircle_id(res.getInt("circle_id"));
-				circle.setCircle_name(res.getString("circle_name"));
-				circle.setGroup_id(res.getString("group_id"));
-				circleLists.add(circle);
+				User u = new User();
+				u.setUserID(res.getInt("user_id"));
+				u.setUserName(res.getString("user_name"));
+				userLists.add(u);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -113,14 +100,13 @@ public class CircleListServlet extends HttpServlet {
 			DBConnection.close(res);
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("circles", circleLists);
+		params.put("members", userLists);
 		params.put("rt", 1);
 		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
 		PrintWriter out = response.getWriter();
 		out.print(jsonObjectFromMap.toString());
 		out.flush();
 		out.close();
-
 	}
 
 	/**
@@ -130,6 +116,7 @@ public class CircleListServlet extends HttpServlet {
 	 *             if an error occurs
 	 */
 	public void init() throws ServletException {
+		// Put your code here
 	}
 
 }

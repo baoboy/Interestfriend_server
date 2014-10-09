@@ -20,11 +20,14 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.interestfriend.Idao.CircleDao;
+import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.bean.Circle;
+import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CircleDaoFactory;
+import com.interestfriend.factory.MembersDaoFactory;
 import com.interestfriend.huanxin.EasemobGroupMessage;
 
 public class CreateCircleServlet extends HttpServlet {
@@ -172,9 +175,14 @@ public class CreateCircleServlet extends HttpServlet {
 			circle.setCircle_name(circle_name);
 			circle.setGroup_id(group_id);
 			CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
-			boolean isSuccess = dao.insertCircleToDB(circle);
+			int cid = dao.insertCircleToDB(circle);
+			Members member = new Members();
+			member.setCircle_id(cid);
+			member.setUser_id(user_id);
+			MembersDao daoM = MembersDaoFactory.getInstance();
+			boolean rt = daoM.addMembers(member);
 			Map<String, Object> params = new HashMap<String, Object>();
-			if (!isSuccess) {
+			if (!rt) {
 				params.put("err", ErrorEnum.INVALID.name());
 				params.put("rt", 0);
 			} else {
