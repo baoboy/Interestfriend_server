@@ -1,5 +1,5 @@
 package com.interestfriend.enums;
 
 public enum ErrorEnum {
-	USER_ALREADY_EXIST, INVALID
+	WRONG_PASSWORD, NOT_EXIST_USER, USER_ALREADY_EXIST, INVALID
 }

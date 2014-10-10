@@ -38,7 +38,6 @@ public class EasemobUserAPI {
 		String reqURL = "https://" + host + "/" + rest;
 		String result = HttpsUtils.sendSSLRequest(reqURL, token,
 				HttpsUtils.Map2Json(body), HttpsUtils.Method_POST);
-		System.out.println("result:::" + result);
 		return result;
 	}
 
@@ -143,13 +142,30 @@ public class EasemobUserAPI {
 
 		// 创建用户
 		Map<String, Object> createNewUserPostBody = new HashMap<String, Object>();
-		createNewUserPostBody.put("username", "123aaa");
+		createNewUserPostBody.put("username", "222");
 		createNewUserPostBody.put("password", "123aaa");
 		EasemobUserAPI.createNewUser(host, appKey, createNewUserPostBody,
 				orgAdminToken);
-
 		// // 删除用户
 		// String id = "testuser2";
 		// EasemobUserAPI.deleteUser(host, appKey, id, orgAdminToken);
+	}
+
+	public static void createNewUser(String username, String password) {
+		// 获取org管理员token
+		Map<String, Object> getAccessTokenPostBody = new HashMap<String, Object>();
+		getAccessTokenPostBody.put("grant_type", "password");
+		getAccessTokenPostBody.put("username", EasemobConstans.USER_NAME);
+		getAccessTokenPostBody.put("password", EasemobConstans.PASSWORD);
+		String orgAdminToken = EasemobUserAPI.getAccessToken(
+				EasemobConstans.HOST, EasemobConstans.APP_KEY, false,
+				getAccessTokenPostBody);
+		// 创建用户
+		Map<String, Object> createNewUserPostBody = new HashMap<String, Object>();
+		createNewUserPostBody.put("username", username);
+		createNewUserPostBody.put("password", password);
+		EasemobUserAPI.createNewUser(EasemobConstans.HOST,
+				EasemobConstans.APP_KEY, createNewUserPostBody, orgAdminToken);
+
 	}
 }

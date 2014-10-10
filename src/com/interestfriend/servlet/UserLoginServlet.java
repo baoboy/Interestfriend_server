@@ -2,11 +2,7 @@ package com.interestfriend.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,31 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONException;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-import com.interestfriend.Idao.CircleDao;
-import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.JsonUtil;
-import com.interestfriend.bean.Circle;
-import com.interestfriend.daoImpl.MembersDapImpl;
-import com.interestfriend.db.DBConnection;
-import com.interestfriend.factory.CircleDaoFactory;
-import com.interestfriend.factory.MembersDaoFactory;
+import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.UserDaoFactory;
 
-public class CircleListServlet extends HttpServlet {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class UserLoginServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public CircleListServlet() {
+	public UserLoginServlet() {
 		super();
 	}
 
@@ -87,40 +69,28 @@ public class CircleListServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf8");
-		request.setCharacterEncoding("utf8");
 
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
-		// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
-		MembersDao dao = MembersDaoFactory.getInstance();
-		ResultSet res = dao.findCirclesByUserID(user_id);
-		List<Circle> circleLists = new ArrayList<Circle>();
-		try {
-			while (res.next()) {
-				Circle circle = new Circle();
-				circle.setCircle_avatar(res.getString("circle_avatar"));
-				circle.setCircle_description(res
-						.getString("circle_description"));
-				circle.setCircle_id(res.getInt("circle_id"));
-				circle.setCircle_name(res.getString("circle_name"));
-				circle.setGroup_id(res.getString("group_id"));
-				circleLists.add(circle);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.toString());
-		} finally {
-			DBConnection.close(res);
-		}
+		response.setContentType("text/html");
+		request.setCharacterEncoding("utf-8");
+		String user_cellphone = request.getParameter("user_cellphone");
+		String user_passwrod = request.getParameter("user_password");
+		UserDao dao = UserDaoFactory.getUserDaoInstance();
+		int resultCode = dao.userLogon(user_cellphone, user_passwrod);
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("circles", circleLists);
-		params.put("rt", 1);
-		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
+		if (resultCode == -1) {
+			params.put("err", ErrorEnum.NOT_EXIST_USER.name());
+			params.put("rt", 0);
+		} else if (resultCode == -2) {
+			params.put("err", ErrorEnum.WRONG_PASSWORD.name());
+			params.put("rt", 0);
+		} else {
+			params.put("user_id", resultCode);
+			params.put("rt", 1);
+		}
 		PrintWriter out = response.getWriter();
-		out.print(jsonObjectFromMap.toString());
+		out.print(JsonUtil.toJsonString(params));
 		out.flush();
 		out.close();
-		System.out.println(jsonObjectFromMap.toString());
 	}
 
 	/**
@@ -130,6 +100,7 @@ public class CircleListServlet extends HttpServlet {
 	 *             if an error occurs
 	 */
 	public void init() throws ServletException {
+		// Put your code here
 	}
 
 }

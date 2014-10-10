@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
 import com.interestfriend.Idao.CircleDao;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
+import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CircleDaoFactory;
 
 public class GetCirclesByCategoryServlet extends HttpServlet {
@@ -79,30 +80,35 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 		request.setCharacterEncoding("utf8");
 
 		int category = Integer.valueOf(request.getParameter("category"));
-
 		CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		ResultSet res = dao.findCirclesByCategory(category);
 		List<Circle> circleLists = new ArrayList<Circle>();
-		try {
-			while (res.next()) {
-				Circle circle = new Circle();
-				circle.setCircle_avatar(res.getString("circle_avatar"));
-				circle.setCircle_description(res
-						.getString("circle_description"));
-				circle.setCircle_id(res.getInt("circle_id"));
-				circle.setCircle_name(res.getString("circle_name"));
-				circle.setGroup_id(res.getString("group_id"));
-				circleLists.add(circle);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.toString());
-		} finally {
-			DBConnection.close(res);
-		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("circles", circleLists);
-		params.put("rt", 1);
+		if (res != null) {
+			try {
+				while (res.next()) {
+					Circle circle = new Circle();
+					circle.setCircle_avatar(res.getString("circle_avatar"));
+					circle.setCircle_description(res
+							.getString("circle_description"));
+					circle.setCircle_id(res.getInt("circle_id"));
+					circle.setCircle_name(res.getString("circle_name"));
+					circle.setGroup_id(res.getString("group_id"));
+					circleLists.add(circle);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println(e.toString());
+			} finally {
+				DBConnection.close(res);
+			}
+			params.put("circles", circleLists);
+			params.put("rt", 1);
+		} else {
+			params.put("err", ErrorEnum.INVALID.name());
+			params.put("rt", 0);
+		}
+
 		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
 		PrintWriter out = response.getWriter();
 		out.print(jsonObjectFromMap.toString());

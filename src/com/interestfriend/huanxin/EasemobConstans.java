@@ -4,5 +4,5 @@ public class EasemobConstans {
 	public static final String USER_NAME = "binbin";
 	public static final String PASSWORD = "binbin521";
 	public static final String APP_KEY = "774663576#interestfriend";
-
+	public static final String HOST = "a1.easemob.com";
 }

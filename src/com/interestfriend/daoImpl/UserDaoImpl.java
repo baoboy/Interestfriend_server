@@ -37,16 +37,16 @@ public class UserDaoImpl implements UserDao {
 
 	public boolean verifyCellphone(String cellPhone) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String sql = "select user_name from user where user_cellphone = ? ";
+		String sql = "select user_id from user where user_cellphone = ? ";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 		try {
 			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
 			pstmt.setString(1, cellPhone);
 			rs = pstmt.executeQuery(); // 执行查询
-			rs.last();
-			int rowCount = rs.getRow(); // 获得ResultSet的总行数
-			return rowCount > 0;
+			while (rs.next()) {
+				return true;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -54,5 +54,33 @@ public class UserDaoImpl implements UserDao {
 			DBConnection.close(pstmt); // 关闭预处理对象
 		}
 		return false;
+	}
+
+	@Override
+	public int userLogon(String telPhone, String password) {
+		boolean isExist = verifyCellphone(telPhone);
+		if (!isExist) {
+			return -1;// 手机号不存在
+		}
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		String sql = "select user_id from user where user_cellphone = ? and user_password = ?";
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setString(1, telPhone);
+			pstmt.setString(2, password);
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				return rs.getInt("user_id");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(rs); // 关闭结果集对象
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return -2;// 密码错误
 	}
 }

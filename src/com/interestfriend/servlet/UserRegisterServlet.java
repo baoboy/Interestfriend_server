@@ -21,9 +21,11 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.DateUtils;
+import com.interestfriend.Utils.MD5;
 import com.interestfriend.bean.User;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.UserDaoFactory;
+import com.interestfriend.huanxin.EasemobUserAPI;
 
 public class UserRegisterServlet extends HttpServlet {
 
@@ -101,11 +103,16 @@ public class UserRegisterServlet extends HttpServlet {
 		User user = new User();
 		// 获得磁盘文件条目工厂。
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		// 获取文件上传需要保存的路径，upload文件夹需存在。
-		String path = request.getSession().getServletContext()
-				.getRealPath("/upload");
+		// 获取文件上传需要保存的路径，user-avatar文件夹需存在。
+		String path = request.getContextPath();
+		String serverPath = request.getScheme() + "://"
+				+ request.getServerName() + ":" + request.getServerPort()
+				+ path + "/user-avatar/";
+		String avatarSavePath = request.getSession().getServletContext()
+				.getRealPath("/user-avatar")
+				+ File.separator;
 		// 设置暂时存放文件的存储室，这个存储室可以和最终存储文件的文件夹不同。因为当文件很大的话会占用过多内存所以设置存储室。
-		factory.setRepository(new File(path));
+		factory.setRepository(new File(avatarSavePath));
 		// 设置缓存的大小，当上传文件的容量超过缓存时，就放到暂时存储室。
 		factory.setSizeThreshold(1024 * 1024);
 		// 上传处理工具类（高水平API上传处理？）
@@ -139,7 +146,7 @@ public class UserRegisterServlet extends HttpServlet {
 					 * 第三方提供的方法直接写到文件中。 item.write(new File(path,filename));
 					 */
 					// 收到写到接收的文件中。
-					OutputStream out = new FileOutputStream(new File(path,
+					OutputStream out = new FileOutputStream(new File(avatarSavePath,
 							filename));
 					InputStream in = item.getInputStream();
 					int length = 0;
@@ -151,7 +158,7 @@ public class UserRegisterServlet extends HttpServlet {
 					in.close();
 					out.close();
 					item.delete();
-					user.setUserAvatar(path + filename);
+					user.setUserAvatar(serverPath + filename);
 				}
 			}
 			String user_nameString = request.getAttribute("user_name")
@@ -175,6 +182,8 @@ public class UserRegisterServlet extends HttpServlet {
 				params.put("err", ErrorEnum.INVALID.name());
 				params.put("rt", 0);
 			} else {
+				EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
+						MD5.Md5(user_password));
 				params.put("rt", 1);
 			}
 			PrintWriter out = response.getWriter();
