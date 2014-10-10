@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.Utils.MD5;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
+import com.interestfriend.huanxin.EasemobGroupMessage;
 
 public class JoinOfficialCircleServlet extends HttpServlet {
 
@@ -73,11 +75,14 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
+		String group_id = request.getParameter("group_id");
+		String huanxin_userName = request.getParameter("huanxin_username");
 		Members member = new Members();
 		member.setCircle_id(circle_id);
 		member.setUser_id(user_id);
 		MembersDao dao = MembersDaoFactory.getInstance();
 		boolean rt = dao.addMembers(member);
+		EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (!rt) {
 			params.put("err", ErrorEnum.INVALID.name());

@@ -59,4 +59,7 @@ public class MD5 {
 		return hexValue.toString();
 	}
 
+	public static void main(String[] args) {
+		System.out.println(Md5("123"));
+	}
 }

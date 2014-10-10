@@ -88,7 +88,7 @@ public class EasemobGroupMessage {
 				.header("Authorization", "Bearer " + admin_token)
 				.buildPost(Entity.json(paramsBody)).invoke();
 		String result = response.readEntity(String.class);
- 		return getGroupID(result);
+		return getGroupID(result);
 	}
 
 	private static String getGroupID(String result) {
@@ -140,6 +140,44 @@ public class EasemobGroupMessage {
 		}
 		return builder.build();
 
+	}
+
+	public static void addUserToGroup(String groupid, String username) {
+		String token = EasemobUserAPI.getOrgToken();
+		addUserToGroup(EasemobConstans.APP_KEY, token, groupid, username);
+	}
+
+	/**
+	 * 在群组中添加一个人
+	 * 
+	 * @param appkey
+	 * @param admin_token
+	 * @param groupid
+	 * @param username
+	 */
+	public static void addUserToGroup(String appkey, String admin_token,
+			String groupid, String username) {
+
+		String httpUrl = "https://a1.easemob.com/"
+				+ appkey.replaceFirst("#", "/") + "/chatgroups/" + groupid
+				+ "/users/" + username;
+		String result = HttpsUtils.sendSSLRequest(httpUrl, admin_token, "",
+				HttpsUtils.Method_POST);
+
+		System.out.println("result:" + result);
+
+	}
+
+	public static void deleteUserFromGroup(String appkey, String adminToken,
+			String groupid, String username) {
+
+		String httpUrl = "https://a1.easemob.com/"
+				+ appkey.replaceFirst("#", "/") + "/chatgroups/" + groupid
+				+ "/users/" + username;
+
+		String result = HttpsUtils.sendSSLRequest(httpUrl, adminToken, "",
+				HttpsUtils.Method_DELETE);
+		System.out.println("result:" + result);
 	}
 
 }

@@ -11,4 +11,5 @@ public interface CircleDao {
 
 	ResultSet findCirclesByCategory(int category);// 按类别查找圈子
 
+	String getGroupIdByCircleID();// 获取聊天群组id
 }

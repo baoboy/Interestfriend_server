@@ -79,4 +79,9 @@ public class CircleDaoImpl implements CircleDao {
 		}
 		return rs;
 	}
+
+	@Override
+	public String getGroupIdByCircleID() {
+		return null;
+	}
 }
