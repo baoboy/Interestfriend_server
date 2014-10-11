@@ -146,8 +146,8 @@ public class UserRegisterServlet extends HttpServlet {
 					 * 第三方提供的方法直接写到文件中。 item.write(new File(path,filename));
 					 */
 					// 收到写到接收的文件中。
-					OutputStream out = new FileOutputStream(new File(avatarSavePath,
-							filename));
+					OutputStream out = new FileOutputStream(new File(
+							avatarSavePath, filename));
 					InputStream in = item.getInputStream();
 					int length = 0;
 					byte[] buf = new byte[1024];
@@ -175,6 +175,7 @@ public class UserRegisterServlet extends HttpServlet {
 			user.setUserGender(user_gender);
 			user.setUserName(user_nameString);
 			user.setUserPassword(user_password);
+			user.setUserRegisterTime(DateUtils.getRegisterTime());
 			UserDao dao = UserDaoFactory.getUserDaoInstance();
 			boolean isSuccess = dao.insertUserToDB(user);
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -182,8 +183,9 @@ public class UserRegisterServlet extends HttpServlet {
 				params.put("err", ErrorEnum.INVALID.name());
 				params.put("rt", 0);
 			} else {
-				EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
-						MD5.Md5(user_password));
+				// EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
+				// MD5.Md5(user_password));
+				EasemobUserAPI.createNewUser(user_cellphone, user_password);
 				params.put("rt", 1);
 			}
 			PrintWriter out = response.getWriter();

@@ -17,6 +17,12 @@ public class DateUtils {
 
 	}
 
+	public static String getRegisterTime() {
+		DateFormat fileNameDF = new SimpleDateFormat("yyyy-MM-dd");
+		return fileNameDF.format(new Date());
+
+	}
+
 	public static void main(String[] args) {
 		for (int i = 0; i < 5; i++) {
 			System.out.println(getUpLoadFileName());

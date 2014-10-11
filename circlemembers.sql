@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-09 17:09:01
+Date: 2014-10-11 17:16:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,11 +24,14 @@ CREATE TABLE `circlemembers` (
   `user_id` int(11) DEFAULT NULL,
   `circle_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circlemembers
 -- ----------------------------
-INSERT INTO `circlemembers` VALUES ('1', '1', '1');
-INSERT INTO `circlemembers` VALUES ('2', '2', '1');
-INSERT INTO `circlemembers` VALUES ('4', '1', '4');
+INSERT INTO `circlemembers` VALUES ('12', '8', '1');
+INSERT INTO `circlemembers` VALUES ('13', '7', '1');
+INSERT INTO `circlemembers` VALUES ('14', '8', '2');
+INSERT INTO `circlemembers` VALUES ('15', '8', '3');
+INSERT INTO `circlemembers` VALUES ('16', '8', '4');
+INSERT INTO `circlemembers` VALUES ('17', '8', '5');

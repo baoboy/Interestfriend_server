@@ -15,7 +15,7 @@ public class CircleDaoImpl implements CircleDao {
 		int autoIncKeyFromApi = -1;
 
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String addSQL = "insert into circle(user_id,circle_name,circle_description,circle_avatar,group_id) values(?,?,?,?,?)";
+		String addSQL = "insert into circle(user_id,circle_name,circle_description,circle_avatar,group_id,category) values(?,?,?,?,?,?)";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 
@@ -26,6 +26,7 @@ public class CircleDaoImpl implements CircleDao {
 			pstmt.setString(3, circle.getCircle_description());
 			pstmt.setString(4, circle.getCircle_avatar());
 			pstmt.setString(5, circle.getGroup_id());
+			pstmt.setInt(6, circle.getCategory());
 
 			pstmt.executeUpdate(); // 执行更新
 			rs = pstmt.getGeneratedKeys(); // 获取自增主键！

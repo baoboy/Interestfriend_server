@@ -13,7 +13,7 @@ public class UserDaoImpl implements UserDao {
 
 	public boolean insertUserToDB(User user) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String addSQL = "insert into USER(user_name,user_cellphone,user_password,user_gender,user_avatar,user_birthday) values(?,?,?,?,?,?)";
+		String addSQL = "insert into USER(user_name,user_cellphone,user_password,user_gender,user_avatar,user_birthday,user_register_time) values(?,?,?,?,?,?)";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
@@ -23,6 +23,7 @@ public class UserDaoImpl implements UserDao {
 			pstmt.setString(4, user.getUserGender());
 			pstmt.setString(5, user.getUserAvatar());
 			pstmt.setString(6, user.getUserBirthday());
+			pstmt.setString(7, user.getUserRegisterTime());
 
 			int count = pstmt.executeUpdate(); // 执行更新
 			return count > 0;

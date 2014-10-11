@@ -166,6 +166,7 @@ public class CreateCircleServlet extends HttpServlet {
 			String circle_name = request.getAttribute("circle_name").toString();
 			String circle_description = request.getAttribute(
 					"circle_description").toString();
+			String category = request.getAttribute("category").toString();
 			int user_id = Integer.valueOf(request.getAttribute("user_id")
 					.toString());
 			String group_id = EasemobGroupMessage.createCircleGroup(
@@ -174,6 +175,7 @@ public class CreateCircleServlet extends HttpServlet {
 			circle.setCircle_description(circle_description);
 			circle.setCircle_name(circle_name);
 			circle.setGroup_id(group_id);
+			circle.setCategory(Integer.valueOf(category));
 			CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 			int cid = dao.insertCircleToDB(circle);
 			Members member = new Members();
@@ -188,6 +190,7 @@ public class CreateCircleServlet extends HttpServlet {
 			} else {
 				params.put("circle_logo", serverPath);
 				params.put("group_id", group_id);
+				params.put("circle_id", cid);
 				params.put("rt", 1);
 			}
 			PrintWriter out = response.getWriter();

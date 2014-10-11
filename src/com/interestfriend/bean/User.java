@@ -8,6 +8,24 @@ public class User {
 	private String userGender = "";// 用户注册性别
 	private String userBirthday = "";// 用户注册生日
 	private String userPassword = "";// 用户注册密码
+	private String userRegisterTime = "";
+	private String userChatId = "";
+
+	public String getUserChatId() {
+		return userChatId;
+	}
+
+	public void setUserChatId(String userChatId) {
+		this.userChatId = userChatId;
+	}
+
+	public String getUserRegisterTime() {
+		return userRegisterTime;
+	}
+
+	public void setUserRegisterTime(String userRegisterTime) {
+		this.userRegisterTime = userRegisterTime;
+	}
 
 	public User() {
 	}

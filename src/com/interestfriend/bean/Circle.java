@@ -7,6 +7,15 @@ public class Circle {
 	private String circle_description = "";
 	private String circle_avatar = "";
 	private String group_id = "";
+	private int category;
+
+	public int getCategory() {
+		return category;
+	}
+
+	public void setCategory(int category) {
+		this.category = category;
+	}
 
 	public String getGroup_id() {
 		return group_id;

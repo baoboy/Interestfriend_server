@@ -105,11 +105,11 @@ public class AddGrowthServlet extends HttpServlet {
 				+ request.getServerName() + ":" + request.getServerPort()
 				+ path + "/growth-image/";
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		String avatarSavePath = request.getSession().getServletContext()
+		String growthImageSavePath = request.getSession().getServletContext()
 				.getRealPath("/growth-image")
 				+ File.separator;
 
-		factory.setRepository(new File(avatarSavePath));
+		factory.setRepository(new File(growthImageSavePath));
 		factory.setSizeThreshold(1024 * 1024);
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		int imgIndex = 1;
@@ -155,7 +155,7 @@ public class AddGrowthServlet extends HttpServlet {
 					 */
 					// 收到写到接收的文件中。
 					OutputStream out = new FileOutputStream(new File(
-							avatarSavePath, fileName));
+							growthImageSavePath, fileName));
 					InputStream in = item.getInputStream();
 					int length = 0;
 					byte[] buf = new byte[1024];

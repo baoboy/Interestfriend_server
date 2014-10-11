@@ -91,6 +91,11 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 				User u = new User();
 				u.setUserID(res.getInt("user_id"));
 				u.setUserName(res.getString("user_name"));
+				u.setUserAvatar(res.getString("user_avatar"));
+				u.setUserBirthday(res.getString("user_birthday"));
+				u.setUserGender(res.getString("user_gender"));
+				u.setUserRegisterTime(res.getString("user_register_time"));
+				u.setUserChatId(res.getString("user_cellphone"));
 				userLists.add(u);
 			}
 		} catch (SQLException e) {
@@ -105,6 +110,7 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
 		PrintWriter out = response.getWriter();
 		out.print(jsonObjectFromMap.toString());
+		System.out.println(jsonObjectFromMap.toString());
 		out.flush();
 		out.close();
 	}
