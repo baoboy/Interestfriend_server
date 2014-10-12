@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.bean.User;
 import com.interestfriend.db.DBConnection;
@@ -82,9 +83,10 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 		request.setCharacterEncoding("utf8");
 
 		int cid = Integer.valueOf(request.getParameter("circle_id"));
+		long lastReqTime = Long.valueOf(request.getParameter("lastReqTime"));
 		// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		MembersDao dao = MembersDaoFactory.getInstance();
-		ResultSet res = dao.findMembersByCircleID(cid);
+		ResultSet res = dao.findMembersByCircleID(cid, lastReqTime);
 		List<User> userLists = new ArrayList<User>();
 		try {
 			while (res.next()) {
@@ -107,6 +109,8 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("members", userLists);
 		params.put("rt", 1);
+		params.put("lastReqTime", DateUtils.getLastUpdateTime());
+		params.put("circle_id", cid);
 		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
 		PrintWriter out = response.getWriter();
 		out.print(jsonObjectFromMap.toString());

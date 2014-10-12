@@ -9,6 +9,6 @@ public interface MembersDao {
 
 	ResultSet findCirclesByUserID(int userID);
 
-	ResultSet findMembersByCircleID(int circleID);
+	ResultSet findMembersByCircleID(int circleID, long lastReqTime);
 
 }

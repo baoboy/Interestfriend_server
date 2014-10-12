@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Members;
 import com.interestfriend.db.DBConnection;
 
@@ -53,14 +54,15 @@ public class MembersDapImpl implements MembersDao {
 	}
 
 	@Override
-	public ResultSet findMembersByCircleID(int circleID) {
+	public ResultSet findMembersByCircleID(int circleID, long lastReqTime) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 
 		// String findByIDSQL = "select * from circle where user_id = ?"; //
 		// SQL语句
-		String findByIDSQL = "select * from user inner join circlemembers on `user`.user_id=circlemembers.user_id AND circlemembers.circle_id=?";
+		String findByIDSQL = "select * from user inner join circlemembers on `user`.user_id=circlemembers.user_id AND circlemembers.circle_id=? and `user`.user_last_update_time>"
+				+ lastReqTime;
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, circleID); // 设置参数

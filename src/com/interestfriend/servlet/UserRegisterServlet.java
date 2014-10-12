@@ -176,6 +176,7 @@ public class UserRegisterServlet extends HttpServlet {
 			user.setUserName(user_nameString);
 			user.setUserPassword(user_password);
 			user.setUserRegisterTime(DateUtils.getRegisterTime());
+			user.setUserLastUpdateTime(DateUtils.getLastUpdateTime());
 			UserDao dao = UserDaoFactory.getUserDaoInstance();
 			boolean isSuccess = dao.insertUserToDB(user);
 			Map<String, Object> params = new HashMap<String, Object>();

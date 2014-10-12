@@ -10,6 +10,17 @@ public class User {
 	private String userPassword = "";// ÓÃ»§×¢²áÃÜÂë
 	private String userRegisterTime = "";
 	private String userChatId = "";
+	private long userLastUpdateTime = 0l;
+
+	 
+
+	public long getUserLastUpdateTime() {
+		return userLastUpdateTime;
+	}
+
+	public void setUserLastUpdateTime(long userLastUpdateTime) {
+		this.userLastUpdateTime = userLastUpdateTime;
+	}
 
 	public String getUserChatId() {
 		return userChatId;
