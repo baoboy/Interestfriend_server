@@ -98,6 +98,8 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 				u.setUserGender(res.getString("user_gender"));
 				u.setUserRegisterTime(res.getString("user_register_time"));
 				u.setUserChatId(res.getString("user_cellphone"));
+				u.setPinYinFir(res.getString("user_pinyin_str"));
+				u.setSortKey(res.getString("user_sort_key"));
 				userLists.add(u);
 			}
 		} catch (SQLException e) {
