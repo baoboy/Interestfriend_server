@@ -10,9 +10,25 @@ public class User {
 	private String userPassword = "";// ”√ªß◊¢≤·√‹¬Î
 	private String userRegisterTime = "";
 	private String userChatId = "";
+	private String sortKey = "";
+	private String pinYinFir = "";
 	private long userLastUpdateTime = 0l;
 
-	 
+	public String getSortKey() {
+		return sortKey;
+	}
+
+	public void setSortKey(String sortKey) {
+		this.sortKey = sortKey;
+	}
+
+	public String getPinYinFir() {
+		return pinYinFir;
+	}
+
+	public void setPinYinFir(String pinYinFir) {
+		this.pinYinFir = pinYinFir;
+	}
 
 	public long getUserLastUpdateTime() {
 		return userLastUpdateTime;

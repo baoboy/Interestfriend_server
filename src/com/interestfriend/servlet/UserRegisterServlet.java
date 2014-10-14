@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.MD5;
+import com.interestfriend.Utils.PinYinUtil;
 import com.interestfriend.bean.User;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.UserDaoFactory;
@@ -177,6 +178,8 @@ public class UserRegisterServlet extends HttpServlet {
 			user.setUserPassword(user_password);
 			user.setUserRegisterTime(DateUtils.getRegisterTime());
 			user.setUserLastUpdateTime(DateUtils.getLastUpdateTime());
+			user.setPinYinFir(PinYinUtil.converterToSpell(user_nameString));
+			user.setSortKey(PinYinUtil.converterToFirstSpell(user_nameString));
 			UserDao dao = UserDaoFactory.getUserDaoInstance();
 			boolean isSuccess = dao.insertUserToDB(user);
 			Map<String, Object> params = new HashMap<String, Object>();
