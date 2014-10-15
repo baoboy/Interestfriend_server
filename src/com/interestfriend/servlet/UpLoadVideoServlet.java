@@ -19,10 +19,14 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.interestfriend.Idao.VideoDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.GrowthImage;
+import com.interestfriend.bean.Video;
 import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.VideoDaoFactory;
 import com.interestfriend.huanxin.EasemobUserAPI;
 
 public class UpLoadVideoServlet extends HttpServlet {
@@ -93,17 +97,23 @@ public class UpLoadVideoServlet extends HttpServlet {
 			throws ServletException, IOException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		PrintWriter outP = response.getWriter();
-
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		String path = request.getContextPath();
 		String serverPath = request.getScheme() + "://"
 				+ request.getServerName() + ":" + request.getServerPort()
 				+ path + "/video/";
+		String imgName = DateUtils.getUpLoadFileName() + ".jpg";
+		String serverImagePath = request.getScheme() + "://"
+				+ request.getServerName() + ":" + request.getServerPort()
+				+ path + "/video-image/" + imgName;
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		String videoSavePath = request.getSession().getServletContext()
 				.getRealPath("/video")
 				+ File.separator;
+		String videoImageSavePath = request.getSession().getServletContext()
+				.getRealPath("/video-image")
+				+ File.separator + imgName;
 		factory.setRepository(new File(videoSavePath));
 		factory.setSizeThreshold(1024 * 1024 * 10);
 		ServletFileUpload upload = new ServletFileUpload(factory);
@@ -143,6 +153,9 @@ public class UpLoadVideoServlet extends HttpServlet {
 					in.close();
 					out.close();
 					item.delete();
+					Utils.getVideoImage(videoSavePath + fileName,
+							videoImageSavePath);
+
 				}
 			}
 		} catch (Exception e) {
@@ -154,9 +167,23 @@ public class UpLoadVideoServlet extends HttpServlet {
 			outP.close();
 			return;
 		}
+		int cid = Integer.valueOf(request.getAttribute("cid").toString());
+		int publisher_id = Integer.valueOf(request.getAttribute("publisher_id")
+				.toString());
+		Video video = new Video();
+		video.setCid(cid);
+		video.setPublisher_id(publisher_id);
+		video.setVideo_img(serverImagePath);
+		video.setVideo_path(serverPath);
+		video.setVideo_duration(Integer.valueOf(request.getAttribute(
+				"video_duration").toString()));
+		video.setVideo_size(Integer.valueOf(request.getAttribute("video_size")
+				.toString()));
+		VideoDao dao = VideoDaoFactory.getInstances();
+		dao.insertVidoeToDB(video);
 		params.put("rt", 1);
 		params.put("video_path", serverPath);
-		params.put("video_img_path", serverPath);
+		params.put("video_img_path", serverImagePath);
 		outP.print(JsonUtil.toJsonString(params));
 		outP.flush();
 		outP.close();
