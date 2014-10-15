@@ -62,6 +62,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public int userLogon(String telPhone, String password) {
+		System.out.println(telPhone + "   " + password);
 		boolean isExist = verifyCellphone(telPhone);
 		if (!isExist) {
 			return -1;// 手机号不存在
