@@ -88,4 +88,22 @@ public class UserDaoImpl implements UserDao {
 		}
 		return -2;// √‹¬Î¥ÌŒÛ
 	}
+
+	@Override
+	public ResultSet getUserInfo(int user_id) {
+		Connection conn = DBConnection.getConnection();
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		String sql = "select * from user where user_id=?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, user_id);
+			rs = pstmt.executeQuery();
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
