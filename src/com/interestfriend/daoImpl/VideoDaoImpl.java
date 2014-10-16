@@ -17,7 +17,7 @@ public class VideoDaoImpl implements VideoDao {
 		PreparedStatement pstmt = null;
 		int autoIncKeyFromApi = -1;
 
-		String sql = "insert into video(cid,publisher_id,video_img,video_path,video_size,video_duration) values(?,?,?,?,?,?)";
+		String sql = "insert into video(cid,publisher_id,video_img,video_path,video_size,video_duration,time) values(?,?,?,?,?,?,?)";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -27,6 +27,7 @@ public class VideoDaoImpl implements VideoDao {
 			pstmt.setString(4, video.getVideo_path());
 			pstmt.setInt(5, video.getVideo_size());
 			pstmt.setInt(6, video.getVideo_duration());
+			pstmt.setString(7, video.getTime());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys(); // 获取自增主键！
 			if (rs.next()) {
@@ -44,14 +45,20 @@ public class VideoDaoImpl implements VideoDao {
 	}
 
 	@Override
-	public ResultSet getVideosByCid(int cid) {
+	public ResultSet getVideosByCid(int cid, int refushState, String refushTime) {
 		Connection conn = DBConnection.getConnection();
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		String sql = "select * from video where cid=?";
+		String sql = "";
+		if (refushState == 1) {
+			sql = "select * from video where cid=? and time >?  order by time desc limit 0,20";
+		} else {
+			sql = "select * from video where cid=? and time <?  order by time desc limit 0,20";
+		}
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cid);
+			pstmt.setString(2, refushTime);
 			rs = pstmt.executeQuery();
 			return rs;
 		} catch (SQLException e) {

@@ -170,12 +170,13 @@ public class AddGrowthServlet extends HttpServlet {
 				}
 			}
 			int cid = Integer.valueOf(request.getAttribute("cid").toString());
-			String publisher_id = request.getAttribute("publisher_id")
-					.toString();
+			String publisher_id = request.getAttribute("user_id").toString();
 			String content = request.getAttribute("content").toString();
+			String time = request.getAttribute("time").toString();
 			Growth growth = new Growth();
 			growth.setCid(cid);
 			growth.setContent(content);
+			growth.setTime(time);
 			growth.setPublisher_id(Integer.valueOf(publisher_id));
 
 			GrowthDao growthDao = GrowthDaoFactory.getGrowthDaoInstance();

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-15 21:48:19
+Date: 2014-10-16 17:14:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,6 +38,5 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('7', '短短的', '13165146101', '123456', '男', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-11-11-12-17.jpg', 'duanduande', 'ddd', '2014-09-11 ', '1413032271943', null);
-INSERT INTO `user` VALUES ('8', 'fgg', '18560133195', '123456', '男', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-11-11-13-28.jpg', 'fgg', 'fgg', '2014-10-07 ', '1413032245963', null);
-INSERT INTO `user` VALUES ('11', '去去去', '18560133197', '123456', '男', '2014-9-11', 'http://192.168.1.101:8080/InterestFriend/user-avatar/2014-10-11-20-57-51.jpg', 'quququ', 'qqq', '2014-10-11', '1413032271963', null);
+INSERT INTO `user` VALUES ('7', '短短的', '13165146101', '123456', '男', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-11-11-12-17.jpg', 'duanduande', 'ddd', '2014-09-11 ', '1413032245963', 'add');
+INSERT INTO `user` VALUES ('8', 'fgg', '18560133195', '123456', '男', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-11-11-13-28.jpg', 'fgg', 'fgg', '2014-10-07 ', '1413032245963', 'add');

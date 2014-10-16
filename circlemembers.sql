@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-15 21:47:52
+Date: 2014-10-16 17:15:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,6 @@ CREATE TABLE `circlemembers` (
 -- ----------------------------
 INSERT INTO `circlemembers` VALUES ('12', '8', '1');
 INSERT INTO `circlemembers` VALUES ('13', '7', '1');
-INSERT INTO `circlemembers` VALUES ('14', '8', '2');
 INSERT INTO `circlemembers` VALUES ('15', '8', '3');
 INSERT INTO `circlemembers` VALUES ('16', '8', '4');
 INSERT INTO `circlemembers` VALUES ('17', '8', '5');

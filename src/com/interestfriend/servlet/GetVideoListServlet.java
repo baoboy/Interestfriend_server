@@ -79,8 +79,10 @@ public class GetVideoListServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		int cid = Integer.valueOf(request.getParameter("cid"));
+		int refushState = Integer.valueOf(request.getParameter("refushState"));
+		String refushTime = request.getParameter("refushTime");
 		VideoDao dao = VideoDaoFactory.getInstances();
-		ResultSet res = dao.getVideosByCid(cid);
+		ResultSet res = dao.getVideosByCid(cid, refushState, refushTime);
 		List<Video> lists = new ArrayList<Video>();
 		Map<String, Object> params = new HashMap<String, Object>();
 
@@ -93,6 +95,7 @@ public class GetVideoListServlet extends HttpServlet {
 				video.setVideo_path(res.getString("video_path"));
 				video.setVideo_size(res.getInt("video_size"));
 				video.setVideo_id(res.getInt("video_id"));
+				video.setTime(res.getString("time"));
 				lists.add(video);
 			}
 			params.put("videos", lists);

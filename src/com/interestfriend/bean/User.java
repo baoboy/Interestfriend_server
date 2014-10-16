@@ -13,6 +13,15 @@ public class User {
 	private String sortKey = "";
 	private String pinYinFir = "";
 	private long userLastUpdateTime = 0l;
+	private String userState = "add";// add / del /update
+
+	public String getUserState() {
+		return userState;
+	}
+
+	public void setUserState(String userState) {
+		this.userState = userState;
+	}
 
 	public String getSortKey() {
 		return sortKey;

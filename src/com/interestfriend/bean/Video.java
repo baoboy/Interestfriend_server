@@ -10,6 +10,15 @@ public class Video {
 	private int cid = 0;
 	private int publisher_id = 0;
 	private int video_id;
+	private String time = "";
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
 
 	public int getVideo_id() {
 		return video_id;

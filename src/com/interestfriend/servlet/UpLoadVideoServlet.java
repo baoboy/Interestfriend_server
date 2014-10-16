@@ -168,7 +168,7 @@ public class UpLoadVideoServlet extends HttpServlet {
 			return;
 		}
 		int cid = Integer.valueOf(request.getAttribute("cid").toString());
-		int publisher_id = Integer.valueOf(request.getAttribute("publisher_id")
+		int publisher_id = Integer.valueOf(request.getAttribute("user_id")
 				.toString());
 		Video video = new Video();
 		video.setCid(cid);
@@ -179,6 +179,7 @@ public class UpLoadVideoServlet extends HttpServlet {
 				"video_duration").toString()));
 		video.setVideo_size(Integer.valueOf(request.getAttribute("video_size")
 				.toString()));
+		video.setTime(request.getAttribute("time").toString());
 		VideoDao dao = VideoDaoFactory.getInstances();
 		dao.insertVidoeToDB(video);
 		params.put("rt", 1);
