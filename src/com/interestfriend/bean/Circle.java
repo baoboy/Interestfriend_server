@@ -8,6 +8,17 @@ public class Circle {
 	private String circle_avatar = "";
 	private String group_id = "";
 	private int category;
+	private double longitude;// ¾­¶È
+	private double latitude; // Î¬¶È
+	private int distance;
+
+	public int getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
 
 	public int getCategory() {
 		return category;
@@ -63,6 +74,22 @@ public class Circle {
 
 	public void setCircle_avatar(String circle_avatar) {
 		this.circle_avatar = circle_avatar;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 
 	@Override

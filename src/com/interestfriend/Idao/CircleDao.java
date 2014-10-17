@@ -12,4 +12,8 @@ public interface CircleDao {
 	ResultSet findCirclesByCategory(int category);// 按类别查找圈子
 
 	String getGroupIdByCircleID();// 获取聊天群组id
+
+	ResultSet findCirclesByLongitudeAndLatitude(double longitude,
+			double latitude); // 按经纬度查找附近圈子
+
 }
