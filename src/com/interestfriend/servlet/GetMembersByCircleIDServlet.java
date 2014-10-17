@@ -84,6 +84,8 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 
 		int cid = Integer.valueOf(request.getParameter("circle_id"));
 		long lastReqTime = Long.valueOf(request.getParameter("lastReqTime"));
+
+		System.out.println(cid + "       " + lastReqTime);
 		// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		MembersDao dao = MembersDaoFactory.getInstance();
 		ResultSet res = dao.findMembersByCircleID(cid, lastReqTime);
