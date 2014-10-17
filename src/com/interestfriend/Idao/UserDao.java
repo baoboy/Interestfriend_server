@@ -1,5 +1,7 @@
 package com.interestfriend.Idao;
 
+import java.sql.ResultSet;
+
 import com.interestfriend.bean.User;
 
 public interface UserDao {
@@ -8,4 +10,6 @@ public interface UserDao {
 	boolean verifyCellphone(String cellPhone);// 验证手机号是否存在
 
 	int userLogon(String telPhone, String password);
+
+	ResultSet getUserInfo(int user_id);
 }
