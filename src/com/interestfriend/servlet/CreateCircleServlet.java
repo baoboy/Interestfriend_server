@@ -169,6 +169,10 @@ public class CreateCircleServlet extends HttpServlet {
 			String category = request.getAttribute("category").toString();
 			int user_id = Integer.valueOf(request.getAttribute("user_id")
 					.toString());
+			double longitude = Double.valueOf(request.getAttribute("longitude")
+					.toString());
+			double latitude = Double.valueOf(request.getAttribute("latitude")
+					.toString());
 			String group_id = EasemobGroupMessage.createCircleGroup(
 					circle_name, circle_description);
 			circle.setUser_id(user_id);
@@ -176,6 +180,8 @@ public class CreateCircleServlet extends HttpServlet {
 			circle.setCircle_name(circle_name);
 			circle.setGroup_id(group_id);
 			circle.setCategory(Integer.valueOf(category));
+			circle.setLatitude(latitude);
+			circle.setLongitude(longitude);
 			CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 			int cid = dao.insertCircleToDB(circle);
 			Members member = new Members();

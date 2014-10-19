@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,6 +40,7 @@ public class JsonUtil {
 	 * list对象转换成json数组
 	 */
 	public static String listToJsonArray(String key, Object b) {
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(key, b);
 		JSONObject json = new JSONObject();

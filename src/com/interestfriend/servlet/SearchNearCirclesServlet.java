@@ -16,21 +16,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
-import com.interestfriend.Idao.GrowthDao;
-import com.interestfriend.Idao.GrowthImageDao;
+import com.interestfriend.Idao.CircleDao;
+import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Circle;
-import com.interestfriend.bean.Growth;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.ErrorEnum;
-import com.interestfriend.factory.GrowthDaoFactory;
-import com.interestfriend.factory.GrowthImageDaoFactory;
+import com.interestfriend.factory.CircleDaoFactory;
 
-public class GetGrowthListServlet extends HttpServlet {
+public class SearchNearCirclesServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public GetGrowthListServlet() {
+	public SearchNearCirclesServlet() {
 		super();
 	}
 
@@ -58,7 +56,6 @@ public class GetGrowthListServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		doPost(request, response);
 	}
 
@@ -79,45 +76,50 @@ public class GetGrowthListServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("utf-8");
-		int cid = Integer.valueOf(request.getParameter("cid"));
-		int refushState = Integer.valueOf(request.getParameter("refushState"));
-		String refushTime = request.getParameter("refushTime");
-		GrowthDao dao = GrowthDaoFactory.getGrowthDaoInstance();
-		ResultSet res = dao.getGrowthByCid(cid, refushState, refushTime);
-		List<Growth> lists = new ArrayList<Growth>();
-		GrowthImageDao imgDao = GrowthImageDaoFactory
-				.getGrowthImageDaoInstance();
-		Map<String, Object> params = new HashMap<String, Object>();
 
-		try {
-			while (res.next()) {
-				Growth g = new Growth();
-				int growth_id = res.getInt("growth_id");
-				g.setGrowth_id(growth_id);
-				g.setContent(res.getString("content"));
-				g.setTime(res.getString("time"));
-				g.setPublisher_id(res.getInt("publisher_id"));
-				lists.add(g);
-				g.setImages(imgDao.getImagesByGrowthID(cid, growth_id));
+		response.setContentType("text/html; charset=utf8");
+		request.setCharacterEncoding("utf8");
+		double longitude = Double.valueOf(request.getParameter("longitude"));
+		double latitude = Double.valueOf(request.getParameter("latitude")
+				.toString());
+		CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
+		ResultSet res = dao.findCirclesByLongitudeAndLatitude(longitude,
+				latitude);
+		List<Circle> circleLists = new ArrayList<Circle>();
+		Map<String, Object> params = new HashMap<String, Object>();
+		if (res != null) {
+			try {
+				while (res.next()) {
+					Circle circle = new Circle();
+					circle.setCircle_avatar(res.getString("circle_avatar"));
+					circle.setCircle_description(res
+							.getString("circle_description"));
+					circle.setCircle_id(res.getInt("circle_id"));
+					circle.setCircle_name(res.getString("circle_name"));
+					circle.setGroup_id(res.getString("group_id"));
+					circle.setDistance((int) Utils.getDistanceOfMeter(latitude,
+							longitude, res.getDouble("latitude"),
+							res.getDouble("longitude")));
+					circleLists.add(circle);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println(e.toString());
+			} finally {
+				DBConnection.close(res);
 			}
-			params.put("growths", lists);
-			params.put("cid", cid);
+			params.put("circles", circleLists);
 			params.put("rt", 1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			params.put("rt", 0);
+		} else {
 			params.put("err", ErrorEnum.INVALID.name());
-		} finally {
-			DBConnection.close(res);
+			params.put("rt", 0);
 		}
 		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
-		System.out.println(jsonObjectFromMap.toString());
 		PrintWriter out = response.getWriter();
 		out.print(jsonObjectFromMap.toString());
 		out.flush();
 		out.close();
+		System.out.println(jsonObjectFromMap.toString());
 	}
 
 	/**

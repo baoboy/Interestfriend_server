@@ -180,6 +180,7 @@ public class UserRegisterServlet extends HttpServlet {
 			user.setUserLastUpdateTime(DateUtils.getLastUpdateTime());
 			user.setPinYinFir(PinYinUtil.converterToSpell(user_nameString));
 			user.setSortKey(PinYinUtil.converterToFirstSpell(user_nameString));
+			user.setUserState("add");
 			UserDao dao = UserDaoFactory.getUserDaoInstance();
 			boolean isSuccess = dao.insertUserToDB(user);
 			Map<String, Object> params = new HashMap<String, Object>();
