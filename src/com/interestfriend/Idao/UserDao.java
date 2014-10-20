@@ -14,4 +14,6 @@ public interface UserDao {
 	ResultSet getUserInfo(int user_id);
 
 	boolean updateUserInfo(int user_id, String column, String value);
+
+	boolean updateUserAvatar(User user);
 }

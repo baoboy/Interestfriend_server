@@ -16,19 +16,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
-import com.interestfriend.Idao.CircleDao;
-import com.interestfriend.Utils.Utils;
+import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
-import com.interestfriend.enums.ErrorEnum;
-import com.interestfriend.factory.CircleDaoFactory;
+import com.interestfriend.factory.MembersDaoFactory;
 
-public class SearchNearCirclesServlet extends HttpServlet {
+public class GetMemberCirclesServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor of the object.
 	 */
-	public SearchNearCirclesServlet() {
+	public GetMemberCirclesServlet() {
 		super();
 	}
 
@@ -56,6 +59,7 @@ public class SearchNearCirclesServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		doPost(request, response);
 	}
 
@@ -76,45 +80,34 @@ public class SearchNearCirclesServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
-		double longitude = Double.valueOf(request.getParameter("longitude"));
-		double latitude = Double.valueOf(request.getParameter("latitude")
-				.toString());
-		System.out.println(longitude + "     " + latitude);
-		CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
-		ResultSet res = dao.findCirclesByLongitudeAndLatitude(longitude,
-				latitude);
+
+		int user_id = Integer.valueOf(request.getParameter("member_id"));
+		// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
+		MembersDao dao = MembersDaoFactory.getInstance();
+		ResultSet res = dao.findCirclesByUserID(user_id);
 		List<Circle> circleLists = new ArrayList<Circle>();
-		Map<String, Object> params = new HashMap<String, Object>();
-		if (res != null) {
-			try {
-				while (res.next()) {
-					Circle circle = new Circle();
-					circle.setCircle_avatar(res.getString("circle_avatar"));
-					circle.setCircle_description(res
-							.getString("circle_description"));
-					circle.setCircle_id(res.getInt("circle_id"));
-					circle.setCircle_name(res.getString("circle_name"));
-					circle.setGroup_id(res.getString("group_id"));
-					circle.setDistance((int) Utils.getDistanceOfMeter(latitude,
-							longitude, res.getDouble("latitude"),
-							res.getDouble("longitude")));
-					circleLists.add(circle);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.toString());
-			} finally {
-				DBConnection.close(res);
+		try {
+			while (res.next()) {
+				Circle circle = new Circle();
+				circle.setCircle_avatar(res.getString("circle_avatar"));
+				circle.setCircle_description(res
+						.getString("circle_description"));
+				circle.setCircle_id(res.getInt("circle_id"));
+				circle.setCircle_name(res.getString("circle_name"));
+				circle.setGroup_id(res.getString("group_id"));
+				circleLists.add(circle);
 			}
-			params.put("circles", circleLists);
-			params.put("rt", 1);
-		} else {
-			params.put("err", ErrorEnum.INVALID.name());
-			params.put("rt", 0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.toString());
+		} finally {
+			DBConnection.close(res);
 		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("circles", circleLists);
+		params.put("rt", 1);
 		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
 		PrintWriter out = response.getWriter();
 		out.print(jsonObjectFromMap.toString());
@@ -130,7 +123,6 @@ public class SearchNearCirclesServlet extends HttpServlet {
 	 *             if an error occurs
 	 */
 	public void init() throws ServletException {
-		// Put your code here
 	}
 
 }

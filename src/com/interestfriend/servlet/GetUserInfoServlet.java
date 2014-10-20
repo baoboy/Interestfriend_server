@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.bean.User;
 import com.interestfriend.factory.UserDaoFactory;
 
 public class GetUserInfoServlet extends HttpServlet {
@@ -77,10 +80,24 @@ public class GetUserInfoServlet extends HttpServlet {
 		ResultSet res = dao.getUserInfo(user_id);
 		String user_name = "";
 		String user_avatar = "";
+		User u = new User();
+
 		try {
 			while (res.next()) {
-				user_avatar = res.getString("user_avatar");
-				user_name = res.getString("user_name");
+				// user_avatar = res.getString("user_avatar");
+				// user_name = res.getString("user_name");
+				u.setUserID(res.getInt("user_id"));
+				u.setUserName(res.getString("user_name"));
+				u.setUserAvatar(res.getString("user_avatar"));
+				u.setUserBirthday(res.getString("user_birthday"));
+				u.setUserGender(res.getString("user_gender"));
+				u.setUserRegisterTime(res.getString("user_register_time"));
+				u.setUserChatId(res.getString("user_cellphone"));
+				u.setPinYinFir(res.getString("user_pinyin_str"));
+				u.setSortKey(res.getString("user_sort_key"));
+				u.setUserState(res.getString("user_state"));
+				u.setUserDeclaration(res.getString("user_declaration"));
+				u.setUserDescription(res.getString("user_description"));
 				break;
 			}
 		} catch (SQLException e) {
@@ -88,13 +105,15 @@ public class GetUserInfoServlet extends HttpServlet {
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("rt", 1);
-		params.put("user_name", user_name);
-		params.put("user_avatar", user_avatar);
+		// params.put("user_name", user_name);
+		// params.put("user_avatar", user_avatar);
+		params.put("user", u);
 		PrintWriter out = response.getWriter();
-		out.print(JsonUtil.toJsonString(params));
+		out.print(JsonUtil.listToJsonArray("user", u));
+		JSONObject jsonObject = JSONObject.fromObject(params);
 		out.flush();
 		out.close();
-		System.out.println(JsonUtil.toJsonString(params));
+		System.out.println(jsonObject.toString());
 	}
 
 	/**

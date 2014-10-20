@@ -146,4 +146,28 @@ public class UserDaoImpl implements UserDao {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean updateUserAvatar(User user) {
+		String sql = "UPDATE user SET user_avatar = ? , user_last_update_time =?,user_state=? WHERE user_id =?";
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setString(1, user.getUserAvatar());
+			pstmt.setLong(2, user.getUserLastUpdateTime());
+			pstmt.setString(3, user.getUserState());
+			pstmt.setInt(4, user.getUserID());
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return false;
+	}
+
 }
