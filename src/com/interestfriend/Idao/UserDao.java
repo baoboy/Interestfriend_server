@@ -12,4 +12,6 @@ public interface UserDao {
 	int userLogon(String telPhone, String password);
 
 	ResultSet getUserInfo(int user_id);
+
+	boolean updateUserInfo(int user_id, String column, String value);
 }

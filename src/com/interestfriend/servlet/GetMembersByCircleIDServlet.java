@@ -103,6 +103,9 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 				u.setPinYinFir(res.getString("user_pinyin_str"));
 				u.setSortKey(res.getString("user_sort_key"));
 				u.setUserState(res.getString("user_state"));
+				u.setUserDeclaration(res.getString("user_declaration"));
+				u.setUserDescription(res.getString("user_description"));
+
 				userLists.add(u);
 			}
 		} catch (SQLException e) {

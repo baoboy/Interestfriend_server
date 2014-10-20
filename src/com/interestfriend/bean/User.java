@@ -13,7 +13,25 @@ public class User {
 	private String sortKey = "";
 	private String pinYinFir = "";
 	private long userLastUpdateTime = 0l;
-	private String userState = "add";// add / del /update
+	private String userState = "ADD";// add / del /update
+	private String userDeclaration = "";
+	private String userDescription = "";
+
+	public String getUserDeclaration() {
+		return userDeclaration;
+	}
+
+	public void setUserDeclaration(String userDeclaration) {
+		this.userDeclaration = userDeclaration;
+	}
+
+	public String getUserDescription() {
+		return userDescription;
+	}
+
+	public void setUserDescription(String userDescription) {
+		this.userDescription = userDescription;
+	}
 
 	public String getUserState() {
 		return userState;
