@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-20 17:06:46
+Date: 2014-10-22 22:05:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -41,4 +41,4 @@ INSERT INTO `circle` VALUES ('3', '8', '141317338252476', '具体五天', '陌�
 INSERT INTO `circle` VALUES ('4', '8', '141317418682468', '陌陌', '的嗯哦哦', 'http://10.6.7.158:8080/InterestFriend/images/2014-10-11-16-50-48.jpg', '5', null, null);
 INSERT INTO `circle` VALUES ('5', '8', '141317524129555', 'YY悟空', '去我家嗯体会', 'http://10.6.7.158:8080/InterestFriend/images/2014-10-11-16-52-34.jpg', '5', '1254.0000000', '1.2000000');
 INSERT INTO `circle` VALUES ('6', '8', '1413512249171077', '将计就计', '啦咯啦咯啦咯', 'http://10.6.7.158:8080/InterestFriend/images/2014-10-17-10-17-56.jpg', '8', '116.5000000', '39.9000000');
-INSERT INTO `circle` VALUES ('7', '8', '1413512534463848', '我哦呦喂在真做最', '了来揍我哦哦', 'http://10.6.7.158:8080/InterestFriend/images/2014-10-17-10-22-44.jpg', '8', '116.4620660', '39.9208050');
+INSERT INTO `circle` VALUES ('7', '8', '1413512534463848', '我哦呦喂在真做最', '了来揍我哦哦', 'http://10.6.7.158:8080/InterestFriend/images/2014-10-17-10-22-44.jpg', '8', '116.4618520', '39.8603650');

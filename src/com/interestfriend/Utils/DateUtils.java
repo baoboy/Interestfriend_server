@@ -17,6 +17,11 @@ public class DateUtils {
 
 	}
 
+	public static String getGrowthShowTime() {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return df.format(new Date());
+	}
+
 	public static String getRegisterTime() {
 		DateFormat fileNameDF = new SimpleDateFormat("yyyy-MM-dd");
 		return fileNameDF.format(new Date());

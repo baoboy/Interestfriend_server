@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-20 17:07:05
+Date: 2014-10-22 22:05:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,7 +25,7 @@ CREATE TABLE `growth_img` (
   `growth_id` int(11) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=236 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth_img
@@ -52,3 +52,18 @@ INSERT INTO `growth_img` VALUES ('232', '1', '38', 'http://10.6.7.158:8080/Inter
 INSERT INTO `growth_img` VALUES ('233', '1', '39', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-16-11-14-04-1.jpg');
 INSERT INTO `growth_img` VALUES ('234', '1', '39', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-16-11-14-04-2.jpg');
 INSERT INTO `growth_img` VALUES ('235', '1', '39', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-16-11-14-04-3.jpg');
+INSERT INTO `growth_img` VALUES ('236', '1', '40', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-44-55-1.jpg');
+INSERT INTO `growth_img` VALUES ('237', '1', '40', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-44-55-2.jpg');
+INSERT INTO `growth_img` VALUES ('238', '1', '40', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-44-55-3.jpg');
+INSERT INTO `growth_img` VALUES ('239', '1', '40', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-44-55-4.jpg');
+INSERT INTO `growth_img` VALUES ('240', '1', '40', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-44-55-5.jpg');
+INSERT INTO `growth_img` VALUES ('241', '1', '40', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-44-55-6.jpg');
+INSERT INTO `growth_img` VALUES ('242', '1', '40', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-44-55-7.jpg');
+INSERT INTO `growth_img` VALUES ('243', '1', '40', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-44-55-8.jpg');
+INSERT INTO `growth_img` VALUES ('244', '1', '40', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-44-55-9.jpg');
+INSERT INTO `growth_img` VALUES ('245', '1', '41', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-47-39-1.jpg');
+INSERT INTO `growth_img` VALUES ('246', '1', '41', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-47-39-2.jpg');
+INSERT INTO `growth_img` VALUES ('247', '1', '42', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-49-01-1.jpg');
+INSERT INTO `growth_img` VALUES ('248', '1', '43', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-51-35-1.png');
+INSERT INTO `growth_img` VALUES ('249', '1', '44', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-51-59-1.jpg');
+INSERT INTO `growth_img` VALUES ('250', '1', '44', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-10-21-21-51-59-2.jpg');

@@ -2,8 +2,6 @@ package com.interestfriend.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,19 +10,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
-import com.interestfriend.Idao.UserDao;
+import com.interestfriend.Idao.CommentDao;
+import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
-import com.interestfriend.bean.User;
-import com.interestfriend.factory.UserDaoFactory;
+import com.interestfriend.bean.Comment;
+import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.CommentDaoFactory;
 
-public class GetUserInfoServlet extends HttpServlet {
+public class CommentServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public GetUserInfoServlet() {
+	public CommentServlet() {
 		super();
 	}
 
@@ -52,7 +50,6 @@ public class GetUserInfoServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		doPost(request, response);
 	}
 
@@ -73,43 +70,31 @@ public class GetUserInfoServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("utf-8");
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
-		UserDao dao = UserDaoFactory.getUserDaoInstance();
-		ResultSet res = dao.getUserInfo(user_id);
-		User u = new User();
 
-		try {
-			while (res.next()) {
-				// user_avatar = res.getString("user_avatar");
-				// user_name = res.getString("user_name");
-				u.setUserID(res.getInt("user_id"));
-				u.setUserName(res.getString("user_name"));
-				u.setUserAvatar(res.getString("user_avatar"));
-				u.setUserBirthday(res.getString("user_birthday"));
-				u.setUserGender(res.getString("user_gender"));
-				u.setUserRegisterTime(res.getString("user_register_time"));
-				u.setUserChatId(res.getString("user_cellphone"));
-				u.setPinYinFir(res.getString("user_pinyin_str"));
-				u.setSortKey(res.getString("user_sort_key"));
-				u.setUserState(res.getString("user_state"));
-				u.setUserDeclaration(res.getString("user_declaration"));
-				u.setUserDescription(res.getString("user_description"));
-				break;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		response.setContentType("text/html");
+		request.setCharacterEncoding("utf-8");
+		String comment_content = request.getParameter("comment_content");
+		String growth_id = request.getParameter("growth_id");
+		String publisher_id = request.getParameter("user_id");
+		Comment comment = new Comment();
+		comment.setComment_content(comment_content);
+		comment.setComment_time(DateUtils.getGrowthShowTime());
+		comment.setGrowth_id(Integer.valueOf(growth_id));
+		comment.setPublisher_id(Integer.valueOf(publisher_id));
+		CommentDao dao = CommentDaoFactory.getInstances();
+		boolean res = dao.insertComment(comment);
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("rt", 1);
-		params.put("user", u);
+		if (!res) {
+			params.put("err", ErrorEnum.INVALID.name());
+			params.put("rt", 0);
+		} else {
+			params.put("rt", 1);
+		}
 		PrintWriter out = response.getWriter();
-		JSONObject jsonObject = JSONObject.fromObject(params);
-		out.print(jsonObject.toString());
+		out.print(JsonUtil.toJsonString(params));
 		out.flush();
 		out.close();
-		System.out.println(jsonObject.toString());
+		System.out.println(params.toString());
 	}
 
 	/**

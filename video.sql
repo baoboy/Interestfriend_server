@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-20 17:07:19
+Date: 2014-10-22 22:06:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,7 +29,7 @@ CREATE TABLE `video` (
   `time` varchar(255) DEFAULT NULL,
   `video_duration` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`video_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of video
@@ -38,3 +38,4 @@ INSERT INTO `video` VALUES ('1', '0', '1', 'http://192.168.1.101:8080/InterestFr
 INSERT INTO `video` VALUES ('2', '0', '1', 'http://192.168.1.101:8080/InterestFriend/video-image/2014-10-15-20-43-28.jpg', 'http://192.168.1.101:8080/InterestFriend/video/2014-10-15-20-43-39.3gp', '7815384', '2013-05-2 11:21', '8689');
 INSERT INTO `video` VALUES ('3', '0', '1', 'http://192.168.1.101:8080/InterestFriend/video-image/2014-10-15-20-48-00.jpg', 'http://192.168.1.101:8080/InterestFriend/video/2014-10-15-20-48-10.3gp', '7815384', '202-05-2 11:21', '8689');
 INSERT INTO `video` VALUES ('4', '0', '1', 'http://192.168.1.101:8080/InterestFriend/video-image/2014-10-15-20-49-27.jpg', 'http://192.168.1.101:8080/InterestFriend/video/2014-10-15-20-49-35.3gp', '7815384', '2011-05-2 11:21', '8689');
+INSERT INTO `video` VALUES ('5', '8', '1', 'http://192.168.1.101:8080/InterestFriend/video-image/2014-10-21-19-46-30.jpg', 'http://192.168.1.101:8080/InterestFriend/video/2014-10-21-19-46-32.mp4', '1680380', '2014-10-21 19:46', '27400');
