@@ -10,6 +10,7 @@ public class Growth {
 	private String time = "";
 	private String content = "";
 	private List<GrowthImage> images = new ArrayList<GrowthImage>();
+	private List<Comment> comments = new ArrayList<Comment>();
 
 	public int getGrowth_id() {
 		return growth_id;
@@ -57,6 +58,14 @@ public class Growth {
 
 	public void setImages(List<GrowthImage> images) {
 		this.images = images;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 	@Override

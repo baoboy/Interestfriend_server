@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import com.interestfriend.Idao.CommentDao;
 import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.GrowthImageDao;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.bean.Growth;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.CommentDaoFactory;
 import com.interestfriend.factory.GrowthDaoFactory;
 import com.interestfriend.factory.GrowthImageDaoFactory;
 
@@ -89,6 +91,7 @@ public class GetGrowthListServlet extends HttpServlet {
 		List<Growth> lists = new ArrayList<Growth>();
 		GrowthImageDao imgDao = GrowthImageDaoFactory
 				.getGrowthImageDaoInstance();
+		CommentDao coDao = CommentDaoFactory.getInstances();
 		Map<String, Object> params = new HashMap<String, Object>();
 
 		try {
@@ -101,6 +104,7 @@ public class GetGrowthListServlet extends HttpServlet {
 				g.setPublisher_id(res.getInt("publisher_id"));
 				lists.add(g);
 				g.setImages(imgDao.getImagesByGrowthID(cid, growth_id));
+				g.setComments(coDao.getCommentByGrowthID(growth_id));
 			}
 			params.put("growths", lists);
 			params.put("cid", cid);

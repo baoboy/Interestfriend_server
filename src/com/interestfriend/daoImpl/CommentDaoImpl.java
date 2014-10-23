@@ -2,10 +2,14 @@ package com.interestfriend.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.interestfriend.Idao.CommentDao;
 import com.interestfriend.bean.Comment;
+import com.interestfriend.bean.GrowthImage;
 import com.interestfriend.db.DBConnection;
 
 public class CommentDaoImpl implements CommentDao {
@@ -31,5 +35,35 @@ public class CommentDaoImpl implements CommentDao {
 			// DBConnection.close(conn); // 关闭连接对象
 		}
 		return false;
+	}
+
+	@Override
+	public List<Comment> getCommentByGrowthID(int growth_id) {
+		Connection conn = DBConnection.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		String sql = "select * from comment where growth_id=?";
+		List<Comment> comments = new ArrayList<Comment>();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, growth_id);
+			res = pstmt.executeQuery();
+			while (res.next()) {
+				Comment comment = new Comment();
+				comment.setComment_content(res.getString("comment_content"));
+				comment.setComment_id(res.getInt("comment_id"));
+				comment.setComment_time(res.getString("comment_time"));
+				comment.setPublisher_id(res.getInt("publisher_id"));
+				comment.setGrowth_id(res.getInt("growth_id"));
+				comments.add(comment);
+			}
+			return comments;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt);
+			DBConnection.close(res);
+		}
+		return null;
 	}
 }
