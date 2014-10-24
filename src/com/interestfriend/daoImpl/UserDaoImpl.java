@@ -170,4 +170,30 @@ public class UserDaoImpl implements UserDao {
 		return false;
 	}
 
+	@Override
+	public String[] getUserNameAndAvatar(int user_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		String sql = "select user_name,user_avatar from user where user_id = ?";
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		String resStr[] = new String[2];
+
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setInt(1, user_id);
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				resStr[0] = rs.getString("user_name");
+				resStr[1] = rs.getString("user_avatar");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			DBConnection.close(rs); // 关闭结果集对象
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return resStr;
+	}
+
 }

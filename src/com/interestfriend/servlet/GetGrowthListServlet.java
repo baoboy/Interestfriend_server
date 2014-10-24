@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
 import com.interestfriend.Idao.CommentDao;
 import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.GrowthImageDao;
+import com.interestfriend.Idao.UserDao;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.bean.Growth;
 import com.interestfriend.db.DBConnection;
@@ -26,6 +27,7 @@ import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CommentDaoFactory;
 import com.interestfriend.factory.GrowthDaoFactory;
 import com.interestfriend.factory.GrowthImageDaoFactory;
+import com.interestfriend.factory.UserDaoFactory;
 
 public class GetGrowthListServlet extends HttpServlet {
 
@@ -93,7 +95,7 @@ public class GetGrowthListServlet extends HttpServlet {
 				.getGrowthImageDaoInstance();
 		CommentDao coDao = CommentDaoFactory.getInstances();
 		Map<String, Object> params = new HashMap<String, Object>();
-
+		UserDao userDao = UserDaoFactory.getUserDaoInstance();
 		try {
 			while (res.next()) {
 				Growth g = new Growth();
@@ -101,10 +103,16 @@ public class GetGrowthListServlet extends HttpServlet {
 				g.setGrowth_id(growth_id);
 				g.setContent(res.getString("content"));
 				g.setTime(res.getString("time"));
-				g.setPublisher_id(res.getInt("publisher_id"));
-				lists.add(g);
+				int publisher_id = res.getInt("publisher_id");
+				g.setPublisher_id(publisher_id);
 				g.setImages(imgDao.getImagesByGrowthID(cid, growth_id));
 				g.setComments(coDao.getCommentByGrowthID(growth_id));
+				String[] nameAndAvatar = userDao
+						.getUserNameAndAvatar(publisher_id);
+				g.setPublisher_avatar(nameAndAvatar[1]);
+				g.setPublisher_name(nameAndAvatar[0]);
+				lists.add(g);
+
 			}
 			params.put("growths", lists);
 			params.put("cid", cid);

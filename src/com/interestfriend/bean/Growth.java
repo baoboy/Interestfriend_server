@@ -11,9 +11,27 @@ public class Growth {
 	private String content = "";
 	private List<GrowthImage> images = new ArrayList<GrowthImage>();
 	private List<Comment> comments = new ArrayList<Comment>();
+	private String publisher_name = "";
+	private String publisher_avatar = "";
 
 	public int getGrowth_id() {
 		return growth_id;
+	}
+
+	public String getPublisher_name() {
+		return publisher_name;
+	}
+
+	public void setPublisher_name(String publisher_name) {
+		this.publisher_name = publisher_name;
+	}
+
+	public String getPublisher_avatar() {
+		return publisher_avatar;
+	}
+
+	public void setPublisher_avatar(String publisher_avatar) {
+		this.publisher_avatar = publisher_avatar;
 	}
 
 	public void setGrowth_id(int growth_id) {
