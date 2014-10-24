@@ -6,6 +6,24 @@ public class Comment {
 	private int publisher_id;
 	private String comment_content = "";
 	private String comment_time = "";
+	private String publisher_name = "";
+	private String publisher_avatar = "";
+
+	public String getPublisher_name() {
+		return publisher_name;
+	}
+
+	public void setPublisher_name(String publisher_name) {
+		this.publisher_name = publisher_name;
+	}
+
+	public String getPublisher_avatar() {
+		return publisher_avatar;
+	}
+
+	public void setPublisher_avatar(String publisher_avatar) {
+		this.publisher_avatar = publisher_avatar;
+	}
 
 	public int getPublisher_id() {
 		return publisher_id;
