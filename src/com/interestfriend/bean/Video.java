@@ -11,6 +11,24 @@ public class Video {
 	private int publisher_id = 0;
 	private int video_id;
 	private String time = "";
+	private String publisher_name = "";
+	private String publisher_avatar = "";
+
+	public String getPublisher_name() {
+		return publisher_name;
+	}
+
+	public void setPublisher_name(String publisher_name) {
+		this.publisher_name = publisher_name;
+	}
+
+	public String getPublisher_avatar() {
+		return publisher_avatar;
+	}
+
+	public void setPublisher_avatar(String publisher_avatar) {
+		this.publisher_avatar = publisher_avatar;
+	}
 
 	public String getTime() {
 		return time;

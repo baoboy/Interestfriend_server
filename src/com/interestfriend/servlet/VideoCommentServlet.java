@@ -2,11 +2,7 @@ package com.interestfriend.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,22 +10,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
-import com.interestfriend.Idao.UserDao;
-import com.interestfriend.Idao.VideoDao;
-import com.interestfriend.bean.Video;
-import com.interestfriend.db.DBConnection;
+import com.interestfriend.Idao.VideoCommentDao;
+import com.interestfriend.Utils.DateUtils;
+import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.bean.VideoComment;
 import com.interestfriend.enums.ErrorEnum;
-import com.interestfriend.factory.UserDaoFactory;
-import com.interestfriend.factory.VideoDaoFactory;
+import com.interestfriend.factory.VideoCommentFactory;
 
-public class GetVideoListServlet extends HttpServlet {
+public class VideoCommentServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public GetVideoListServlet() {
+	public VideoCommentServlet() {
 		super();
 	}
 
@@ -57,7 +50,6 @@ public class GetVideoListServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		doPost(request, response);
 	}
 
@@ -78,49 +70,31 @@ public class GetVideoListServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
+
+		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
-		int cid = Integer.valueOf(request.getParameter("cid"));
-		int refushState = Integer.valueOf(request.getParameter("refushState"));
-		String refushTime = request.getParameter("refushTime");
-		VideoDao dao = VideoDaoFactory.getInstances();
-		ResultSet res = dao.getVideosByCid(cid, refushState, refushTime);
-		List<Video> lists = new ArrayList<Video>();
+		String comment_content = request.getParameter("comment_content");
+		String video_id = request.getParameter("video_id");
+		String publisher_id = request.getParameter("user_id");
+		VideoComment comment = new VideoComment();
+		comment.setComment_content(comment_content);
+		comment.setComment_time(DateUtils.getGrowthShowTime());
+		comment.setVideo_id(Integer.valueOf(video_id));
+		comment.setPublisher_id(Integer.valueOf(publisher_id));
+		VideoCommentDao dao = VideoCommentFactory.getIntances();
+		boolean res = dao.insertComment(comment);
 		Map<String, Object> params = new HashMap<String, Object>();
-		UserDao userDao = UserDaoFactory.getUserDaoInstance();
-		try {
-			while (res.next()) {
-				Video video = new Video();
-				int publisher_id = res.getInt("publisher_id");
-				video.setPublisher_id(publisher_id);
-				video.setVideo_duration(res.getInt("video_duration"));
-				video.setVideo_img(res.getString("video_img"));
-				video.setVideo_path(res.getString("video_path"));
-				video.setVideo_size(res.getInt("video_size"));
-				video.setVideo_id(res.getInt("video_id"));
-				video.setTime(res.getString("time"));
-				String[] nameAndAvatar = userDao
-						.getUserNameAndAvatar(publisher_id);
-				video.setPublisher_avatar(nameAndAvatar[1]);
-				video.setPublisher_name(nameAndAvatar[0]);
-				lists.add(video);
-			}
-			params.put("videos", lists);
-			params.put("cid", cid);
-			params.put("rt", 1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			params.put("rt", 0);
+		if (!res) {
 			params.put("err", ErrorEnum.INVALID.name());
-		} finally {
-			DBConnection.close(res);
+			params.put("rt", 0);
+		} else {
+			params.put("rt", 1);
 		}
-		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
-		System.out.println(jsonObjectFromMap.toString());
 		PrintWriter out = response.getWriter();
-		out.print(jsonObjectFromMap.toString());
+		out.print(JsonUtil.toJsonString(params));
 		out.flush();
 		out.close();
+		System.out.println(params.toString());
 	}
 
 	/**

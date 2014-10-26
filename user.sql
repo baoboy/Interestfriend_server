@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-22 22:06:03
+Date: 2014-10-26 21:24:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -41,4 +41,4 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('7', '短短的', '13165146101', '123456', '男', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-11-11-12-17.jpg', 'duanduande', 'ddd', '2014-09-11 ', '1413032245963', 'ADD', null, null);
-INSERT INTO `user` VALUES ('8', '宋斌', '18560133195', '123456', '女', '2014-9-11', 'http://192.168.1.101:8080/InterestFriend/user-avatar/2014-10-20-20-43-14.jpg', 'songbin', 'sb ', '2014-10-07 ', '1413897252266', 'UPDATE', 'g法国嘎嘎嘎嘎股份公司啦啦啦', '24若非等人');
+INSERT INTO `user` VALUES ('8', '宋斌', '18560133195', '123456', '女', '2014-9-11', 'http://192.168.1.101:8080/InterestFriend/user-avatar/2014-10-23-20-45-16.jpg', 'songbin', 'sb ', '2014-10-07 ', '1414068316612', 'UPDATE', 'g法国嘎嘎嘎嘎股份公司啦啦啦', '24若非等人');

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-22 22:05:51
+Date: 2014-10-26 21:23:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,7 +26,7 @@ CREATE TABLE `growth` (
   `content` varchar(255) DEFAULT NULL,
   `time` varchar(255) NOT NULL,
   PRIMARY KEY (`growth_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth
@@ -42,3 +42,6 @@ INSERT INTO `growth` VALUES ('41', '1', '8', '', '2014-10-21 21:47');
 INSERT INTO `growth` VALUES ('42', '1', '8', '', '2014-10-21 21:48');
 INSERT INTO `growth` VALUES ('43', '1', '8', '', '2014-10-21 21:51');
 INSERT INTO `growth` VALUES ('44', '1', '8', '', '2014-10-21 21:51');
+INSERT INTO `growth` VALUES ('45', '1', '8', '去体检', '2014-10-24 19:59');
+INSERT INTO `growth` VALUES ('46', '1', '8', '三岁', '2014-10-24 20:14');
+INSERT INTO `growth` VALUES ('47', '1', '8', '他现在', '2014-10-24 20:14');
