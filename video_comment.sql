@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-27 17:14:06
+Date: 2014-10-27 21:51:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,6 +33,3 @@ CREATE TABLE `video_comment` (
 -- ----------------------------
 -- Records of video_comment
 -- ----------------------------
-INSERT INTO `video_comment` VALUES ('50', '0', '8', '啦啦啦', '2014-10-27 15:29', '', '0');
-INSERT INTO `video_comment` VALUES ('51', '0', '8', '啦啦啦', '2014-10-27 15:29', '', '0');
-INSERT INTO `video_comment` VALUES ('52', '0', '8', '啦啦啦', '2014-10-27 15:29', '', '0');

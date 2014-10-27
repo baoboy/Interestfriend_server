@@ -84,8 +84,25 @@ public class CircleDaoImpl implements CircleDao {
 	}
 
 	@Override
-	public String getGroupIdByCircleID() {
-		return null;
+	public String getGroupIdByCircleID(int circle_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		String sql = "select group_id from circle where circle_id = ? ";
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setInt(1, circle_id);
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				return rs.getString("group_id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(rs); // 关闭结果集对象
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return "";
 	}
 
 	@Override

@@ -109,10 +109,10 @@ public class CreateCircleServlet extends HttpServlet {
 
 		String serverPath = request.getScheme() + "://"
 				+ request.getServerName() + ":" + request.getServerPort()
-				+ path + "/images/";
+				+ path + "/circle_images/";
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		String avatarSavePath = request.getSession().getServletContext()
-				.getRealPath("/images")
+				.getRealPath("/circle_images")
 				+ File.separator;
 
 		factory.setRepository(new File(avatarSavePath));
@@ -166,6 +166,8 @@ public class CreateCircleServlet extends HttpServlet {
 			String circle_name = request.getAttribute("circle_name").toString();
 			String circle_description = request.getAttribute(
 					"circle_description").toString();
+			String huanxin_userName = request.getAttribute("huanxin_username")
+					.toString();
 			String category = request.getAttribute("category").toString();
 			int user_id = Integer.valueOf(request.getAttribute("user_id")
 					.toString());
@@ -198,6 +200,8 @@ public class CreateCircleServlet extends HttpServlet {
 				params.put("group_id", group_id);
 				params.put("circle_id", cid);
 				params.put("rt", 1);
+				EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
+
 			}
 			PrintWriter out = response.getWriter();
 			out.print(JsonUtil.toJsonString(params));

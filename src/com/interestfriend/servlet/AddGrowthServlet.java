@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.interestfriend.Idao.CircleDao;
 import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.GrowthImageDao;
 import com.interestfriend.Utils.DateUtils;
@@ -29,8 +30,10 @@ import com.interestfriend.Utils.ImageUtil;
 import com.interestfriend.bean.Growth;
 import com.interestfriend.bean.GrowthImage;
 import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.CircleDaoFactory;
 import com.interestfriend.factory.GrowthDaoFactory;
 import com.interestfriend.factory.GrowthImageDaoFactory;
+import com.interestfriend.huanxin.EasemobSendMessage;
 
 public class AddGrowthServlet extends HttpServlet {
 	/**
@@ -193,6 +196,9 @@ public class AddGrowthServlet extends HttpServlet {
 				params.put("rt", 1);
 				params.put("gid", growth_id);
 				params.put("images", growthImages);
+				CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
+				String group_id = dao.getGroupIdByCircleID(cid);
+				EasemobSendMessage.sendGroupMessage(group_id, publisher_id);
 			} else {
 				params.put("rt", 0);
 				params.put("err", ErrorEnum.INVALID.name());

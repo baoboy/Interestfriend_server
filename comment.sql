@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-27 17:13:39
+Date: 2014-10-27 21:51:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,6 +33,3 @@ CREATE TABLE `comment` (
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
-INSERT INTO `comment` VALUES ('27', '8', '46', '考虑考虑', '2014-10-27 14:04', '0', '');
-INSERT INTO `comment` VALUES ('28', '8', '46', '日', '2014-10-27 15:00', '0', '');
-INSERT INTO `comment` VALUES ('29', '8', '46', ' 她', '2014-10-27 15:54', '8', '宋斌');

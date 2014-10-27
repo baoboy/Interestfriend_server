@@ -38,7 +38,7 @@ public class EasemobGroupMessage {
 		List<String> list = new ArrayList<String>();
 		try {
 			groupid = creatChatGroups(EasemobConstans.APP_KEY, token,
-					circleName, circleDescription, false,
+					circleName, circleDescription, true,
 					EasemobConstans.USER_NAME, list);
 		} catch (KeyManagementException e) {
 			e.printStackTrace();
