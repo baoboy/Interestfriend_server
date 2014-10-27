@@ -9,6 +9,25 @@ public class VideoComment {
 	private String publisher_name = "";
 	private String publisher_avatar = "";
 
+	private String reply_someone_name = "";
+	private int reply_someone_id = 0;
+
+	public String getReply_someone_name() {
+		return reply_someone_name;
+	}
+
+	public void setReply_someone_name(String reply_someone_name) {
+		this.reply_someone_name = reply_someone_name;
+	}
+
+	public int getReply_someone_id() {
+		return reply_someone_id;
+	}
+
+	public void setReply_someone_id(int reply_someone_id) {
+		this.reply_someone_id = reply_someone_id;
+	}
+
 	public String getPublisher_name() {
 		return publisher_name;
 	}

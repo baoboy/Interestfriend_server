@@ -17,11 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.UserDao;
+import com.interestfriend.Idao.VideoCommentDao;
 import com.interestfriend.Idao.VideoDao;
 import com.interestfriend.bean.Video;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.UserDaoFactory;
+import com.interestfriend.factory.VideoCommentFactory;
 import com.interestfriend.factory.VideoDaoFactory;
 
 public class GetVideoListServlet extends HttpServlet {
@@ -88,6 +90,7 @@ public class GetVideoListServlet extends HttpServlet {
 		List<Video> lists = new ArrayList<Video>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		UserDao userDao = UserDaoFactory.getUserDaoInstance();
+		VideoCommentDao comDao = VideoCommentFactory.getIntances();
 		try {
 			while (res.next()) {
 				Video video = new Video();
@@ -97,8 +100,10 @@ public class GetVideoListServlet extends HttpServlet {
 				video.setVideo_img(res.getString("video_img"));
 				video.setVideo_path(res.getString("video_path"));
 				video.setVideo_size(res.getInt("video_size"));
-				video.setVideo_id(res.getInt("video_id"));
+				int video_id = res.getInt("video_id");
+				video.setVideo_id(video_id);
 				video.setTime(res.getString("time"));
+				video.setComments(comDao.getCommentByVideoID(video_id));
 				String[] nameAndAvatar = userDao
 						.getUserNameAndAvatar(publisher_id);
 				video.setPublisher_avatar(nameAndAvatar[1]);

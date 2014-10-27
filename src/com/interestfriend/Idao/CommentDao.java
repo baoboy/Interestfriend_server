@@ -5,7 +5,9 @@ import java.util.List;
 import com.interestfriend.bean.Comment;
 
 public interface CommentDao {
-	boolean insertComment(Comment comment);
+	int insertComment(Comment comment);// ·µ»Øid
 
 	List<Comment> getCommentByGrowthID(int growth_id);
+
+	boolean deleteCommentByID(int comment_id);
 }

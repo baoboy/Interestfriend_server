@@ -74,21 +74,27 @@ public class CommentServlet extends HttpServlet {
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		String comment_content = request.getParameter("comment_content");
+		String reply_someone_name = request.getParameter("reply_someone_name");
+		String reply_someone_id = request.getParameter("reply_someone_id");
 		String growth_id = request.getParameter("growth_id");
 		String publisher_id = request.getParameter("user_id");
 		Comment comment = new Comment();
 		comment.setComment_content(comment_content);
+		comment.setReply_someone_id(Integer.valueOf(reply_someone_id));
+		comment.setReply_someone_name(reply_someone_name);
 		comment.setComment_time(DateUtils.getGrowthShowTime());
 		comment.setGrowth_id(Integer.valueOf(growth_id));
 		comment.setPublisher_id(Integer.valueOf(publisher_id));
 		CommentDao dao = CommentDaoFactory.getInstances();
-		boolean res = dao.insertComment(comment);
+		int id = dao.insertComment(comment);
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (!res) {
+		if (id < 0) {
 			params.put("err", ErrorEnum.INVALID.name());
 			params.put("rt", 0);
 		} else {
 			params.put("rt", 1);
+			params.put("comment_id", id);
+
 		}
 		PrintWriter out = response.getWriter();
 		out.print(JsonUtil.toJsonString(params));

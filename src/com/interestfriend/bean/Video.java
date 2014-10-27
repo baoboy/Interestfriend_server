@@ -1,5 +1,8 @@
 package com.interestfriend.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Video {
 
 	private String video_img = "";
@@ -13,6 +16,15 @@ public class Video {
 	private String time = "";
 	private String publisher_name = "";
 	private String publisher_avatar = "";
+	private List<VideoComment> comments = new ArrayList<VideoComment>();
+
+	public List<VideoComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<VideoComment> comments) {
+		this.comments = comments;
+	}
 
 	public String getPublisher_name() {
 		return publisher_name;

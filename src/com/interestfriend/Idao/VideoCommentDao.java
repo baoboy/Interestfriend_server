@@ -5,7 +5,7 @@ import java.util.List;
 import com.interestfriend.bean.VideoComment;
 
 public interface VideoCommentDao {
-	boolean insertComment(VideoComment comment);
+	int insertComment(VideoComment comment);
 
 	List<VideoComment> getCommentByVideoID(int video_id);
 }

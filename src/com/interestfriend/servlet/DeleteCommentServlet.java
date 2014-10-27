@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.interestfriend.Idao.VideoCommentDao;
+import com.interestfriend.Idao.CommentDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
-import com.interestfriend.bean.VideoComment;
+import com.interestfriend.bean.Comment;
 import com.interestfriend.enums.ErrorEnum;
-import com.interestfriend.factory.VideoCommentFactory;
+import com.interestfriend.factory.CommentDaoFactory;
 
-public class VideoCommentServlet extends HttpServlet {
+public class DeleteCommentServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public VideoCommentServlet() {
+	public DeleteCommentServlet() {
 		super();
 	}
 
@@ -50,7 +50,20 @@ public class VideoCommentServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		out.println("<HTML>");
+		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+		out.println("  <BODY>");
+		out.print("    This is ");
+		out.print(this.getClass());
+		out.println(", using the GET method");
+		out.println("  </BODY>");
+		out.println("</HTML>");
+		out.flush();
+		out.close();
 	}
 
 	/**
@@ -70,31 +83,17 @@ public class VideoCommentServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
-		String comment_content = request.getParameter("comment_content");
-		String reply_someone_name = request.getParameter("reply_someone_name");
-		String reply_someone_id = request.getParameter("reply_someone_id");
-		String video_id = request.getParameter("video_id");
-		String publisher_id = request.getParameter("user_id");
-		VideoComment comment = new VideoComment();
-		comment.setComment_content(comment_content);
-		comment.setComment_time(DateUtils.getGrowthShowTime());
-		comment.setVideo_id(Integer.valueOf(video_id));
-		comment.setPublisher_id(Integer.valueOf(publisher_id));
-		comment.setReply_someone_id(Integer.valueOf(reply_someone_id));
-		comment.setReply_someone_name(reply_someone_name);
-		VideoCommentDao dao = VideoCommentFactory.getIntances();
-		int id = dao.insertComment(comment);
+		String comment_id = request.getParameter("comment_id");
+		CommentDao dao = CommentDaoFactory.getInstances();
+		boolean res = dao.deleteCommentByID(Integer.valueOf(comment_id));
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (id < 0) {
+		if (!res) {
 			params.put("err", ErrorEnum.INVALID.name());
 			params.put("rt", 0);
 		} else {
 			params.put("rt", 1);
-			params.put("comment_id", id);
-
 		}
 		PrintWriter out = response.getWriter();
 		out.print(JsonUtil.toJsonString(params));
