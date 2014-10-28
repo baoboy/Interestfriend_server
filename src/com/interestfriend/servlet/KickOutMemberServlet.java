@@ -71,7 +71,7 @@ public class KickOutMemberServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
+		int user_id = Integer.valueOf(request.getParameter("kickout_user_id"));
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
 		Members member = new Members();
 		member.setCircle_id(circle_id);

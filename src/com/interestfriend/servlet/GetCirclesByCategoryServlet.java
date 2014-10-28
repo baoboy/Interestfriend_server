@@ -94,6 +94,7 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 					circle.setCircle_id(res.getInt("circle_id"));
 					circle.setCircle_name(res.getString("circle_name"));
 					circle.setGroup_id(res.getString("group_id"));
+					circle.setCreator_id(res.getInt("creator_id"));
 					circleLists.add(circle);
 				}
 			} catch (SQLException e) {

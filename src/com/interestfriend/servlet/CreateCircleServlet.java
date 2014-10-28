@@ -177,7 +177,7 @@ public class CreateCircleServlet extends HttpServlet {
 					.toString());
 			String group_id = EasemobGroupMessage.createCircleGroup(
 					circle_name, circle_description);
-			circle.setUser_id(user_id);
+			circle.setCreator_id(user_id);
 			circle.setCircle_description(circle_description);
 			circle.setCircle_name(circle_name);
 			circle.setGroup_id(group_id);

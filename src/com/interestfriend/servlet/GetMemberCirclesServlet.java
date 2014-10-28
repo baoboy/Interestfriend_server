@@ -82,9 +82,7 @@ public class GetMemberCirclesServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
-
 		int user_id = Integer.valueOf(request.getParameter("member_id"));
-		// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		MembersDao dao = MembersDaoFactory.getInstance();
 		ResultSet res = dao.findCirclesByUserID(user_id);
 		List<Circle> circleLists = new ArrayList<Circle>();
@@ -97,6 +95,7 @@ public class GetMemberCirclesServlet extends HttpServlet {
 				circle.setCircle_id(res.getInt("circle_id"));
 				circle.setCircle_name(res.getString("circle_name"));
 				circle.setGroup_id(res.getString("group_id"));
+				circle.setCreator_id(res.getInt("creator_id"));
 				circleLists.add(circle);
 			}
 		} catch (SQLException e) {
@@ -113,7 +112,6 @@ public class GetMemberCirclesServlet extends HttpServlet {
 		out.print(jsonObjectFromMap.toString());
 		out.flush();
 		out.close();
-		System.out.println(jsonObjectFromMap.toString());
 	}
 
 	/**

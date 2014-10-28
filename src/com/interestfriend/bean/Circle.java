@@ -1,7 +1,7 @@
 package com.interestfriend.bean;
 
 public class Circle {
-	private int user_id = 0;
+	private int creator_id = 0;
 	private int circle_id = 0;// È¦×ÓID
 	private String circle_name = "";
 	private String circle_description = "";
@@ -36,12 +36,12 @@ public class Circle {
 		this.group_id = group_id;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public int getCreator_id() {
+		return creator_id;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setCreator_id(int creator_id) {
+		this.creator_id = creator_id;
 	}
 
 	public int getCircle_id() {
@@ -94,7 +94,7 @@ public class Circle {
 
 	@Override
 	public String toString() {
-		return "user_id:" + this.user_id + "  circle_id" + this.circle_id
+		return "creator_id:" + this.creator_id + "  circle_id" + this.circle_id
 				+ "  circle_name:" + this.circle_name + "  circle_description:"
 				+ this.circle_description + "  circle_avatar:"
 				+ this.circle_avatar;

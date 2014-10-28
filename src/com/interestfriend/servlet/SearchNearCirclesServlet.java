@@ -101,6 +101,7 @@ public class SearchNearCirclesServlet extends HttpServlet {
 					circle.setDistance((int) Utils.getDistanceOfMeter(latitude,
 							longitude, res.getDouble("latitude"),
 							res.getDouble("longitude")));
+					circle.setCreator_id(res.getInt("creator_id"));
 					circleLists.add(circle);
 				}
 			} catch (SQLException e) {

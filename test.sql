@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-28 17:04:57
+Date: 2014-10-28 21:20:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `circle`;
 CREATE TABLE `circle` (
   `circle_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `creator_id` int(11) DEFAULT NULL,
   `group_id` varchar(18) DEFAULT NULL,
   `circle_name` varchar(255) DEFAULT NULL,
   `circle_description` varchar(255) DEFAULT NULL,
@@ -30,12 +30,13 @@ CREATE TABLE `circle` (
   `longitude` double(20,7) DEFAULT NULL,
   `latitude` double(20,7) DEFAULT NULL,
   PRIMARY KEY (`circle_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circle
 -- ----------------------------
 INSERT INTO `circle` VALUES ('1', '-1', '1412996732230555', '个人show', '官方圈子', 'http://10.6.7.158:8080/InterestFriend/images/2014-09-23-15-37-27.jpg', '1', null, null);
+INSERT INTO `circle` VALUES ('11', '8', '1414498903624120', '考虑考虑', '图图', 'http://192.168.1.101:8080/InterestFriend/circle_images/2014-10-28-20-21-43.jpg', '2', '116.4618770', '39.8604400');
 
 -- ----------------------------
 -- Table structure for circlemembers
@@ -48,13 +49,14 @@ CREATE TABLE `circlemembers` (
   `last_update_time` bigint(255) DEFAULT NULL,
   `user_state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circlemembers
 -- ----------------------------
 INSERT INTO `circlemembers` VALUES ('25', '8', '1', '1414486396553', 'UPDATE');
 INSERT INTO `circlemembers` VALUES ('26', '7', '1', '1414486055385', 'ADD');
+INSERT INTO `circlemembers` VALUES ('31', '8', '11', '1414498904131', 'ADD');
 
 -- ----------------------------
 -- Table structure for comment
@@ -69,12 +71,13 @@ CREATE TABLE `comment` (
   `reply_someone_id` int(11) DEFAULT NULL,
   `reply_someone_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
 INSERT INTO `comment` VALUES ('31', '8', '55', ' 兔兔', '2014-10-28 15:01', '8', '宋斌');
+INSERT INTO `comment` VALUES ('33', '8', '55', ' 趣', '2014-10-28 20:49', '8', '宋斌');
 
 -- ----------------------------
 -- Table structure for growth

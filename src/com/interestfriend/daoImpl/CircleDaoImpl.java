@@ -16,13 +16,13 @@ public class CircleDaoImpl implements CircleDao {
 		int autoIncKeyFromApi = -1;
 
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String addSQL = "insert into circle(user_id,circle_name,circle_description,circle_avatar,group_id,category,longitude,latitude) values(?,?,?,?,?,?,?,?)";
+		String addSQL = "insert into circle(creator_id,circle_name,circle_description,circle_avatar,group_id,category,longitude,latitude) values(?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 
 		try {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
-			pstmt.setInt(1, circle.getUser_id());
+			pstmt.setInt(1, circle.getCreator_id());
 			pstmt.setString(2, circle.getCircle_name());// 设置第二个参数
 			pstmt.setString(3, circle.getCircle_description());
 			pstmt.setString(4, circle.getCircle_avatar());
