@@ -11,19 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.MembersDao;
-import com.interestfriend.Idao.UserDao;
-import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.factory.UserDaoFactory;
 
-public class UpdateUserInfoServlet extends HttpServlet {
+public class KickOutMemberServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public UpdateUserInfoServlet() {
+	public KickOutMemberServlet() {
 		super();
 	}
 
@@ -52,19 +49,7 @@ public class UpdateUserInfoServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
-		out.println("<HTML>");
-		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
-		out.println("  <BODY>");
-		out.print("    This is ");
-		out.print(this.getClass());
-		out.println(", using the GET method");
-		out.println("  </BODY>");
-		out.println("</HTML>");
-		out.flush();
-		out.close();
+		doPost(request, response);
 	}
 
 	/**
@@ -84,27 +69,24 @@ public class UpdateUserInfoServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf-8");
-		request.setCharacterEncoding("utf8");
-		String cloumn = request.getParameter("cloumn");
-		String value = request.getParameter("value");
+		response.setContentType("text/html");
+		request.setCharacterEncoding("utf-8");
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
-		UserDao dao = UserDaoFactory.getUserDaoInstance();
-		boolean isSuccess = dao.updateUserInfo(user_id, cloumn, value);
+		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
+		Members member = new Members();
+		member.setCircle_id(circle_id);
+		member.setUser_id(user_id);
+		MembersDao dao = MembersDaoFactory.getInstance();
+		boolean rt = dao.kickOutMemaber(member);
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (!isSuccess) {
+		if (!rt) {
 			params.put("err", ErrorEnum.INVALID.name());
 			params.put("rt", 0);
 		} else {
-			params.put("err", 1);
-			MembersDao mDao = MembersDaoFactory.getInstance();
-			Members member = new Members();
-			member.setUser_id(Integer.valueOf(user_id));
-			member.setUser_state("UPDATE");
-			mDao.updateMemberLastUpdateTimeAndState(member);
+			params.put("rt", 1);
 		}
 		PrintWriter out = response.getWriter();
-		out.print(JsonUtil.toJsonString(params));
+		out.print(params);
 		out.flush();
 		out.close();
 	}

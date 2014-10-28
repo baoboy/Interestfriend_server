@@ -131,6 +131,20 @@
     <servlet-name>DeleteCommentServlet</servlet-name>
     <servlet-class>com.interestfriend.servlet.DeleteCommentServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DelVideoCommentServlet</servlet-name>
+    <servlet-class>com.interestfriend.servlet.DelVideoCommentServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>KickOutMemberServlet</servlet-name>
+    <servlet-class>com.interestfriend.servlet.KickOutMemberServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -235,6 +249,14 @@
   <servlet-mapping>
     <servlet-name>DeleteCommentServlet</servlet-name>
     <url-pattern>/servlet/DeleteCommentServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DelVideoCommentServlet</servlet-name>
+    <url-pattern>/servlet/DelVideoCommentServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>KickOutMemberServlet</servlet-name>
+    <url-pattern>/servlet/KickOutMemberServlet</url-pattern>
   </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

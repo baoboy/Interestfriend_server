@@ -85,4 +85,22 @@ public class VideoCommentImpl implements VideoCommentDao {
 		}
 		return null;
 	}
+
+	@Override
+	public boolean deleteCommentByID(int comment_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		String sql = "delete from video_comment where comment_id=?";
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setInt(1, comment_id);
+			return pstmt.executeUpdate() > 0; // 执行更新
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+			// DBConnection.close(conn); // 关闭连接对象
+		}
+		return false;
+	}
 }

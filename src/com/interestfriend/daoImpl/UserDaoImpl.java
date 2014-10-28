@@ -111,24 +111,38 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean updateUserInfo(int user_id, String column, String value) {
 		String sql = "";
+		// if ("昵称".equals(column)) {
+		// sql = "UPDATE user SET user_name = '" + value
+		// + "' , user_last_update_time ="
+		// + DateUtils.getLastUpdateTime() + ",user_state= 'UPDATE' "
+		// + " ,user_sort_key= '"
+		// + PinYinUtil.converterToFirstSpell(value)
+		// + " ', user_pinyin_str= '"
+		// + PinYinUtil.converterToSpell(value) + "' WHERE user_id =?";
+		// } else if ("交友宣言".equals(column)) {
+		// sql = "UPDATE user SET user_declaration = '" + value
+		// + "' , user_last_update_time ="
+		// + DateUtils.getLastUpdateTime() + ",user_state= 'UPDATE' "
+		// + " WHERE user_id =?";
+		// } else if ("个人介绍".equals(column)) {
+		// sql = "UPDATE user SET user_description = '" + value
+		// + "' , user_last_update_time ="
+		// + DateUtils.getLastUpdateTime() + ",user_state= 'UPDATE' "
+		// + " WHERE user_id =?";
+		// }
+
 		if ("昵称".equals(column)) {
 			sql = "UPDATE user SET user_name = '" + value
-					+ "' , user_last_update_time ="
-					+ DateUtils.getLastUpdateTime() + ",user_state= 'UPDATE' "
-					+ " ,user_sort_key= '"
+					+ "' ,user_sort_key= '"
 					+ PinYinUtil.converterToFirstSpell(value)
 					+ " ', user_pinyin_str= '"
 					+ PinYinUtil.converterToSpell(value) + "' WHERE user_id =?";
 		} else if ("交友宣言".equals(column)) {
 			sql = "UPDATE user SET user_declaration = '" + value
-					+ "' , user_last_update_time ="
-					+ DateUtils.getLastUpdateTime() + ",user_state= 'UPDATE' "
-					+ " WHERE user_id =?";
+					+ "' WHERE user_id =?";
 		} else if ("个人介绍".equals(column)) {
 			sql = "UPDATE user SET user_description = '" + value
-					+ "' , user_last_update_time ="
-					+ DateUtils.getLastUpdateTime() + ",user_state= 'UPDATE' "
-					+ " WHERE user_id =?";
+					+ "' WHERE user_id =?";
 		}
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
@@ -149,15 +163,18 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUserAvatar(User user) {
-		String sql = "UPDATE user SET user_avatar = ? , user_last_update_time =?,user_state=? WHERE user_id =?";
+		// String sql =
+		// "UPDATE user SET user_avatar = ? , user_last_update_time =?,user_state=? WHERE user_id =?";
+		String sql = "UPDATE user SET user_avatar = ?  WHERE user_id =?";
+
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {
 			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
 			pstmt.setString(1, user.getUserAvatar());
-			pstmt.setLong(2, user.getUserLastUpdateTime());
-			pstmt.setString(3, user.getUserState());
-			pstmt.setInt(4, user.getUserID());
+			// pstmt.setLong(2, user.getUserLastUpdateTime());
+			// pstmt.setString(3, user.getUserState());
+			pstmt.setInt(2, user.getUserID());
 			int res = pstmt.executeUpdate(); // 执行查询
 			if (res > 0) {
 				return true;

@@ -11,4 +11,7 @@ public interface MembersDao {
 
 	ResultSet findMembersByCircleID(int circleID, long lastReqTime);
 
+	boolean kickOutMemaber(Members member);
+
+	boolean updateMemberLastUpdateTimeAndState(Members member);
 }

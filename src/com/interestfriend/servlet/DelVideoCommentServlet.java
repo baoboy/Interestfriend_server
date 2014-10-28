@@ -10,20 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.interestfriend.Idao.MembersDao;
-import com.interestfriend.Idao.UserDao;
+import com.interestfriend.Idao.VideoCommentDao;
 import com.interestfriend.Utils.JsonUtil;
-import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
-import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.factory.UserDaoFactory;
+import com.interestfriend.factory.VideoCommentFactory;
 
-public class UpdateUserInfoServlet extends HttpServlet {
+public class DelVideoCommentServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public UpdateUserInfoServlet() {
+	public DelVideoCommentServlet() {
 		super();
 	}
 
@@ -84,29 +81,23 @@ public class UpdateUserInfoServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf-8");
-		request.setCharacterEncoding("utf8");
-		String cloumn = request.getParameter("cloumn");
-		String value = request.getParameter("value");
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
-		UserDao dao = UserDaoFactory.getUserDaoInstance();
-		boolean isSuccess = dao.updateUserInfo(user_id, cloumn, value);
+		response.setContentType("text/html");
+		request.setCharacterEncoding("utf-8");
+		String comment_id = request.getParameter("comment_id");
+		VideoCommentDao dao = VideoCommentFactory.getIntances();
+		boolean res = dao.deleteCommentByID(Integer.valueOf(comment_id));
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (!isSuccess) {
+		if (!res) {
 			params.put("err", ErrorEnum.INVALID.name());
 			params.put("rt", 0);
 		} else {
-			params.put("err", 1);
-			MembersDao mDao = MembersDaoFactory.getInstance();
-			Members member = new Members();
-			member.setUser_id(Integer.valueOf(user_id));
-			member.setUser_state("UPDATE");
-			mDao.updateMemberLastUpdateTimeAndState(member);
+			params.put("rt", 1);
 		}
 		PrintWriter out = response.getWriter();
 		out.print(JsonUtil.toJsonString(params));
 		out.flush();
 		out.close();
+		System.out.println(params.toString());
 	}
 
 	/**

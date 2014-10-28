@@ -19,11 +19,14 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.bean.Members;
 import com.interestfriend.bean.User;
 import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.MembersDaoFactory;
 import com.interestfriend.factory.UserDaoFactory;
 
 public class UpdateUserAvatarServlet extends HttpServlet {
@@ -174,6 +177,11 @@ public class UpdateUserAvatarServlet extends HttpServlet {
 			} else {
 				params.put("user_avatar", user.getUserAvatar());
 				params.put("rt", 1);
+				MembersDao mDao = MembersDaoFactory.getInstance();
+				Members member = new Members();
+				member.setUser_id(Integer.valueOf(user_id));
+				member.setUser_state("UPDATE");
+				mDao.updateMemberLastUpdateTimeAndState(member);
 			}
 			PrintWriter out = response.getWriter();
 			out.print(JsonUtil.toJsonString(params));

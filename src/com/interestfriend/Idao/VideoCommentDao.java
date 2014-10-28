@@ -8,4 +8,7 @@ public interface VideoCommentDao {
 	int insertComment(VideoComment comment);
 
 	List<VideoComment> getCommentByVideoID(int video_id);
+
+	boolean deleteCommentByID(int comment_id);
+
 }
