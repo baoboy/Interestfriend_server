@@ -21,6 +21,8 @@ import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.CircleDao;
 import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.Utils.CategoryCircleUtils;
+import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.daoImpl.MembersDapImpl;
@@ -91,9 +93,12 @@ public class CircleListServlet extends HttpServlet {
 		request.setCharacterEncoding("utf8");
 
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
+		long lastReqTime = Long.valueOf(request
+				.getParameter("circle_last_request_time"));
+		System.out.println("lastTIme:" + lastReqTime);
 		// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		MembersDao dao = MembersDaoFactory.getInstance();
-		ResultSet res = dao.findCirclesByUserID(user_id);
+		ResultSet res = dao.findCirclesByUserID(user_id, lastReqTime);
 		List<Circle> circleLists = new ArrayList<Circle>();
 		try {
 			while (res.next()) {
@@ -105,6 +110,13 @@ public class CircleListServlet extends HttpServlet {
 				circle.setCircle_name(res.getString("circle_name"));
 				circle.setGroup_id(res.getString("group_id"));
 				circle.setCreator_id(res.getInt("creator_id"));
+				circle.setCircle_state(res.getString("circle_state"));
+				circle.setCircle_create_time(res
+						.getString("circle_create_time"));
+				circle.setCircle_creator_name(res.getString("user_name"));
+				int category = res.getInt("category");
+				circle.setCircle_category(CategoryCircleUtils
+						.getCateGoryNameByCode(category));
 				circleLists.add(circle);
 			}
 		} catch (SQLException e) {
@@ -116,6 +128,8 @@ public class CircleListServlet extends HttpServlet {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("circles", circleLists);
 		params.put("rt", 1);
+		params.put("circle_last_request_time", DateUtils.getLastUpdateTime());
+
 		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
 		PrintWriter out = response.getWriter();
 		out.print(jsonObjectFromMap.toString());

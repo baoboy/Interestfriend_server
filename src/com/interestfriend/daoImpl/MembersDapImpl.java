@@ -18,7 +18,7 @@ public class MembersDapImpl implements MembersDao {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		// String addSQL =
 		// "insert into circlemembers(user_id,circle_id,add_time) values(?,?,?)";
-		String addSQL = "insert into circlemembers(user_id,circle_id,last_update_time,user_state) values(?,?,?,?)";
+		String addSQL = "insert into circlemembers(user_id,circle_id,last_update_time,user_state,circle_last_request_time,circle_state) values(?,?,?,?,?,?)";
 
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {
@@ -27,6 +27,8 @@ public class MembersDapImpl implements MembersDao {
 			pstmt.setInt(2, member.getCircle_id());// 设置第二个参数
 			pstmt.setLong(3, DateUtils.getLastUpdateTime());
 			pstmt.setString(4, "ADD");
+			pstmt.setLong(5, DateUtils.getLastUpdateTime());
+			pstmt.setString(6, "ADD");
 			int count = pstmt.executeUpdate(); // 执行更新
 			return count > 0;
 		} catch (SQLException e) {
@@ -39,22 +41,23 @@ public class MembersDapImpl implements MembersDao {
 	}
 
 	@Override
-	public ResultSet findCirclesByUserID(int userID) {
+	public ResultSet findCirclesByUserID(int userID, long lastReqTime) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 
 		// String findByIDSQL = "select * from circle where user_id = ?"; //
 		// SQL语句
-		String findByIDSQL = "select * from circle inner join circlemembers on circle.circle_id=circlemembers.circle_id AND circlemembers.user_id=?";
+		String findByIDSQL = "select circle.*, circlemembers.circle_state,user.user_name from( circle inner join circlemembers on circle.circle_id=circlemembers.circle_id AND circlemembers.user_id=? and  circlemembers.circle_last_request_time>?)inner join user on  circlemembers.user_id= user.user_id ";
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, userID); // 设置参数
+			pstmt.setLong(2, lastReqTime);
+
 			rs = pstmt.executeQuery(); // 执行查询
 		} catch (Exception e) {
 		} finally {
-			// DBConnection.close(rs); // 关闭结果集对象
-			// DBConnection.close(pstmt);
+
 		}
 		return rs;
 	}
@@ -84,17 +87,42 @@ public class MembersDapImpl implements MembersDao {
 		return rs;
 	}
 
+	//
+	// @Override
+	// public boolean kickOutMemaber(Members member) {
+	// Connection conn = DBConnection.getConnection(); // 获得连接对象
+	// String addSQL =
+	// "delete  from  circlemembers where user_id=? and circle_id=? ";
+	// PreparedStatement pstmt = null; // 声明预处理对象
+	// try {
+	// pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
+	// pstmt.setInt(1, member.getUser_id());
+	// pstmt.setInt(2, member.getCircle_id());// 设置第二个参数
+	// int count = pstmt.executeUpdate(); // 执行更新
+	// return count > 0;
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// } finally {
+	// DBConnection.close(pstmt); // 关闭预处理对象
+	// }
+	// return false;
+	// }
+
 	@Override
 	public boolean kickOutMemaber(Members member) {
+		String sql = "UPDATE circlemembers SET  last_update_time ="
+				+ member.getUser_update_time() + ",user_state= '"
+				+ member.getUser_state() + "' WHERE user_id ="
+				+ member.getUser_id() + " and circle_id ="
+				+ member.getCircle_id();
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String addSQL = "delete  from  circlemembers where user_id=? and circle_id=? ";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {
-			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
-			pstmt.setInt(1, member.getUser_id());
-			pstmt.setInt(2, member.getCircle_id());// 设置第二个参数
-			int count = pstmt.executeUpdate(); // 执行更新
-			return count > 0;
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -118,6 +146,29 @@ public class MembersDapImpl implements MembersDao {
 					+ member.getUser_state() + "' WHERE user_id ="
 					+ member.getUser_id();
 		}
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateCircleLastRequestTimeAndState(Members member) {
+		String sql = "UPDATE circlemembers SET  circle_last_request_time ="
+				+ member.getCircle_last_request_time() + ",circle_state= '"
+				+ member.getCircle_state() + "' WHERE user_id ="
+				+ member.getUser_id() + " and circle_id ="
+				+ member.getCircle_id();
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {

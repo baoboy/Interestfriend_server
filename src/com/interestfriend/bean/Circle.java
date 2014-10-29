@@ -11,6 +11,43 @@ public class Circle {
 	private double longitude;// ¾­¶È
 	private double latitude; // Î¬¶È
 	private int distance;
+	private String circle_creator_name = "";
+	private String circle_create_time = "";
+	private String circle_category = "";
+
+	public String getCircle_category() {
+		return circle_category;
+	}
+
+	public void setCircle_category(String circle_category) {
+		this.circle_category = circle_category;
+	}
+
+	public String getCircle_creator_name() {
+		return circle_creator_name;
+	}
+
+	public void setCircle_creator_name(String circle_creator_name) {
+		this.circle_creator_name = circle_creator_name;
+	}
+
+	public String getCircle_create_time() {
+		return circle_create_time;
+	}
+
+	public void setCircle_create_time(String circle_create_time) {
+		this.circle_create_time = circle_create_time;
+	}
+
+	private String circle_state = "";
+
+	public String getCircle_state() {
+		return circle_state;
+	}
+
+	public void setCircle_state(String circle_state) {
+		this.circle_state = circle_state;
+	}
 
 	public int getDistance() {
 		return distance;

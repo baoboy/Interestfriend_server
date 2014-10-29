@@ -69,7 +69,7 @@ public class CircleDaoImpl implements CircleDao {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
-		String findByIDSQL = "select * from circle where category = ?"; // SQL语句
+		String findByIDSQL = "select circle.* ,user.user_name from circle inner join user   on circle.creator_id=user.user_id and  category = ?"; // SQL语句
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, category); // 设置参数

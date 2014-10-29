@@ -84,10 +84,14 @@ public class GetMemberCirclesServlet extends HttpServlet {
 		request.setCharacterEncoding("utf8");
 		int user_id = Integer.valueOf(request.getParameter("member_id"));
 		MembersDao dao = MembersDaoFactory.getInstance();
-		ResultSet res = dao.findCirclesByUserID(user_id);
+		ResultSet res = dao.findCirclesByUserID(user_id, 0l);
 		List<Circle> circleLists = new ArrayList<Circle>();
 		try {
 			while (res.next()) {
+				String state = res.getString("circle_state");
+				if ("DEL".equals(state)) {
+					continue;
+				}
 				Circle circle = new Circle();
 				circle.setCircle_avatar(res.getString("circle_avatar"));
 				circle.setCircle_description(res
@@ -96,6 +100,7 @@ public class GetMemberCirclesServlet extends HttpServlet {
 				circle.setCircle_name(res.getString("circle_name"));
 				circle.setGroup_id(res.getString("group_id"));
 				circle.setCreator_id(res.getInt("creator_id"));
+
 				circleLists.add(circle);
 			}
 		} catch (SQLException e) {

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.MD5;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
@@ -82,6 +83,10 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 		member.setUser_id(user_id);
 		MembersDao dao = MembersDaoFactory.getInstance();
 		boolean rt = dao.addMembers(member);
+		member.setCircle_state("ADD");
+		long lastReqTime = DateUtils.getLastUpdateTime();
+		member.setCircle_last_request_time(lastReqTime);
+		dao.updateCircleLastRequestTimeAndState(member);
 		EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (!rt) {
@@ -89,6 +94,7 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 			params.put("rt", 0);
 		} else {
 			params.put("rt", 1);
+			params.put("circle_last_request_time", lastReqTime);
 		}
 		PrintWriter out = response.getWriter();
 		out.print(params);

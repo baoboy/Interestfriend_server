@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-28 21:20:37
+Date: 2014-10-29 17:16:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,14 +29,15 @@ CREATE TABLE `circle` (
   `category` int(11) DEFAULT NULL,
   `longitude` double(20,7) DEFAULT NULL,
   `latitude` double(20,7) DEFAULT NULL,
+  `circle_create_time` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`circle_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circle
 -- ----------------------------
-INSERT INTO `circle` VALUES ('1', '-1', '1412996732230555', '个人show', '官方圈子', 'http://10.6.7.158:8080/InterestFriend/images/2014-09-23-15-37-27.jpg', '1', null, null);
-INSERT INTO `circle` VALUES ('11', '8', '1414498903624120', '考虑考虑', '图图', 'http://192.168.1.101:8080/InterestFriend/circle_images/2014-10-28-20-21-43.jpg', '2', '116.4618770', '39.8604400');
+INSERT INTO `circle` VALUES ('1', '-1', '1412996732230555', '个人show', '官方圈子', 'http://10.6.7.158:8080/InterestFriend/images/2014-09-23-15-37-27.jpg', '1', null, null, '2014-09-16');
+INSERT INTO `circle` VALUES ('12', '8', '1414552226914589', '424242', '1擦的', 'http://10.6.7.158:8080/InterestFriend/circle_images/2014-10-29-11-10-59.jpg', '8', '116.4620260', '39.9208470', '2014-09-11 ');
 
 -- ----------------------------
 -- Table structure for circlemembers
@@ -48,15 +49,20 @@ CREATE TABLE `circlemembers` (
   `circle_id` int(11) DEFAULT NULL,
   `last_update_time` bigint(255) DEFAULT NULL,
   `user_state` varchar(255) DEFAULT NULL,
+  `circle_last_request_time` bigint(20) DEFAULT NULL,
+  `circle_state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circlemembers
 -- ----------------------------
-INSERT INTO `circlemembers` VALUES ('25', '8', '1', '1414486396553', 'UPDATE');
-INSERT INTO `circlemembers` VALUES ('26', '7', '1', '1414486055385', 'ADD');
-INSERT INTO `circlemembers` VALUES ('31', '8', '11', '1414498904131', 'ADD');
+INSERT INTO `circlemembers` VALUES ('38', '8', '1', '1414552101980', 'ADD', '1414552101980', '');
+INSERT INTO `circlemembers` VALUES ('39', '7', '1', '1414552121393', 'ADD', '1414552121393', '');
+INSERT INTO `circlemembers` VALUES ('40', '8', '12', '1414552260922', 'ADD', '1414552260922', '');
+INSERT INTO `circlemembers` VALUES ('58', '7', '12', '1414563592623', 'DEL', '1414563592623', 'DEL');
+INSERT INTO `circlemembers` VALUES ('59', '7', '12', '1414563592623', 'DEL', '1414563592623', 'DEL');
+INSERT INTO `circlemembers` VALUES ('60', '7', '12', '1414563592623', 'DEL', '1414563592623', 'DEL');
 
 -- ----------------------------
 -- Table structure for comment
@@ -218,8 +224,9 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+INSERT INTO `user` VALUES ('-1', '趣友', '', '', '', '', '', '', '', '', '', '');
 INSERT INTO `user` VALUES ('7', '短短的', '13165146101', '123456', '男', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-11-11-12-17.jpg', 'duanduande', 'ddd', '2014-09-11 ', null, null);
-INSERT INTO `user` VALUES ('8', '宋斌', '18560133195', '123456', '女', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-28-16-53-16.jpg', 'songbin', 'sb ', '2014-10-07 ', 'g法国嘎嘎嘎嘎股份公司啦啦啦', '24若非等人');
+INSERT INTO `user` VALUES ('8', '宋斌', '18560133195', '123456', '女', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-28-16-53-16.jpg', 'songbin', 'sb ', '2014-10-07 ', 'g法国嘎嘎嘎是鼎飞丹砂是对方公司的鬼地方是对方公司的分公司答复是对方公司的分公司答复公司的法规到分公司答复嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦啦啦', '24若非等人');
 
 -- ----------------------------
 -- Table structure for video
