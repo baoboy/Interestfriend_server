@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-29 17:16:51
+Date: 2014-10-29 21:41:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,7 +37,6 @@ CREATE TABLE `circle` (
 -- Records of circle
 -- ----------------------------
 INSERT INTO `circle` VALUES ('1', '-1', '1412996732230555', '个人show', '官方圈子', 'http://10.6.7.158:8080/InterestFriend/images/2014-09-23-15-37-27.jpg', '1', null, null, '2014-09-16');
-INSERT INTO `circle` VALUES ('12', '8', '1414552226914589', '424242', '1擦的', 'http://10.6.7.158:8080/InterestFriend/circle_images/2014-10-29-11-10-59.jpg', '8', '116.4620260', '39.9208470', '2014-09-11 ');
 
 -- ----------------------------
 -- Table structure for circlemembers
@@ -52,17 +51,15 @@ CREATE TABLE `circlemembers` (
   `circle_last_request_time` bigint(20) DEFAULT NULL,
   `circle_state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circlemembers
 -- ----------------------------
-INSERT INTO `circlemembers` VALUES ('38', '8', '1', '1414552101980', 'ADD', '1414552101980', '');
-INSERT INTO `circlemembers` VALUES ('39', '7', '1', '1414552121393', 'ADD', '1414552121393', '');
-INSERT INTO `circlemembers` VALUES ('40', '8', '12', '1414552260922', 'ADD', '1414552260922', '');
-INSERT INTO `circlemembers` VALUES ('58', '7', '12', '1414563592623', 'DEL', '1414563592623', 'DEL');
-INSERT INTO `circlemembers` VALUES ('59', '7', '12', '1414563592623', 'DEL', '1414563592623', 'DEL');
-INSERT INTO `circlemembers` VALUES ('60', '7', '12', '1414563592623', 'DEL', '1414563592623', 'DEL');
+INSERT INTO `circlemembers` VALUES ('67', '8', '1', '1414589867972', 'DEL', '1414589867972', 'DEL');
+INSERT INTO `circlemembers` VALUES ('68', '8', '1', '1414589867972', 'DEL', '1414589867972', 'DEL');
+INSERT INTO `circlemembers` VALUES ('69', '8', '1', '1414589867972', 'DEL', '1414589867972', 'DEL');
+INSERT INTO `circlemembers` VALUES ('70', '8', '1', '1414589982419', 'ADD', '1414589982419', 'ADD');
 
 -- ----------------------------
 -- Table structure for comment
@@ -200,6 +197,23 @@ INSERT INTO `growth_img` VALUES ('271', '1', '53', 'http://10.6.7.158:8080/Inter
 INSERT INTO `growth_img` VALUES ('272', '1', '54', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-28-11-33-04-1.jpg');
 INSERT INTO `growth_img` VALUES ('273', '1', '55', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-28-11-34-55-1.jpg');
 INSERT INTO `growth_img` VALUES ('274', '1', '55', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-28-11-34-55-2.jpg');
+
+-- ----------------------------
+-- Table structure for member_circles
+-- ----------------------------
+DROP TABLE IF EXISTS `member_circles`;
+CREATE TABLE `member_circles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `circle_id` int(11) DEFAULT NULL,
+  `circle_last_request_time` bigint(20) DEFAULT NULL,
+  `circle_state` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of member_circles
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user

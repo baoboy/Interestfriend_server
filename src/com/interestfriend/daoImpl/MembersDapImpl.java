@@ -25,9 +25,9 @@ public class MembersDapImpl implements MembersDao {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, member.getUser_id());
 			pstmt.setInt(2, member.getCircle_id());// 设置第二个参数
-			pstmt.setLong(3, DateUtils.getLastUpdateTime());
+			pstmt.setLong(3, member.getUser_update_time());
 			pstmt.setString(4, "ADD");
-			pstmt.setLong(5, DateUtils.getLastUpdateTime());
+			pstmt.setLong(5, member.getCircle_last_request_time());
 			pstmt.setString(6, "ADD");
 			int count = pstmt.executeUpdate(); // 执行更新
 			return count > 0;

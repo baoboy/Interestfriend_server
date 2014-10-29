@@ -12,18 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.DateUtils;
-import com.interestfriend.Utils.MD5;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
 
-public class JoinOfficialCircleServlet extends HttpServlet {
+public class DissolveCircleServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public JoinOfficialCircleServlet() {
+	public DissolveCircleServlet() {
 		super();
 	}
 
@@ -76,27 +74,24 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
-		String group_id = request.getParameter("group_id");
-		String huanxin_userName = request.getParameter("huanxin_username");//
-		long lastReqTime = DateUtils.getLastUpdateTime();
 		Members member = new Members();
 		member.setCircle_id(circle_id);
 		member.setUser_id(user_id);
+		member.setCircle_state("DEL");
+		member.setUser_state("DEL");
+		long lastReqTime = DateUtils.getLastUpdateTime();
 		member.setUser_update_time(lastReqTime);
-		member.setCircle_last_request_time(lastReqTime);
 		MembersDao dao = MembersDaoFactory.getInstance();
-		boolean rt = dao.addMembers(member);
-		// member.setCircle_state("ADD");
-		// member.setCircle_last_request_time(lastReqTime);
-		// dao.updateCircleLastRequestTimeAndState(member);
-		EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
+		boolean rt = dao.kickOutMemaber(member);
+		member.setCircle_last_request_time(lastReqTime);
+		dao.updateCircleLastRequestTimeAndState(member);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (!rt) {
 			params.put("err", ErrorEnum.INVALID.name());
 			params.put("rt", 0);
 		} else {
 			params.put("rt", 1);
-			params.put("circle_last_request_time", lastReqTime);
+			params.put("lastReqTime", lastReqTime);
 		}
 		PrintWriter out = response.getWriter();
 		out.print(params);
