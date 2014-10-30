@@ -49,9 +49,14 @@ public class GrowthDaoImpl implements GrowthDao {
 		PreparedStatement pstmt = null;
 		String sql = "";
 		if (refushState == 1) {
-			sql = "select * from growth where cid=? and time >?  order by time desc limit 0,20";
+			// sql =
+			// "select * from growth where cid=? and time >?  order by time desc limit 0,20";
+			sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where cid=? and time >?  order by time desc limit 0,20";
 		} else {
-			sql = "select * from growth where cid=? and time <?  order by time desc limit 0,20";
+			// sql =
+			// "select * from growth where cid=? and time <?  order by time desc limit 0,20";
+			sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where cid=? and time <?  order by time desc limit 0,20";
+
 		}
 		try {
 			pstmt = conn.prepareStatement(sql);

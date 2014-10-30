@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-10-29 21:41:39
+Date: 2014-10-30 17:16:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,12 +31,13 @@ CREATE TABLE `circle` (
   `latitude` double(20,7) DEFAULT NULL,
   `circle_create_time` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`circle_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circle
 -- ----------------------------
 INSERT INTO `circle` VALUES ('1', '-1', '1412996732230555', '个人show', '官方圈子', 'http://10.6.7.158:8080/InterestFriend/images/2014-09-23-15-37-27.jpg', '1', null, null, '2014-09-16');
+INSERT INTO `circle` VALUES ('15', '8', '141463628670375', '图兔兔', '哦哦OK了了', 'http://10.6.7.158:8080/InterestFriend/circle_images/2014-10-30-10-31-58.jpg', '7', '116.4621530', '39.9207630', null);
 
 -- ----------------------------
 -- Table structure for circlemembers
@@ -51,15 +52,13 @@ CREATE TABLE `circlemembers` (
   `circle_last_request_time` bigint(20) DEFAULT NULL,
   `circle_state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circlemembers
 -- ----------------------------
-INSERT INTO `circlemembers` VALUES ('67', '8', '1', '1414589867972', 'DEL', '1414589867972', 'DEL');
-INSERT INTO `circlemembers` VALUES ('68', '8', '1', '1414589867972', 'DEL', '1414589867972', 'DEL');
-INSERT INTO `circlemembers` VALUES ('69', '8', '1', '1414589867972', 'DEL', '1414589867972', 'DEL');
-INSERT INTO `circlemembers` VALUES ('70', '8', '1', '1414589982419', 'ADD', '1414589982419', 'ADD');
+INSERT INTO `circlemembers` VALUES ('74', '8', '15', '1414636319572', 'ADD', '1414636319572', 'ADD');
+INSERT INTO `circlemembers` VALUES ('75', '7', '15', '1414639315164', 'ADD', '1414639315164', 'ADD');
 
 -- ----------------------------
 -- Table structure for comment
@@ -74,13 +73,15 @@ CREATE TABLE `comment` (
   `reply_someone_id` int(11) DEFAULT NULL,
   `reply_someone_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
 INSERT INTO `comment` VALUES ('31', '8', '55', ' 兔兔', '2014-10-28 15:01', '8', '宋斌');
 INSERT INTO `comment` VALUES ('33', '8', '55', ' 趣', '2014-10-28 20:49', '8', '宋斌');
+INSERT INTO `comment` VALUES ('34', '7', '56', 'Fff', '2014-10-30 11:30', '0', '');
+INSERT INTO `comment` VALUES ('36', '8', '56', '拖拉机', '2014-10-30 17:08', '0', '');
 
 -- ----------------------------
 -- Table structure for growth
@@ -93,7 +94,7 @@ CREATE TABLE `growth` (
   `content` varchar(255) DEFAULT NULL,
   `time` varchar(255) NOT NULL,
   PRIMARY KEY (`growth_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth
@@ -120,6 +121,8 @@ INSERT INTO `growth` VALUES ('52', '1', '8', '', '2014-10-27 21:43');
 INSERT INTO `growth` VALUES ('53', '1', '8', '', '2014-10-28 10:17');
 INSERT INTO `growth` VALUES ('54', '1', '8', '', '2014-10-28 11:32');
 INSERT INTO `growth` VALUES ('55', '1', '8', '', '2014-10-28 11:34');
+INSERT INTO `growth` VALUES ('56', '15', '8', '', '2014-10-30 11:05');
+INSERT INTO `growth` VALUES ('57', '15', '8', '', '2014-10-30 11:42');
 
 -- ----------------------------
 -- Table structure for growth_img
@@ -131,7 +134,7 @@ CREATE TABLE `growth_img` (
   `growth_id` int(11) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=275 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=282 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth_img
@@ -197,6 +200,13 @@ INSERT INTO `growth_img` VALUES ('271', '1', '53', 'http://10.6.7.158:8080/Inter
 INSERT INTO `growth_img` VALUES ('272', '1', '54', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-28-11-33-04-1.jpg');
 INSERT INTO `growth_img` VALUES ('273', '1', '55', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-28-11-34-55-1.jpg');
 INSERT INTO `growth_img` VALUES ('274', '1', '55', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-28-11-34-55-2.jpg');
+INSERT INTO `growth_img` VALUES ('275', '15', '56', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-30-11-05-33-1.jpg');
+INSERT INTO `growth_img` VALUES ('276', '15', '56', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-30-11-05-33-2.jpg');
+INSERT INTO `growth_img` VALUES ('277', '15', '56', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-30-11-05-33-3.jpg');
+INSERT INTO `growth_img` VALUES ('278', '15', '56', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-30-11-05-33-4.jpg');
+INSERT INTO `growth_img` VALUES ('279', '15', '56', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-30-11-05-33-5.jpg');
+INSERT INTO `growth_img` VALUES ('280', '15', '56', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-30-11-05-33-6.jpg');
+INSERT INTO `growth_img` VALUES ('281', '15', '57', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-10-30-11-43-14-1.jpg');
 
 -- ----------------------------
 -- Table structure for member_circles
@@ -256,12 +266,14 @@ CREATE TABLE `video` (
   `time` varchar(255) DEFAULT NULL,
   `video_duration` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`video_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of video
 -- ----------------------------
 INSERT INTO `video` VALUES ('7', '8', '1', 'http://10.6.7.158:8080/InterestFriend/video-image/2014-10-27-15-28-54.jpg', 'http://10.6.7.158:8080/InterestFriend/video/2014-10-27-15-28-59.mp4', '1680380', '2014-10-27 15:28', '27400');
+INSERT INTO `video` VALUES ('8', '8', '15', 'http://10.6.7.158:8080/InterestFriend/video-image/2014-10-30-11-37-55.jpg', 'http://10.6.7.158:8080/InterestFriend/video/2014-10-30-11-37-56.mp4', '1680380', '2014-10-30 11:37', '27400');
+INSERT INTO `video` VALUES ('9', '8', '15', 'http://10.6.7.158:8080/InterestFriend/video-image/2014-10-30-14-09-09.jpg', 'http://10.6.7.158:8080/InterestFriend/video/2014-10-30-14-09-13.mp4', '1680380', '2014-10-30 14:08', '27400');
 
 -- ----------------------------
 -- Table structure for video_comment

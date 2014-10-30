@@ -107,10 +107,8 @@ public class GetGrowthListServlet extends HttpServlet {
 				g.setPublisher_id(publisher_id);
 				g.setImages(imgDao.getImagesByGrowthID(cid, growth_id));
 				g.setComments(coDao.getCommentByGrowthID(growth_id));
-				String[] nameAndAvatar = userDao
-						.getUserNameAndAvatar(publisher_id);
-				g.setPublisher_avatar(nameAndAvatar[1]);
-				g.setPublisher_name(nameAndAvatar[0]);
+				g.setPublisher_avatar(res.getString("user_avatar"));
+				g.setPublisher_name(res.getString("user_name"));
 				lists.add(g);
 
 			}

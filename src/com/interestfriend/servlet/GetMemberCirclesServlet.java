@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.Utils.CategoryCircleUtils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.factory.MembersDaoFactory;
@@ -100,7 +101,12 @@ public class GetMemberCirclesServlet extends HttpServlet {
 				circle.setCircle_name(res.getString("circle_name"));
 				circle.setGroup_id(res.getString("group_id"));
 				circle.setCreator_id(res.getInt("creator_id"));
-
+				circle.setCircle_create_time(res
+						.getString("circle_create_time"));
+				circle.setCircle_creator_name(res.getString("user_name"));
+				int category = res.getInt("category");
+				circle.setCircle_category(CategoryCircleUtils
+						.getCateGoryNameByCode(category));
 				circleLists.add(circle);
 			}
 		} catch (SQLException e) {

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,6 +190,9 @@ public class CreateCircleServlet extends HttpServlet {
 			Members member = new Members();
 			member.setCircle_id(cid);
 			member.setUser_id(user_id);
+			long time = DateUtils.getLastUpdateTime();
+			member.setUser_update_time(time);
+			member.setCircle_last_request_time(time);
 			MembersDao daoM = MembersDaoFactory.getInstance();
 			boolean rt = daoM.addMembers(member);
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -200,6 +204,8 @@ public class CreateCircleServlet extends HttpServlet {
 				params.put("group_id", group_id);
 				params.put("circle_id", cid);
 				params.put("rt", 1);
+				params.put("circle_last_request_time", time);
+
 				EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
 
 			}

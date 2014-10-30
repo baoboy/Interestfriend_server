@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.CircleDao;
+import com.interestfriend.Utils.CategoryCircleUtils;
 import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
@@ -79,6 +80,7 @@ public class SearchNearCirclesServlet extends HttpServlet {
 
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
+		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		double longitude = Double.valueOf(request.getParameter("longitude"));
 		double latitude = Double.valueOf(request.getParameter("latitude")
 				.toString());
@@ -91,6 +93,10 @@ public class SearchNearCirclesServlet extends HttpServlet {
 		if (res != null) {
 			try {
 				while (res.next()) {
+					int creator_id = res.getInt("creator_id");
+					if (creator_id == user_id) {
+						continue;
+					}
 					Circle circle = new Circle();
 					circle.setCircle_avatar(res.getString("circle_avatar"));
 					circle.setCircle_description(res
@@ -101,7 +107,13 @@ public class SearchNearCirclesServlet extends HttpServlet {
 					circle.setDistance((int) Utils.getDistanceOfMeter(latitude,
 							longitude, res.getDouble("latitude"),
 							res.getDouble("longitude")));
-					circle.setCreator_id(res.getInt("creator_id"));
+					circle.setCreator_id(creator_id);
+					circle.setCircle_create_time(res
+							.getString("circle_create_time"));
+					circle.setCircle_creator_name(res.getString("user_name"));
+					int category = res.getInt("category");
+					circle.setCircle_category(CategoryCircleUtils
+							.getCateGoryNameByCode(category));
 					circleLists.add(circle);
 				}
 			} catch (SQLException e) {
