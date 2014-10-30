@@ -156,7 +156,7 @@ public class UpLoadVideoServlet extends HttpServlet {
 					Utils.getVideoImage(videoSavePath + fileName,
 							videoImageSavePath);
 
-				}
+				} 
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
