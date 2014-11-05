@@ -18,4 +18,6 @@ public interface UserDao {
 	boolean updateUserAvatar(User user);
 
 	String[] getUserNameAndAvatar(int user_id);
+
+	boolean updataLoginPassword(String cell_phone, String password);
 }

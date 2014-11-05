@@ -17,7 +17,7 @@ public class VideoDaoImpl implements VideoDao {
 		PreparedStatement pstmt = null;
 		int autoIncKeyFromApi = -1;
 
-		String sql = "insert into video(cid,publisher_id,video_img,video_path,video_size,video_duration,time) values(?,?,?,?,?,?,?)";
+		String sql = "insert into video(cid,publisher_id,video_img,video_path,video_size,video_duration,time,video_content) values(?,?,?,?,?,?,?,?)";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -28,6 +28,8 @@ public class VideoDaoImpl implements VideoDao {
 			pstmt.setInt(5, video.getVideo_size());
 			pstmt.setInt(6, video.getVideo_duration());
 			pstmt.setString(7, video.getTime());
+			pstmt.setString(8, video.getVideo_content());
+
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys(); // 获取自增主键！
 			if (rs.next()) {

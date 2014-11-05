@@ -213,4 +213,26 @@ public class UserDaoImpl implements UserDao {
 		return resStr;
 	}
 
+	@Override
+	public boolean updataLoginPassword(String cell_phone, String password) {
+		String sql = "UPDATE user SET user_password = ?  WHERE user_cellphone =?";
+
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setString(1, password);
+			pstmt.setString(2, cell_phone);
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return false;
+	}
+
 }

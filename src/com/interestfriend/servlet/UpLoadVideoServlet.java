@@ -103,17 +103,12 @@ public class UpLoadVideoServlet extends HttpServlet {
 		String serverPath = request.getScheme() + "://"
 				+ request.getServerName() + ":" + request.getServerPort()
 				+ path + "/video/";
-		String imgName = DateUtils.getUpLoadFileName() + ".jpg";
-		String serverImagePath = request.getScheme() + "://"
-				+ request.getServerName() + ":" + request.getServerPort()
-				+ path + "/video-image/" + imgName;
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		String videoSavePath = request.getSession().getServletContext()
 				.getRealPath("/video")
 				+ File.separator;
-		String videoImageSavePath = request.getSession().getServletContext()
-				.getRealPath("/video-image")
-				+ File.separator + imgName;
+		String response_video_path = "";
+		String video_img_path = "";
 		factory.setRepository(new File(videoSavePath));
 		factory.setSizeThreshold(1024 * 1024 * 10);
 		ServletFileUpload upload = new ServletFileUpload(factory);
@@ -134,9 +129,16 @@ public class UpLoadVideoServlet extends HttpServlet {
 				else {
 					// 获取路径名
 					String value = item.getName();
+					System.out.println("path:" + value);
 					String fileName = DateUtils.getUpLoadFileName()
 							+ value.substring(value.lastIndexOf("."));
-					serverPath += fileName;
+					if (fileName.endsWith(".jpg")) {
+						video_img_path = serverPath + fileName;
+						System.out.println(video_img_path);
+					} else {
+						response_video_path = serverPath + fileName;
+					}
+
 					// request.setAttribute(name, filename);
 					/*
 					 * 第三方提供的方法直接写到文件中。 item.write(new File(path,filename));
@@ -153,10 +155,8 @@ public class UpLoadVideoServlet extends HttpServlet {
 					in.close();
 					out.close();
 					item.delete();
-					Utils.getVideoImage(videoSavePath + fileName,
-							videoImageSavePath);
 
-				} 
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -173,18 +173,19 @@ public class UpLoadVideoServlet extends HttpServlet {
 		Video video = new Video();
 		video.setCid(cid);
 		video.setPublisher_id(publisher_id);
-		video.setVideo_img(serverImagePath);
-		video.setVideo_path(serverPath);
+		video.setVideo_img(video_img_path);
+		video.setVideo_path(response_video_path);
 		video.setVideo_duration(Integer.valueOf(request.getAttribute(
 				"video_duration").toString()));
 		video.setVideo_size(Integer.valueOf(request.getAttribute("video_size")
 				.toString()));
+		video.setVideo_content(request.getAttribute("video_content").toString());
 		video.setTime(request.getAttribute("time").toString());
 		VideoDao dao = VideoDaoFactory.getInstances();
 		dao.insertVidoeToDB(video);
 		params.put("rt", 1);
-		params.put("video_path", serverPath);
-		params.put("video_img_path", serverImagePath);
+		params.put("video_path", response_video_path);
+		params.put("video_img_path", video_img_path);
 		outP.print(JsonUtil.toJsonString(params));
 		outP.flush();
 		outP.close();

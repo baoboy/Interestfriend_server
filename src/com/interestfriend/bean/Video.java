@@ -17,6 +17,15 @@ public class Video {
 	private String publisher_name = "";
 	private String publisher_avatar = "";
 	private List<VideoComment> comments = new ArrayList<VideoComment>();
+	private String video_content = "";
+
+	public String getVideo_content() {
+		return video_content;
+	}
+
+	public void setVideo_content(String video_content) {
+		this.video_content = video_content;
+	}
 
 	public List<VideoComment> getComments() {
 		return comments;

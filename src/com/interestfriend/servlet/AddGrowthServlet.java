@@ -142,12 +142,6 @@ public class AddGrowthServlet extends HttpServlet {
 							+ imgIndex
 							+ value.substring(value.length() - 4,
 									value.length());
-					String path_200 = DateUtils.getUpLoadFileName()
-							+ "-"
-							+ imgIndex
-							+ "_200¡Á200"
-							+ value.substring(value.length() - 4,
-									value.length());
 					imgIndex++;
 					GrowthImage image = new GrowthImage();
 					image.setImg_url(serverPath + fileName);

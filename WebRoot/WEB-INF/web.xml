@@ -155,6 +155,20 @@
     <servlet-name>DissolveCircleServlet</servlet-name>
     <servlet-class>com.interestfriend.servlet.DissolveCircleServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>FindPasswordGetVerifyCode</servlet-name>
+    <servlet-class>com.interestfriend.servlet.FindPasswordGetVerifyCode</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateUserLoginPassword</servlet-name>
+    <servlet-class>com.interestfriend.servlet.UpdateUserLoginPassword</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -279,6 +293,14 @@
   <servlet-mapping>
     <servlet-name>DissolveCircleServlet</servlet-name>
     <url-pattern>/servlet/DissolveCircleServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FindPasswordGetVerifyCode</servlet-name>
+    <url-pattern>/servlet/FindPasswordGetVerifyCode</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateUserLoginPassword</servlet-name>
+    <url-pattern>/servlet/UpdateUserLoginPassword</url-pattern>
   </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
