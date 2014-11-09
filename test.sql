@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-11-05 20:54:39
+Date: 2014-11-09 21:25:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,7 @@ CREATE TABLE `circle` (
   `latitude` double(20,7) DEFAULT NULL,
   `circle_create_time` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`circle_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circle
@@ -39,6 +39,8 @@ CREATE TABLE `circle` (
 INSERT INTO `circle` VALUES ('1', '-1', '1412996732230555', '个人show', '官方圈子', 'http://10.6.7.158:8080/InterestFriend/images/2014-09-23-15-37-27.jpg', '1', null, null, '2014-09-16');
 INSERT INTO `circle` VALUES ('15', '8', '141463628670375', '图兔兔', '哦哦OK了了', 'http://10.6.7.158:8080/InterestFriend/circle_images/2014-10-30-10-31-58.jpg', '7', '116.4621530', '39.9207630', null);
 INSERT INTO `circle` VALUES ('16', '8', '1415189419833925', '啦啦啦', '兔兔', 'http://192.168.1.101:8080/InterestFriend/circle_images/2014-11-05-20-10-18.jpg', '9', '116.4619470', '39.8603470', null);
+INSERT INTO `circle` VALUES ('17', '8', '1415274101954601', '阿里郎', '啦咯啦咯啦咯', 'http://192.168.1.101:8080/InterestFriend/circle_images/2014-11-06-19-41-41.jpg', '8', '116.4619610', '39.8603420', null);
+INSERT INTO `circle` VALUES ('18', '8', '1415274330814001', '啦啦啦', '图兔兔', 'http://192.168.1.101:8080/InterestFriend/circle_images/2014-11-06-19-45-31.jpg', '8', '116.4619610', '39.8603420', null);
 
 -- ----------------------------
 -- Table structure for circlemembers
@@ -53,14 +55,17 @@ CREATE TABLE `circlemembers` (
   `circle_last_request_time` bigint(20) DEFAULT NULL,
   `circle_state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circlemembers
 -- ----------------------------
 INSERT INTO `circlemembers` VALUES ('74', '8', '15', '1415190286886', 'DEL', '1415190286886', 'DEL');
 INSERT INTO `circlemembers` VALUES ('75', '7', '15', '1414639315164', 'ADD', '1414639315164', 'ADD');
-INSERT INTO `circlemembers` VALUES ('76', '8', '16', '1415189421395', 'ADD', '1415189421395', 'ADD');
+INSERT INTO `circlemembers` VALUES ('76', '8', '16', '1415273972423', 'DEL', '1415273972423', 'DEL');
+INSERT INTO `circlemembers` VALUES ('77', '8', '17', '1415274109892', 'DEL', '1415274109892', 'DEL');
+INSERT INTO `circlemembers` VALUES ('78', '8', '1', '1415274266903', 'ADD', '1415274266903', 'ADD');
+INSERT INTO `circlemembers` VALUES ('79', '8', '18', '1415274332240', 'ADD', '1415274332240', 'ADD');
 
 -- ----------------------------
 -- Table structure for comment
@@ -100,7 +105,7 @@ CREATE TABLE `growth` (
   `content` varchar(255) DEFAULT NULL,
   `time` varchar(255) NOT NULL,
   PRIMARY KEY (`growth_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth
@@ -135,6 +140,13 @@ INSERT INTO `growth` VALUES ('60', '15', '8', '图兔兔', '2014-11-04 21:08');
 INSERT INTO `growth` VALUES ('61', '16', '8', '', '2014-11-05 20:25');
 INSERT INTO `growth` VALUES ('62', '16', '8', '', '2014-11-05 20:47');
 INSERT INTO `growth` VALUES ('63', '16', '8', '', '2014-11-05 20:49');
+INSERT INTO `growth` VALUES ('64', '16', '8', '体力活', '2014-11-06 19:07');
+INSERT INTO `growth` VALUES ('65', '16', '8', '', '2014-11-06 19:09');
+INSERT INTO `growth` VALUES ('66', '16', '8', '', '2014-11-06 19:13');
+INSERT INTO `growth` VALUES ('67', '1', '8', 'hjh', '2014-11-07 21:51');
+INSERT INTO `growth` VALUES ('68', '18', '8', '', '2014-11-07 21:51');
+INSERT INTO `growth` VALUES ('69', '18', '8', '', '2014-11-07 21:52');
+INSERT INTO `growth` VALUES ('70', '1', '8', '', '2014-11-07 21:52');
 
 -- ----------------------------
 -- Table structure for growth_img
@@ -146,7 +158,7 @@ CREATE TABLE `growth_img` (
   `growth_id` int(11) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=309 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=316 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth_img
@@ -246,6 +258,13 @@ INSERT INTO `growth_img` VALUES ('305', '16', '62', 'http://192.168.1.101:8080/I
 INSERT INTO `growth_img` VALUES ('306', '16', '62', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-05-20-47-48-8.jpg');
 INSERT INTO `growth_img` VALUES ('307', '16', '62', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-05-20-47-48-9.jpg');
 INSERT INTO `growth_img` VALUES ('308', '16', '63', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-05-20-49-30-1.jpg');
+INSERT INTO `growth_img` VALUES ('309', '16', '64', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-06-19-07-29-1.jpg');
+INSERT INTO `growth_img` VALUES ('310', '16', '65', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-06-19-09-56-1.jpg');
+INSERT INTO `growth_img` VALUES ('311', '16', '66', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-06-19-13-28-1.jpg');
+INSERT INTO `growth_img` VALUES ('312', '1', '67', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-07-21-51-04-1.jpg');
+INSERT INTO `growth_img` VALUES ('313', '18', '68', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-07-21-51-21-1.jpg');
+INSERT INTO `growth_img` VALUES ('314', '18', '69', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-07-21-52-32-1.jpg');
+INSERT INTO `growth_img` VALUES ('315', '1', '70', 'http://192.168.1.101:8080/InterestFriend/growth-image/2014-11-07-21-52-48-1.jpg');
 
 -- ----------------------------
 -- Table structure for member_circles

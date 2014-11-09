@@ -15,6 +15,7 @@ import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
+import com.interestfriend.huanxin.EasemobGroupMessage;
 
 public class DissolveCircleServlet extends HttpServlet {
 
@@ -74,6 +75,7 @@ public class DissolveCircleServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
+		String group_id = request.getParameter("group_id");
 		Members member = new Members();
 		member.setCircle_id(circle_id);
 		member.setUser_id(user_id);
@@ -97,6 +99,7 @@ public class DissolveCircleServlet extends HttpServlet {
 		out.print(params);
 		out.flush();
 		out.close();
+		EasemobGroupMessage.deleteChatGroups(group_id);
 	}
 
 	/**

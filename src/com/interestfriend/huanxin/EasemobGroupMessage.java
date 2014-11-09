@@ -1,5 +1,6 @@
 package com.interestfriend.huanxin;
 
+import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 群聊天信息和用户管理
@@ -180,4 +183,48 @@ public class EasemobGroupMessage {
 		System.out.println("result:" + result);
 	}
 
+	public static void deleteChatGroups(String groupid) {
+		String token = EasemobUserAPI.getOrgToken();
+		try {
+			deleteChatGroups(EasemobConstans.APP_KEY, token, groupid);
+		} catch (KeyManagementException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 删除群组
+	 * 
+	 * @param appkey
+	 * @param groupid
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyManagementException
+	 * @throws IOException
+	 * @throws JsonProcessingException
+	 */
+	private static void deleteChatGroups(String appkey, String admin_token,
+			String groupid) throws KeyManagementException,
+			NoSuchAlgorithmException, JsonProcessingException, IOException {
+
+		String httpUrl = "https://a1.easemob.com/"
+				+ appkey.replaceFirst("#", "/") + "/chatgroups/" + groupid;
+
+		String result = HttpsUtils.sendSSLRequest(httpUrl, admin_token, null,
+				HttpsUtils.Method_DELETE);
+
+		JsonNode resultNode = new ObjectMapper().readTree(result).get("data");
+		if (resultNode.has("groupid")) {
+			System.out.println("groupid:" + resultNode.get("groupid").asText());
+			System.out.println("success:" + resultNode.get("success").asText());
+		} else {
+			System.out.println("error ");
+		}
+
+	}
 }
