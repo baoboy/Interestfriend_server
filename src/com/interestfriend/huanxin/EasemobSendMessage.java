@@ -190,7 +190,9 @@ public class EasemobSendMessage {
 	}
 
 	public static void sendMessageForJoinCircle(String textContent,
-			String to_user_id) {
+			String to_user_id, int join_circle_id,
+			int request_join_circle_user_id, String group_id,
+			String huanxin_userName, String join_circle_name) {
 		try {
 			String token = getAccessToken(EasemobConstans.APP_KEY,
 					EasemobConstans.USER_NAME, EasemobConstans.PASSWORD);
@@ -207,6 +209,55 @@ public class EasemobSendMessage {
 			msgBody.put("msg", textContent);
 			body.put("msg", msgBody);
 			body.put("from", "joincircle");
+			Map<String, String> extBody = new HashMap<String, String>();
+			extBody.put("join_circle_id", join_circle_id + "");
+			extBody.put("request_join_circle_user_id",
+					request_join_circle_user_id + "");
+			extBody.put("group_id", group_id);
+			extBody.put("huanxin_userName", huanxin_userName);
+			extBody.put("join_circle_name", join_circle_name);
+			extBody.put("user_name", "趣友");
+			extBody.put("user_avatar", "");
+			body.put("ext", extBody);
+			Client client = getClient(true);
+			WebTarget target = ((javax.ws.rs.client.Client) client)
+					.target(httpUrl);
+			Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
+					.header("Authorization", "Bearer " + token)
+					.buildPost(Entity.json(body)).invoke();
+			String resultMsg = response.readEntity(String.class);
+			System.out.println("resultMsg:" + resultMsg);
+		} catch (KeyManagementException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void sendMessageForReceiveJoinCircle(String textContent,
+			String to_user_id) {
+		try {
+			String token = getAccessToken(EasemobConstans.APP_KEY,
+					EasemobConstans.USER_NAME, EasemobConstans.PASSWORD);
+			String httpUrl = "https://a1.easemob.com/"
+					+ EasemobConstans.APP_KEY.replaceFirst("#", "/")
+					+ "/messages";
+			List<String> toUsernames = new ArrayList<String>();
+			toUsernames.add(to_user_id);
+			Map<String, Object> body = new HashMap<String, Object>();
+			body.put("target_type", "users");
+			body.put("target", toUsernames);
+			Map<String, String> msgBody = new HashMap<String, String>();
+			msgBody.put("type", "txt");
+			msgBody.put("msg", textContent);
+			body.put("msg", msgBody);
+			body.put("from", "receivejoincircle");
+			Map<String, String> extBody = new HashMap<String, String>();
+			extBody.put("user_name", "趣友");
+			extBody.put("user_avatar", "");
+			body.put("ext", extBody);
 			Client client = getClient(true);
 			WebTarget target = ((javax.ws.rs.client.Client) client)
 					.target(httpUrl);
