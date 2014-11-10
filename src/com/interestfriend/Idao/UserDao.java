@@ -20,4 +20,6 @@ public interface UserDao {
 	String[] getUserNameAndAvatar(int user_id);
 
 	boolean updataLoginPassword(String cell_phone, String password);
+
+	String findUserChatIDByUserID(int user_id);
 }

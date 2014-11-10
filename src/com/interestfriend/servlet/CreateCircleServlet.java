@@ -185,6 +185,7 @@ public class CreateCircleServlet extends HttpServlet {
 			circle.setCategory(Integer.valueOf(category));
 			circle.setLatitude(latitude);
 			circle.setLongitude(longitude);
+			circle.setCircle_create_time(DateUtils.getRegisterTime());
 			CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 			int cid = dao.insertCircleToDB(circle);
 			Members member = new Members();

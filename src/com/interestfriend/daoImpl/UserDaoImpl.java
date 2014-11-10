@@ -15,7 +15,7 @@ public class UserDaoImpl implements UserDao {
 
 	public boolean insertUserToDB(User user) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String addSQL = "insert into USER(user_name,user_cellphone,user_password,user_gender,user_avatar,user_birthday,user_register_time,user_last_update_time,user_sort_key,user_pinyin_str) values(?,?,?,?,?,?,?,?,?,?)";
+		String addSQL = "insert into USER(user_name,user_cellphone,user_password,user_gender,user_avatar,user_birthday,user_register_time,user_last_update_time,user_sort_key,user_pinyin_str,user_chat_id) values(?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
@@ -29,6 +29,7 @@ public class UserDaoImpl implements UserDao {
 			pstmt.setLong(8, user.getUserLastUpdateTime());
 			pstmt.setString(9, user.getSortKey());
 			pstmt.setString(10, user.getPinYinFir());
+			pstmt.setString(11, user.getUserChatId());
 
 			int count = pstmt.executeUpdate(); // 执行更新
 			return count > 0;
@@ -233,6 +234,28 @@ public class UserDaoImpl implements UserDao {
 			DBConnection.close(pstmt); // 关闭预处理对象
 		}
 		return false;
+	}
+
+	@Override
+	public String findUserChatIDByUserID(int user_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		String sql = "select user_chat_id from user where user_id = ? ";
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setInt(1, user_id);
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				return rs.getString("user_chat_id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(rs); // 关闭结果集对象
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return "";
 	}
 
 }

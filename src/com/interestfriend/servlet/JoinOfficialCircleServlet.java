@@ -11,12 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.Idao.RequestJoinCircleDao;
+import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.DateUtils;
-import com.interestfriend.Utils.MD5;
 import com.interestfriend.bean.Members;
+import com.interestfriend.bean.RequestJoinCircle;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
+import com.interestfriend.factory.RequestJoinCircleDaoFactory;
+import com.interestfriend.factory.UserDaoFactory;
 import com.interestfriend.huanxin.EasemobGroupMessage;
+import com.interestfriend.huanxin.EasemobSendMessage;
 
 public class JoinOfficialCircleServlet extends HttpServlet {
 
@@ -75,7 +80,12 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
+		String user_name = request.getParameter("user_name");
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
+		String circle_name = request.getParameter("circle_name");
+		int circle_creator = Integer.valueOf(request
+				.getParameter("circle_creator"));
+		System.out.println(circle_creator);
 		String group_id = request.getParameter("group_id");
 		String huanxin_userName = request.getParameter("huanxin_username");//
 		long lastReqTime = DateUtils.getLastUpdateTime();
@@ -102,6 +112,20 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 		out.print(params);
 		out.flush();
 		out.close();
+		if (!rt) {
+			return;
+		}
+		RequestJoinCircleDao rDAO = RequestJoinCircleDaoFactory.getInstance();
+		RequestJoinCircle rCircle = new RequestJoinCircle();
+		rCircle.setJoin_circle_creator_id(circle_creator);
+		rCircle.setJoin_circle_id(circle_id);
+		rCircle.setRequest_join_circle_user_id(user_id);
+		rDAO.requestJoinCircle(rCircle);
+		UserDao uDao = UserDaoFactory.getUserDaoInstance();
+		String user_chat_id = uDao.findUserChatIDByUserID(circle_creator);
+		EasemobSendMessage.sendMessageForJoinCircle("'" + user_name + "'"
+				+ " 请求加入您创建的   ’" + circle_name + "‘  圈子", user_chat_id);
+
 	}
 
 	/**
@@ -111,7 +135,6 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 	 *             if an error occurs
 	 */
 	public void init() throws ServletException {
-		// Put your code here
 	}
 
 }

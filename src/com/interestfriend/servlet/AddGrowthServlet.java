@@ -200,11 +200,11 @@ public class AddGrowthServlet extends HttpServlet {
 			out.print(jsonObjectFromMap.toString());
 			out.flush();
 			out.close();
-			if (growth_id > 0) {
-				CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
-				String group_id = dao.getGroupIdByCircleID(cid);
-				EasemobSendMessage.sendGroupMessage(group_id, publisher_id);
-			}
+			// if (growth_id > 0) {
+			// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
+			// String group_id = dao.getGroupIdByCircleID(cid);
+			// EasemobSendMessage.sendGroupMessage(group_id, publisher_id);
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
