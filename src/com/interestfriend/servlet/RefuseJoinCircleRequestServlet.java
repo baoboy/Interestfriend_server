@@ -10,20 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.interestfriend.Idao.MembersDao;
-import com.interestfriend.Utils.DateUtils;
-import com.interestfriend.bean.Members;
-import com.interestfriend.enums.ErrorEnum;
-import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
 import com.interestfriend.huanxin.EasemobSendMessage;
 
-public class DissolveCircleServlet extends HttpServlet {
+public class RefuseJoinCircleRequestServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public DissolveCircleServlet() {
+	public RefuseJoinCircleRequestServlet() {
 		super();
 	}
 
@@ -52,7 +46,19 @@ public class DissolveCircleServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doPost(request, response);
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		out.println("<HTML>");
+		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+		out.println("  <BODY>");
+		out.print("    This is ");
+		out.print(this.getClass());
+		out.println(", using the GET method");
+		out.println("  </BODY>");
+		out.println("</HTML>");
+		out.flush();
+		out.close();
 	}
 
 	/**
@@ -72,38 +78,20 @@ public class DissolveCircleServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
-		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
-		String group_id = request.getParameter("group_id");
-		String circle_name = request.getParameter("circle_name");
-		Members member = new Members();
-		member.setCircle_id(circle_id);
-		member.setUser_id(user_id);
-		member.setCircle_state("DEL");
-		member.setUser_state("DEL");
-		long lastReqTime = DateUtils.getLastUpdateTime();
-		member.setUser_update_time(lastReqTime);
-		MembersDao dao = MembersDaoFactory.getInstance();
-		boolean rt = dao.kickOutMemaber(member);
-		member.setCircle_last_request_time(lastReqTime);
-		dao.updateCircleLastRequestTimeAndState(member);
+		String huanxin_userName = request
+				.getParameter("request_join_circle_user_huanxin_username");
+		String join_circle_name = request.getParameter("join_circle_name");
+		EasemobSendMessage.sendMessageForFefuseJoinCircle("创建者拒绝您加入  ‘"
+				+ join_circle_name + "'", huanxin_userName);
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (!rt) {
-			params.put("err", ErrorEnum.INVALID.name());
-			params.put("rt", 0);
-		} else {
-			params.put("rt", 1);
-			params.put("lastReqTime", lastReqTime);
-		}
+		params.put("rt", 1);
 		PrintWriter out = response.getWriter();
 		out.print(params);
 		out.flush();
 		out.close();
-		EasemobSendMessage.sendTextMessageForDissolve(group_id, "'"
-				+ circle_name + "' 已被解散", circle_id + "");
-		EasemobGroupMessage.deleteChatGroups(group_id);
 	}
 
 	/**

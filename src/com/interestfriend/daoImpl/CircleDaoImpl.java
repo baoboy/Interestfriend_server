@@ -130,9 +130,28 @@ public class CircleDaoImpl implements CircleDao {
 			rs = pstmt.executeQuery(); // 执行查询
 		} catch (Exception e) {
 		} finally {
-			// DBConnection.close(rs); // 关闭结果集对象
-			// DBConnection.close(pstmt);
 		}
 		return rs;
+	}
+
+	@Override
+	public boolean updateCircleDiscreption(Circle circle) {
+		String sql = "UPDATE circle SET circle_description = ?  WHERE circle_id =?";
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setString(1, circle.getCircle_description());
+			pstmt.setInt(2, circle.getCircle_id());
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return false;
 	}
 }

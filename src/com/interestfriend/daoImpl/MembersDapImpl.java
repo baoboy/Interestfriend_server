@@ -166,8 +166,7 @@ public class MembersDapImpl implements MembersDao {
 	public boolean updateCircleLastRequestTimeAndState(Members member) {
 		String sql = "UPDATE circlemembers SET  circle_last_request_time ="
 				+ member.getCircle_last_request_time() + ",circle_state= '"
-				+ member.getCircle_state() + "' WHERE user_id ="
-				+ member.getUser_id() + " and circle_id ="
+				+ member.getCircle_state() + "' WHERE circle_id ="
 				+ member.getCircle_id();
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象

@@ -16,4 +16,5 @@ public interface CircleDao {
 	ResultSet findCirclesByLongitudeAndLatitude(double longitude,
 			double latitude); // 按经纬度查找附近圈子
 
+	boolean updateCircleDiscreption(Circle circle); // 修改圈子描述
 }

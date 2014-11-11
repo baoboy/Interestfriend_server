@@ -10,20 +10,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.interestfriend.Idao.CircleDao;
 import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.DateUtils;
+import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.bean.Circle;
 import com.interestfriend.bean.Members;
+import com.interestfriend.enums.CircleStatus;
 import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.CircleDaoFactory;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.factory.UserDaoFactory;
 
-public class DissolveCircleServlet extends HttpServlet {
+public class UpdateCircleDiscirptionServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public DissolveCircleServlet() {
+	public UpdateCircleDiscirptionServlet() {
 		super();
 	}
 
@@ -52,7 +57,19 @@ public class DissolveCircleServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doPost(request, response);
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		out.println("<HTML>");
+		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+		out.println("  <BODY>");
+		out.print("    This is ");
+		out.print(this.getClass());
+		out.println(", using the GET method");
+		out.println("  </BODY>");
+		out.println("</HTML>");
+		out.flush();
+		out.close();
 	}
 
 	/**
@@ -72,38 +89,34 @@ public class DissolveCircleServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html");
-		request.setCharacterEncoding("utf-8");
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
+
+		response.setContentType("text/html; charset=utf-8");
+		request.setCharacterEncoding("utf8");
+		String circle_description = request.getParameter("circle_description");
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
-		String group_id = request.getParameter("group_id");
-		String circle_name = request.getParameter("circle_name");
-		Members member = new Members();
-		member.setCircle_id(circle_id);
-		member.setUser_id(user_id);
-		member.setCircle_state("DEL");
-		member.setUser_state("DEL");
-		long lastReqTime = DateUtils.getLastUpdateTime();
-		member.setUser_update_time(lastReqTime);
-		MembersDao dao = MembersDaoFactory.getInstance();
-		boolean rt = dao.kickOutMemaber(member);
-		member.setCircle_last_request_time(lastReqTime);
-		dao.updateCircleLastRequestTimeAndState(member);
+		Circle circle = new Circle();
+		circle.setCircle_description(circle_description);
+		circle.setCircle_id(circle_id);
+		CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
+		boolean isSuccess = dao.updateCircleDiscreption(circle);
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (!rt) {
+		if (!isSuccess) {
 			params.put("err", ErrorEnum.INVALID.name());
 			params.put("rt", 0);
 		} else {
-			params.put("rt", 1);
-			params.put("lastReqTime", lastReqTime);
+			params.put("err", 1);
+			Members member = new Members();
+			member.setCircle_id(circle_id);
+			member.setCircle_state(CircleStatus.UPDATE.name());
+			long lastReqTime = DateUtils.getLastUpdateTime();
+			member.setUser_update_time(lastReqTime);
+			MembersDao mdao = MembersDaoFactory.getInstance();
+			mdao.updateCircleLastRequestTimeAndState(member);
 		}
 		PrintWriter out = response.getWriter();
-		out.print(params);
+		out.print(JsonUtil.toJsonString(params));
 		out.flush();
 		out.close();
-		EasemobSendMessage.sendTextMessageForDissolve(group_id, "'"
-				+ circle_name + "' “—±ªΩ‚…¢", circle_id + "");
-		EasemobGroupMessage.deleteChatGroups(group_id);
 	}
 
 	/**
