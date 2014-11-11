@@ -109,7 +109,7 @@ public class UpdateCircleDiscirptionServlet extends HttpServlet {
 			member.setCircle_id(circle_id);
 			member.setCircle_state(CircleStatus.UPDATE.name());
 			long lastReqTime = DateUtils.getLastUpdateTime();
-			member.setUser_update_time(lastReqTime);
+			member.setCircle_last_request_time(lastReqTime);
 			MembersDao mdao = MembersDaoFactory.getInstance();
 			mdao.updateCircleLastRequestTimeAndState(member);
 		}

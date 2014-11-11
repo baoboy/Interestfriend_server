@@ -119,7 +119,7 @@ public class CircleDaoImpl implements CircleDao {
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 
-		String findByIDSQL = "select * from circle where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?"; // SQL语句
+		String findByIDSQL = "select circle.*,user.user_name from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id"; // SQL语句
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setDouble(1, minLat);
