@@ -68,11 +68,42 @@ public class GrowthDaoImpl implements GrowthDao {
 
 	@Override
 	public int getGorwthPraiseCount(int growth_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+
+		String findByIDSQL = "select praise_count from growth where growth_id = ?"; // SQL语句
+		try {
+			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
+			pstmt.setInt(1, growth_id); // 设置参数
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				return rs.getInt("praise_count");
+			}
+		} catch (Exception e) {
+		} finally {
+			DBConnection.close(rs); // 关闭结果集对象
+			DBConnection.close(pstmt);
+		}
 		return 0;
 	}
 
 	@Override
-	public boolean updateGrowthPraiseCount(int growth_id) {
+	public boolean updateGrowthPraiseCount(int growth_id, int praise_count) {
+		String sql = "UPDATE growth SET praise_count = ?  WHERE growth_id =?";
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setInt(1, praise_count);
+			pstmt.setInt(2, growth_id);
+			int res = pstmt.executeUpdate(); // 执行查询
+			return res > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
 		return false;
 	}
 
@@ -82,7 +113,7 @@ public class GrowthDaoImpl implements GrowthDao {
 	}
 
 	@Override
-	public boolean updateGrowthCommentCount(int growth_id) {
+	public boolean updateGrowthCommentCount(int growth_id, int praise_count) {
 		return false;
 	}
 }

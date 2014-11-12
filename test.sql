@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-11-12 16:56:30
+Date: 2014-11-12 22:22:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -95,9 +95,8 @@ CREATE TABLE `growth` (
 -- ----------------------------
 -- Records of growth
 -- ----------------------------
-INSERT INTO `growth` VALUES ('1', '1', '8', '', '2014-11-12 15:05', null);
-INSERT INTO `growth` VALUES ('2', '1', '8', '咯用陌陌', '2014-11-12 15:05', null);
-INSERT INTO `growth` VALUES ('3', '1', '8', '凑四个has摸', '2014-11-12 15:06', null);
+INSERT INTO `growth` VALUES ('1', '1', '8', '', '2014-11-12 15:05', '14');
+INSERT INTO `growth` VALUES ('2', '1', '8', '咯用陌陌', '2014-11-12 15:05', '6');
 
 -- ----------------------------
 -- Table structure for growth_img
@@ -131,15 +130,18 @@ INSERT INTO `growth_img` VALUES ('11', '1', '2', 'http://10.6.7.158:8080/Interes
 -- ----------------------------
 DROP TABLE IF EXISTS `growth_praise`;
 CREATE TABLE `growth_praise` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `growth_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth_praise
 -- ----------------------------
+INSERT INTO `growth_praise` VALUES ('9', '8', '2');
+INSERT INTO `growth_praise` VALUES ('10', '8', '2');
+INSERT INTO `growth_praise` VALUES ('11', '8', '2');
 
 -- ----------------------------
 -- Table structure for member_circles

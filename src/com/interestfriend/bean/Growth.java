@@ -13,6 +13,24 @@ public class Growth {
 	private List<Comment> comments = new ArrayList<Comment>();
 	private String publisher_name = "";
 	private String publisher_avatar = "";
+	private int isPraise;// 1 ÔŞ 0Î´ÔŞ
+	private int praise_count;
+
+	public int getPraise_count() {
+		return praise_count;
+	}
+
+	public void setPraise_count(int praise_count) {
+		this.praise_count = praise_count;
+	}
+
+	public int getIsPraise() {
+		return isPraise;
+	}
+
+	public void setIsPraise(int isPraise) {
+		this.isPraise = isPraise;
+	}
 
 	public int getGrowth_id() {
 		return growth_id;

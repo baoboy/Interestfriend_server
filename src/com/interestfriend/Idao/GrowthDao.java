@@ -11,9 +11,9 @@ public interface GrowthDao {
 
 	int getGorwthPraiseCount(int growth_id);// 获取赞的数量
 
-	boolean updateGrowthPraiseCount(int growth_id);// 更新赞的数量
+	boolean updateGrowthPraiseCount(int growth_id, int praise_count);// 更新赞的数量
 
 	int getGorwthCommentCount(int growth_id);// 获取评论数量
 
-	boolean updateGrowthCommentCount(int growth_id);// 更新评论数量
+	boolean updateGrowthCommentCount(int growth_id, int praise_count);// 更新评论数量
 }
