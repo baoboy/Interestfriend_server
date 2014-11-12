@@ -21,6 +21,8 @@ import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.bean.User;
 import com.interestfriend.db.DBConnection;
+import com.interestfriend.enums.CircleStatus;
+import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
 
 public class GetMembersByCircleIDServlet extends HttpServlet {
@@ -81,13 +83,24 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
+		Map<String, Object> params = new HashMap<String, Object>();
 
 		int cid = Integer.valueOf(request.getParameter("circle_id"));
 		long lastReqTime = Long.valueOf(request.getParameter("lastReqTime"));
 
 		System.out.println(cid + "       " + lastReqTime);
-		// CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		MembersDao dao = MembersDaoFactory.getInstance();
+		CircleStatus status = dao.findCircleStatus(cid);
+		if (status == CircleStatus.DEL) {
+			params.put("rt", 0);
+			params.put("err", ErrorEnum.CIRCLE_ALERADY_DISSOLVE.name());
+			JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
+			PrintWriter out = response.getWriter();
+			out.print(jsonObjectFromMap.toString());
+			out.flush();
+			out.close();
+			return;
+		}
 		ResultSet res = dao.findMembersByCircleID(cid, lastReqTime);
 		List<User> userLists = new ArrayList<User>();
 		try {
@@ -114,7 +127,6 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 		} finally {
 			DBConnection.close(res);
 		}
-		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("members", userLists);
 		params.put("rt", 1);
 		params.put("lastReqTime", DateUtils.getLastUpdateTime());

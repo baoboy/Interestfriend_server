@@ -3,6 +3,7 @@ package com.interestfriend.Idao;
 import java.sql.ResultSet;
 
 import com.interestfriend.bean.Members;
+import com.interestfriend.enums.CircleStatus;
 
 public interface MembersDao {
 	boolean addMembers(Members member);
@@ -17,4 +18,5 @@ public interface MembersDao {
 
 	boolean updateCircleLastRequestTimeAndState(Members member);
 
+	CircleStatus findCircleStatus(int circle_id);
 }

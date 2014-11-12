@@ -10,6 +10,7 @@ import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.PinYinUtil;
 import com.interestfriend.bean.Members;
 import com.interestfriend.db.DBConnection;
+import com.interestfriend.enums.CircleStatus;
 
 public class MembersDapImpl implements MembersDao {
 
@@ -182,5 +183,25 @@ public class MembersDapImpl implements MembersDao {
 			DBConnection.close(pstmt); // 关闭预处理对象
 		}
 		return false;
+	}
+
+	@Override
+	public CircleStatus findCircleStatus(int circle_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		String findByIDSQL = "select circle_state from circlemembers where circle_id=? ";
+		try {
+			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
+			pstmt.setInt(1, circle_id); // 设置参数
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				return CircleStatus.convert(rs.getString("circle_state"));
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+		}
+		return CircleStatus.INVALID;
 	}
 }

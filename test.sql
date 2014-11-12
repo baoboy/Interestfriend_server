@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-11-10 17:29:00
+Date: 2014-11-12 16:56:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,13 +31,12 @@ CREATE TABLE `circle` (
   `latitude` double(20,7) DEFAULT NULL,
   `circle_create_time` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`circle_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circle
 -- ----------------------------
-INSERT INTO `circle` VALUES ('1', '-1', '1412996732230555', '个人show', '官方圈子', 'http://10.6.7.158:8080/InterestFriend/images/2014-09-23-15-37-27.jpg', '1', null, null, '2014-09-16');
-INSERT INTO `circle` VALUES ('20', '8', '1415590692685562', '每日一图', '分享自己的美图吧小伙伴们', 'http://10.6.7.158:8080/InterestFriend/circle_images/2014-11-10-11-38-46.jpg', '8', '116.4621940', '39.9206160', '2014-11-10');
+INSERT INTO `circle` VALUES ('1', '-1', '1412996732230555', '个人show', '官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子', 'http://10.6.7.158:8080/InterestFriend/images/2014-09-23-15-37-27.jpg', '1', null, null, '2014-09-16');
 
 -- ----------------------------
 -- Table structure for circlemembers
@@ -52,15 +51,13 @@ CREATE TABLE `circlemembers` (
   `circle_last_request_time` bigint(20) DEFAULT NULL,
   `circle_state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circlemembers
 -- ----------------------------
 INSERT INTO `circlemembers` VALUES ('80', '7', '1', '1415586508341', 'ADD', '1415586508341', 'ADD');
-INSERT INTO `circlemembers` VALUES ('81', '8', '1', '1415586523304', 'ADD', '1415586523304', 'ADD');
-INSERT INTO `circlemembers` VALUES ('83', '8', '20', '1415590728559', 'ADD', '1415590728559', 'ADD');
-INSERT INTO `circlemembers` VALUES ('89', '7', '20', '1415611596505', 'ADD', '1415611596505', 'ADD');
+INSERT INTO `circlemembers` VALUES ('81', '8', '1', '1415694565546', 'UPDATE', '1415586523304', 'ADD');
 
 -- ----------------------------
 -- Table structure for comment
@@ -75,7 +72,7 @@ CREATE TABLE `comment` (
   `reply_someone_id` int(11) DEFAULT NULL,
   `reply_someone_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of comment
@@ -90,13 +87,17 @@ CREATE TABLE `growth` (
   `cid` int(11) DEFAULT NULL,
   `publisher_id` int(11) DEFAULT NULL,
   `content` varchar(255) DEFAULT NULL,
-  `time` varchar(255) NOT NULL,
+  `time` varchar(255) DEFAULT NULL,
+  `praise_count` int(11) DEFAULT NULL,
   PRIMARY KEY (`growth_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth
 -- ----------------------------
+INSERT INTO `growth` VALUES ('1', '1', '8', '', '2014-11-12 15:05', null);
+INSERT INTO `growth` VALUES ('2', '1', '8', '咯用陌陌', '2014-11-12 15:05', null);
+INSERT INTO `growth` VALUES ('3', '1', '8', '凑四个has摸', '2014-11-12 15:06', null);
 
 -- ----------------------------
 -- Table structure for growth_img
@@ -108,10 +109,36 @@ CREATE TABLE `growth_img` (
   `growth_id` int(11) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=316 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth_img
+-- ----------------------------
+INSERT INTO `growth_img` VALUES ('1', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-1.jpg');
+INSERT INTO `growth_img` VALUES ('2', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-2.jpg');
+INSERT INTO `growth_img` VALUES ('3', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-3.jpg');
+INSERT INTO `growth_img` VALUES ('4', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-4.jpg');
+INSERT INTO `growth_img` VALUES ('5', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-5.jpg');
+INSERT INTO `growth_img` VALUES ('6', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-6.jpg');
+INSERT INTO `growth_img` VALUES ('7', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-7.jpg');
+INSERT INTO `growth_img` VALUES ('8', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-8.jpg');
+INSERT INTO `growth_img` VALUES ('9', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-9.jpg');
+INSERT INTO `growth_img` VALUES ('10', '1', '2', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-51-1.jpg');
+INSERT INTO `growth_img` VALUES ('11', '1', '2', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-51-2.jpg');
+
+-- ----------------------------
+-- Table structure for growth_praise
+-- ----------------------------
+DROP TABLE IF EXISTS `growth_praise`;
+CREATE TABLE `growth_praise` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `growth_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of growth_praise
 -- ----------------------------
 
 -- ----------------------------
@@ -172,7 +199,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 INSERT INTO `user` VALUES ('-1', '趣友', null, '', '', '', '', '', '', '', '', '', '');
 INSERT INTO `user` VALUES ('7', '短短的', '13165146101', '13165146101', '123456', '男', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-11-11-12-17.jpg', 'duanduande', 'ddd', '2014-09-11 ', null, null);
-INSERT INTO `user` VALUES ('8', '宋斌', '18560133195', '18560133195', '123456', '女', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-28-16-53-16.jpg', 'songbin', 'sb ', '2014-10-07 ', 'g法国嘎嘎嘎是鼎飞丹砂是对方公司的鬼地方是对方公司的分公司答复是对方公司的分公司答复公司的法规到分公司答复嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦啦啦', '24若非等人');
+INSERT INTO `user` VALUES ('8', '宋斌彬', '18560133195', '18560133195', '123456', '女', '2014-9-11', 'http://10.6.7.158:8080/InterestFriend/user-avatar/2014-10-28-16-53-16.jpg', 'songbinbin', 'sbb ', '2014-10-07 ', 'g法国嘎嘎嘎是鼎飞丹砂是对方公司的鬼地方是对方公司的分公司答复是对方公司的分公司答复公司的法规到分公司答复嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦g法国嘎嘎嘎嘎股份公司啦啦啦啦啦', '24若非等人www五我');
 
 -- ----------------------------
 -- Table structure for video
@@ -189,7 +216,7 @@ CREATE TABLE `video` (
   `video_duration` varchar(255) DEFAULT NULL,
   `video_content` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`video_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of video
@@ -208,7 +235,7 @@ CREATE TABLE `video_comment` (
   `reply_someone_name` varchar(255) DEFAULT NULL,
   `reply_someone_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of video_comment
