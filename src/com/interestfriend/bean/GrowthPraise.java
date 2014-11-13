@@ -3,6 +3,15 @@ package com.interestfriend.bean;
 public class GrowthPraise {
 	private int user_id;
 	private int growth_id;
+	private String user_avatar = "";
+
+	public String getUser_avatar() {
+		return user_avatar;
+	}
+
+	public void setUser_avatar(String user_avatar) {
+		this.user_avatar = user_avatar;
+	}
 
 	public int getUser_id() {
 		return user_id;

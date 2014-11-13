@@ -115,6 +115,7 @@ public class GetGrowthListServlet extends HttpServlet {
 				g.setPublisher_avatar(res.getString("user_avatar"));
 				g.setPublisher_name(res.getString("user_name"));
 				g.setPraise_count(res.getInt("praise_count"));
+				g.setPraises(gDao.findPraiseUserByGrowthID(growth_id));
 				lists.add(g);
 
 			}

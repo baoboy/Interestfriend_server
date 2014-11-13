@@ -15,6 +15,15 @@ public class Growth {
 	private String publisher_avatar = "";
 	private int isPraise;// 1 ÔŞ 0Î´ÔŞ
 	private int praise_count;
+	private List<GrowthPraise> praises = new ArrayList<GrowthPraise>();
+
+	public List<GrowthPraise> getPraises() {
+		return praises;
+	}
+
+	public void setPraises(List<GrowthPraise> praises) {
+		this.praises = praises;
+	}
 
 	public int getPraise_count() {
 		return praise_count;

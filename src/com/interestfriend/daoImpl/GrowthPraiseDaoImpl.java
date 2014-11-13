@@ -4,10 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.interestfriend.Idao.GrowthPraiseDao;
+import com.interestfriend.Idao.UserDao;
+import com.interestfriend.bean.Comment;
 import com.interestfriend.bean.GrowthPraise;
 import com.interestfriend.db.DBConnection;
+import com.interestfriend.factory.UserDaoFactory;
 
 public class GrowthPraiseDaoImpl implements GrowthPraiseDao {
 
@@ -73,4 +78,30 @@ public class GrowthPraiseDaoImpl implements GrowthPraiseDao {
 		return false;
 	}
 
+	@Override
+	public List<GrowthPraise> findPraiseUserByGrowthID(int growth_id) {
+		Connection conn = DBConnection.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		String sql = "select user.user_avatar,growth_praise.user_id from user, growth_praise where growth_id=? and user.user_id=growth_praise.user_id";
+		List<GrowthPraise> comments = new ArrayList<GrowthPraise>();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, growth_id);
+			res = pstmt.executeQuery();
+			while (res.next()) {
+				GrowthPraise praise = new GrowthPraise();
+				praise.setUser_avatar(res.getString("user_avatar"));
+				praise.setUser_id(res.getInt("user_id"));
+				comments.add(praise);
+			}
+			return comments;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt);
+			DBConnection.close(res);
+		}
+		return null;
+	}
 }
