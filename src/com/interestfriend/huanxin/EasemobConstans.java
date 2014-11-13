@@ -10,4 +10,7 @@ public class EasemobConstans {
 	public static final String RECEIVE_JOIN_CIRCLE_USER_ID = "receivejoincircle";
 	public static final String REFUSE_JON_CIRCLE_USER_ID = "refusejoincircle";
 	public static final String DISSOLVE_CIRCLE_USER_ID = "dissolvecircle";
+	public static final String PRAISE_USER_ID = "praise";
+	public static final String COMMENT_USER_ID = "comment";
+
 }

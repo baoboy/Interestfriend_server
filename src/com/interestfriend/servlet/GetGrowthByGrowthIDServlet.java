@@ -2,7 +2,11 @@ package com.interestfriend.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -10,21 +14,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
+import com.interestfriend.Idao.CommentDao;
 import com.interestfriend.Idao.GrowthDao;
+import com.interestfriend.Idao.GrowthImageDao;
 import com.interestfriend.Idao.GrowthPraiseDao;
 import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.bean.Growth;
 import com.interestfriend.bean.GrowthPraise;
+import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.CommentDaoFactory;
 import com.interestfriend.factory.GrowthDaoFactory;
+import com.interestfriend.factory.GrowthImageDaoFactory;
 import com.interestfriend.factory.GrowthPraiseDaoFactory;
-import com.interestfriend.huanxin.EasemobSendMessage;
 
-public class GrowthPraiseServlet extends HttpServlet {
+public class GetGrowthByGrowthIDServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public GrowthPraiseServlet() {
+	public GetGrowthByGrowthIDServlet() {
 		super();
 	}
 
@@ -52,6 +63,7 @@ public class GrowthPraiseServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		doPost(request, response);
 	}
 
@@ -72,51 +84,26 @@ public class GrowthPraiseServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html");
+		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
-		Map<String, Object> params = new HashMap<String, Object>();
-		PrintWriter out = response.getWriter();
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
-		int growth_id = Integer.valueOf(request.getParameter("growth_id"));
-		int growth_publisher_id = Integer.valueOf(request
-				.getParameter("growth_publisher_id"));
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
-		String user_name = request.getParameter("user_name");
-		GrowthPraiseDao dao = GrowthPraiseDaoFactory.getInstance();
-		GrowthPraise praise = new GrowthPraise();
-		praise.setGrowth_id(growth_id);
-		praise.setUser_id(user_id);
-		boolean ret = dao.insertPraiseToDB(praise);
-		if (!ret) {
-			params.put("rt", 0);
-			params.put("err", ErrorEnum.INVALID.name());
-			out.print(JsonUtil.toJsonString(params));
-			out.flush();
-			out.close();
-			return;
-		}
-		GrowthDao gDao = GrowthDaoFactory.getGrowthDaoInstance();
-		int praise_count = gDao.getGorwthPraiseCount(growth_id);
-		ret = gDao.updateGrowthPraiseCount(growth_id, praise_count + 1);
-		if (!ret) {
-			params.put("rt", 0);
-			params.put("err", ErrorEnum.INVALID.name());
-		} else {
-			params.put("rt", 1);
-			params.put("praise_count", praise_count + 1);
-		}
-		out.print(JsonUtil.toJsonString(params));
+		int growth_id = Integer.valueOf(request.getParameter("growth_id"));
+		Map<String, Object> params = new HashMap<String, Object>();
+		GrowthDao dao = GrowthDaoFactory.getGrowthDaoInstance();
+		Growth growth = dao.getGrowthByGrowthIDGrowth(circle_id, growth_id,
+				user_id);
+		List<Growth> lists = new ArrayList<Growth>();
+		lists.add(growth);
+		params.put("growths", growth);
+		params.put("cid", circle_id);
+		params.put("rt", 1);
+		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
+		PrintWriter out = response.getWriter();
+		out.print(jsonObjectFromMap.toString());
 		out.flush();
 		out.close();
-		System.out.println(JsonUtil.toJsonString(params));
-		if (ret) {
-			String growth_publisher_huanxin_name = gDao
-					.getUserHuanXinNameByGrowthID(growth_id,
-							growth_publisher_id);
-			EasemobSendMessage.sendTextMessageForpRraiseAndComment(circle_id,
-					growth_id, growth_publisher_huanxin_name, "'" + user_name
-							+ "‘ 赞了您的成长");
-		}
+
 	}
 
 	/**
