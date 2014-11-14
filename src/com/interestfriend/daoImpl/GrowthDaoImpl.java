@@ -5,9 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.interestfriend.Idao.CommentDao;
 import com.interestfriend.Idao.GrowthDao;
+import com.interestfriend.Idao.GrowthImageDao;
+import com.interestfriend.Idao.GrowthPraiseDao;
 import com.interestfriend.bean.Growth;
+import com.interestfriend.bean.GrowthPraise;
 import com.interestfriend.db.DBConnection;
+import com.interestfriend.factory.CommentDaoFactory;
+import com.interestfriend.factory.GrowthImageDaoFactory;
+import com.interestfriend.factory.GrowthPraiseDaoFactory;
 
 public class GrowthDaoImpl implements GrowthDao {
 
@@ -115,5 +122,69 @@ public class GrowthDaoImpl implements GrowthDao {
 	@Override
 	public boolean updateGrowthCommentCount(int growth_id, int praise_count) {
 		return false;
+	}
+
+	@Override
+	public String getUserHuanXinNameByGrowthID(int growth_id,
+			int growth_publisher_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		String findByIDSQL = "SELECT `user`.user_chat_id FROM `user` ,growth WHERE growth.growth_id=? and `user`.user_id=?"; // SQL语句
+		try {
+			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
+			pstmt.setInt(1, growth_id); // 设置参数
+			pstmt.setInt(2, growth_publisher_id);
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				return rs.getString("user_chat_id");
+			}
+		} catch (Exception e) {
+		} finally {
+			DBConnection.close(rs); // 关闭结果集对象
+			DBConnection.close(pstmt);
+		}
+		return "";
+	}
+
+	@Override
+	public Growth getGrowthByGrowthIDGrowth(int cid, int growth_id, int user_id) {
+		Connection conn = DBConnection.getConnection();
+		Growth growth = new Growth();
+		ResultSet res = null;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where growth_id=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, growth_id);
+			res = pstmt.executeQuery();
+			while (res.next()) {
+				GrowthImageDao imgDao = GrowthImageDaoFactory
+						.getGrowthImageDaoInstance();
+				CommentDao coDao = CommentDaoFactory.getInstances();
+				GrowthPraiseDao gDao = GrowthPraiseDaoFactory.getInstance();
+				GrowthPraise praise = new GrowthPraise();
+				praise.setUser_id(user_id);
+				praise.setGrowth_id(growth_id);
+				growth.setCid(cid);
+				growth.setIsPraise(gDao.findPraiseByUserID(praise));
+				growth.setGrowth_id(growth_id);
+				growth.setContent(res.getString("content"));
+				growth.setTime(res.getString("time"));
+				int publisher_id = res.getInt("publisher_id");
+				growth.setPublisher_id(publisher_id);
+				growth.setImages(imgDao.getImagesByGrowthID(cid, growth_id));
+				growth.setComments(coDao.getCommentByGrowthID(growth_id));
+				growth.setPublisher_avatar(res.getString("user_avatar"));
+				growth.setPublisher_name(res.getString("user_name"));
+				growth.setPraise_count(res.getInt("praise_count"));
+				return growth;
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return growth;
 	}
 }
