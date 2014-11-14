@@ -116,6 +116,7 @@ public class GrowthPraiseServlet extends HttpServlet {
 			EasemobSendMessage.sendTextMessageForpRraiseAndComment(circle_id,
 					growth_id, growth_publisher_huanxin_name, "'" + user_name
 							+ "‘ 赞了您的成长");
+			System.out.println(circle_id + "      " + growth_id);
 		}
 	}
 

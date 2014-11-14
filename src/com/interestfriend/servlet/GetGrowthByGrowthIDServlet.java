@@ -89,6 +89,8 @@ public class GetGrowthByGrowthIDServlet extends HttpServlet {
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
 		int growth_id = Integer.valueOf(request.getParameter("growth_id"));
+		System.out.println("id:::::::" + user_id + "   " + circle_id + "   "
+				+ growth_id);
 		Map<String, Object> params = new HashMap<String, Object>();
 		GrowthDao dao = GrowthDaoFactory.getGrowthDaoInstance();
 		Growth growth = dao.getGrowthByGrowthIDGrowth(circle_id, growth_id,
@@ -103,7 +105,7 @@ public class GetGrowthByGrowthIDServlet extends HttpServlet {
 		out.print(jsonObjectFromMap.toString());
 		out.flush();
 		out.close();
-
+		System.out.println(jsonObjectFromMap.toString());
 	}
 
 	/**

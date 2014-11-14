@@ -179,6 +179,8 @@ public class GrowthDaoImpl implements GrowthDao {
 				growth.setPublisher_avatar(res.getString("user_avatar"));
 				growth.setPublisher_name(res.getString("user_name"));
 				growth.setPraise_count(res.getInt("praise_count"));
+				growth.setPraises(gDao.findPraiseUserByGrowthID(growth_id));
+
 				return growth;
 
 			}
