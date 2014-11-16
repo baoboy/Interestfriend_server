@@ -110,13 +110,18 @@ public class GrowthPraiseServlet extends HttpServlet {
 		out.close();
 		System.out.println(JsonUtil.toJsonString(params));
 		if (ret) {
+			boolean res = gDao.updateGrowthUpdateTime(growth_id);
+			System.out.println(res);
+			if (growth_publisher_id == user_id) {
+				return;
+			}
 			String growth_publisher_huanxin_name = gDao
 					.getUserHuanXinNameByGrowthID(growth_id,
 							growth_publisher_id);
 			EasemobSendMessage.sendTextMessageForpRraiseAndComment(circle_id,
 					growth_id, growth_publisher_huanxin_name, "'" + user_name
 							+ "‘ 赞了您的成长");
-			System.out.println(circle_id + "      " + growth_id);
+
 		}
 	}
 

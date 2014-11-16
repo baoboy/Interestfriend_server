@@ -169,7 +169,8 @@ public class AddGrowthServlet extends HttpServlet {
 			int cid = Integer.valueOf(request.getAttribute("cid").toString());
 			String publisher_id = request.getAttribute("user_id").toString();
 			String content = request.getAttribute("content").toString();
-			String time = request.getAttribute("time").toString();
+			// String time = request.getAttribute("time").toString();
+			String time = DateUtils.getGrowthShowTime();
 			Growth growth = new Growth();
 			growth.setCid(cid);
 			growth.setContent(content);
@@ -190,6 +191,8 @@ public class AddGrowthServlet extends HttpServlet {
 				params.put("rt", 1);
 				params.put("gid", growth_id);
 				params.put("images", growthImages);
+				params.put("time", time);
+
 			} else {
 				params.put("rt", 0);
 				params.put("err", ErrorEnum.INVALID.name());

@@ -16,6 +16,24 @@ public class Growth {
 	private int isPraise;// 1 ÔÞ 0Î´ÔÞ
 	private int praise_count;
 	private List<GrowthPraise> praises = new ArrayList<GrowthPraise>();
+	private String last_update_time = "0";
+	private String state = "";
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getLast_update_time() {
+		return last_update_time;
+	}
+
+	public void setLast_update_time(String last_update_time) {
+		this.last_update_time = last_update_time;
+	}
 
 	public List<GrowthPraise> getPraises() {
 		return praises;

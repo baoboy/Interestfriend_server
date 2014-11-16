@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2014-11-12 22:22:23
+Date: 2014-11-16 22:05:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,12 +31,13 @@ CREATE TABLE `circle` (
   `latitude` double(20,7) DEFAULT NULL,
   `circle_create_time` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`circle_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circle
 -- ----------------------------
 INSERT INTO `circle` VALUES ('1', '-1', '1412996732230555', '个人show', '官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子官方圈子', 'http://10.6.7.158:8080/InterestFriend/images/2014-09-23-15-37-27.jpg', '1', null, null, '2014-09-16');
+INSERT INTO `circle` VALUES ('2', '8', '141656302193557', '寄托', '八里街', 'http://192.168.20.104:8080/InterestFriend/circle_images/2014-11-15-20-58-20.jpg', '7', '116.4552920', '39.8546660', '2014-11-15');
 
 -- ----------------------------
 -- Table structure for circlemembers
@@ -51,13 +52,15 @@ CREATE TABLE `circlemembers` (
   `circle_last_request_time` bigint(20) DEFAULT NULL,
   `circle_state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of circlemembers
 -- ----------------------------
 INSERT INTO `circlemembers` VALUES ('80', '7', '1', '1415586508341', 'ADD', '1415586508341', 'ADD');
 INSERT INTO `circlemembers` VALUES ('81', '8', '1', '1415694565546', 'UPDATE', '1415586523304', 'ADD');
+INSERT INTO `circlemembers` VALUES ('82', '8', '2', '1416056302959', 'ADD', '1416056302959', 'ADD');
+INSERT INTO `circlemembers` VALUES ('83', '7', '2', '1416056393295', 'ADD', '1416056393295', 'ADD');
 
 -- ----------------------------
 -- Table structure for comment
@@ -89,14 +92,19 @@ CREATE TABLE `growth` (
   `content` varchar(255) DEFAULT NULL,
   `time` varchar(255) DEFAULT NULL,
   `praise_count` int(11) DEFAULT NULL,
+  `last_update_time` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`growth_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth
 -- ----------------------------
-INSERT INTO `growth` VALUES ('1', '1', '8', '', '2014-11-12 15:05', '14');
-INSERT INTO `growth` VALUES ('2', '1', '8', '咯用陌陌', '2014-11-12 15:05', '6');
+INSERT INTO `growth` VALUES ('21', '1', '8', '考虑考虑', '2014-11-15 17:03', '2', '2014-11-15 17:17', 'UPDATE');
+INSERT INTO `growth` VALUES ('22', '1', '8', '睡觉了', '2014-11-15 17:51', '2', '2014-11-15 17:52', 'UPDATE');
+INSERT INTO `growth` VALUES ('23', '1', '7', 'bnnnnbgfdp', '2014-11-15 20:28', '1', '2014-11-15 20:28', 'ADD');
+INSERT INTO `growth` VALUES ('24', '1', '7', 'gvvcc', '2014-11-15 20:29', '2', '2014-11-16 21:08', 'UPDATE');
+INSERT INTO `growth` VALUES ('25', '1', '7', 'vvvv', '2014-11-15 20:33', '2', '2014-11-15 20:40', 'UPDATE');
 
 -- ----------------------------
 -- Table structure for growth_img
@@ -108,22 +116,11 @@ CREATE TABLE `growth_img` (
   `growth_id` int(11) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth_img
 -- ----------------------------
-INSERT INTO `growth_img` VALUES ('1', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-1.jpg');
-INSERT INTO `growth_img` VALUES ('2', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-2.jpg');
-INSERT INTO `growth_img` VALUES ('3', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-3.jpg');
-INSERT INTO `growth_img` VALUES ('4', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-4.jpg');
-INSERT INTO `growth_img` VALUES ('5', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-5.jpg');
-INSERT INTO `growth_img` VALUES ('6', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-6.jpg');
-INSERT INTO `growth_img` VALUES ('7', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-7.jpg');
-INSERT INTO `growth_img` VALUES ('8', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-8.jpg');
-INSERT INTO `growth_img` VALUES ('9', '1', '1', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-37-9.jpg');
-INSERT INTO `growth_img` VALUES ('10', '1', '2', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-51-1.jpg');
-INSERT INTO `growth_img` VALUES ('11', '1', '2', 'http://10.6.7.158:8080/InterestFriend/growth-image/2014-11-12-15-05-51-2.jpg');
 
 -- ----------------------------
 -- Table structure for growth_praise
@@ -134,14 +131,20 @@ CREATE TABLE `growth_praise` (
   `user_id` int(11) DEFAULT NULL,
   `growth_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of growth_praise
 -- ----------------------------
-INSERT INTO `growth_praise` VALUES ('9', '8', '2');
-INSERT INTO `growth_praise` VALUES ('10', '8', '2');
-INSERT INTO `growth_praise` VALUES ('11', '8', '2');
+INSERT INTO `growth_praise` VALUES ('47', '7', '21');
+INSERT INTO `growth_praise` VALUES ('48', '7', '22');
+INSERT INTO `growth_praise` VALUES ('49', '8', '22');
+INSERT INTO `growth_praise` VALUES ('50', '8', '21');
+INSERT INTO `growth_praise` VALUES ('51', '7', '23');
+INSERT INTO `growth_praise` VALUES ('52', '7', '24');
+INSERT INTO `growth_praise` VALUES ('53', '7', '25');
+INSERT INTO `growth_praise` VALUES ('54', '8', '25');
+INSERT INTO `growth_praise` VALUES ('55', '8', '24');
 
 -- ----------------------------
 -- Table structure for member_circles

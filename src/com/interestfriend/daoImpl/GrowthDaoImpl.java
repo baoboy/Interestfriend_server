@@ -9,9 +9,11 @@ import com.interestfriend.Idao.CommentDao;
 import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.GrowthImageDao;
 import com.interestfriend.Idao.GrowthPraiseDao;
+import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Growth;
 import com.interestfriend.bean.GrowthPraise;
 import com.interestfriend.db.DBConnection;
+import com.interestfriend.enums.Status;
 import com.interestfriend.factory.CommentDaoFactory;
 import com.interestfriend.factory.GrowthImageDaoFactory;
 import com.interestfriend.factory.GrowthPraiseDaoFactory;
@@ -25,7 +27,7 @@ public class GrowthDaoImpl implements GrowthDao {
 		PreparedStatement pstmt = null;
 		int autoIncKeyFromApi = -1;
 
-		String sql = "insert into growth(cid,publisher_id,content,time) values(?,?,?,?)";
+		String sql = "insert into growth(cid,publisher_id,content,time,last_update_time,state) values(?,?,?,?,?,?)";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -33,6 +35,8 @@ public class GrowthDaoImpl implements GrowthDao {
 			pstmt.setInt(2, growth.getPublisher_id());
 			pstmt.setString(3, growth.getContent());
 			pstmt.setString(4, growth.getTime());
+			pstmt.setString(5, growth.getTime());
+			pstmt.setString(6, Status.ADD.name());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys(); // 获取自增主键！
 			if (rs.next()) {
@@ -56,15 +60,17 @@ public class GrowthDaoImpl implements GrowthDao {
 		PreparedStatement pstmt = null;
 		String sql = "";
 		if (refushState == 1) {
-			sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where cid=? and time >?  order by time desc limit 0,20";
+			sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where cid=? and  (time>? or last_update_time > ?) order by time desc limit 0,20";
 		} else {
-			sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where cid=? and time <?  order by time desc limit 0,20";
+			sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where cid=? and (time <? or last_update_time > ?) order by time desc limit 0,20";
 
 		}
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cid);
 			pstmt.setString(2, refushTime);
+			pstmt.setString(3, refushTime);
+			System.out.println("resushTIme:" + refushTime);
 			rs = pstmt.executeQuery();
 			return rs;
 		} catch (SQLException e) {
@@ -188,5 +194,27 @@ public class GrowthDaoImpl implements GrowthDao {
 			e.printStackTrace();
 		}
 		return growth;
+	}
+
+	@Override
+	public boolean updateGrowthUpdateTime(int growth_id) {
+		String sql = "UPDATE growth SET last_update_time = ? ,state=? WHERE growth_id =?";
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setString(1, DateUtils.getGrowthShowTime());
+			pstmt.setString(2, Status.UPDATE.name());
+			pstmt.setInt(3, growth_id);
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return false;
 	}
 }

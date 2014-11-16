@@ -20,6 +20,7 @@ import com.interestfriend.Idao.CommentDao;
 import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.GrowthImageDao;
 import com.interestfriend.Idao.GrowthPraiseDao;
+import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Growth;
 import com.interestfriend.bean.GrowthPraise;
 import com.interestfriend.db.DBConnection;
@@ -116,11 +117,13 @@ public class GetGrowthListServlet extends HttpServlet {
 				g.setPublisher_name(res.getString("user_name"));
 				g.setPraise_count(res.getInt("praise_count"));
 				g.setPraises(gDao.findPraiseUserByGrowthID(growth_id));
+				g.setState(res.getString("state"));
+				g.setLast_update_time(res.getString("last_update_time"));
 				lists.add(g);
-
 			}
 			params.put("growths", lists);
 			params.put("cid", cid);
+			params.put("lastReqTime", DateUtils.getGrowthShowTime());
 			params.put("rt", 1);
 		} catch (SQLException e) {
 			e.printStackTrace();
