@@ -14,14 +14,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import sun.security.jgss.spi.MechanismFactory;
+
 import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.CircleDao;
+import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.CategoryCircleUtils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CircleDaoFactory;
+import com.interestfriend.factory.MembersDaoFactory;
 
 public class GetCirclesByCategoryServlet extends HttpServlet {
 
@@ -79,7 +83,7 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
-
+		MembersDao mDao = MembersDaoFactory.getInstance();
 		int category = Integer.valueOf(request.getParameter("category"));
 		CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		ResultSet res = dao.findCirclesByCategory(category);
@@ -92,7 +96,8 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 					circle.setCircle_avatar(res.getString("circle_avatar"));
 					circle.setCircle_description(res
 							.getString("circle_description"));
-					circle.setCircle_id(res.getInt("circle_id"));
+					int circle_id = res.getInt("circle_id");
+					circle.setCircle_id(circle_id);
 					circle.setCircle_name(res.getString("circle_name"));
 					circle.setGroup_id(res.getString("group_id"));
 					circle.setCreator_id(res.getInt("creator_id"));
@@ -101,6 +106,8 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 					circle.setCircle_creator_name(res.getString("user_name"));
 					circle.setCircle_category(CategoryCircleUtils
 							.getCateGoryNameByCode(category));
+					circle.setCircle_member_num(mDao
+							.getCircleMemberNumOfCircle(circle_id));
 					circleLists.add(circle);
 				}
 			} catch (SQLException e) {

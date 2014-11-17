@@ -204,4 +204,27 @@ public class MembersDapImpl implements MembersDao {
 		}
 		return CircleStatus.INVALID;
 	}
+
+	@Override
+	public int getCircleMemberNumOfCircle(int circle_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		String findByIDSQL = "select user_id from  circlemembers where circle_id=?";
+		try {
+			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
+			pstmt.setInt(1, circle_id); // 设置参数
+			rs = pstmt.executeQuery(); // 执行查询
+			rs.last(); // 移到最后一行
+			int rowCount = rs.getRow(); // 得到当前行号，也就是记录数
+			System.out.println("member_count:" + rowCount);
+			return rowCount;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			DBConnection.close(rs); // 关闭结果集对象
+			DBConnection.close(pstmt);
+		}
+		return 1;
+	}
 }

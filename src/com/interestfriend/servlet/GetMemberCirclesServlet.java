@@ -97,7 +97,8 @@ public class GetMemberCirclesServlet extends HttpServlet {
 				circle.setCircle_avatar(res.getString("circle_avatar"));
 				circle.setCircle_description(res
 						.getString("circle_description"));
-				circle.setCircle_id(res.getInt("circle_id"));
+				int circle_id = res.getInt("circle_id");
+				circle.setCircle_id(circle_id);
 				circle.setCircle_name(res.getString("circle_name"));
 				circle.setGroup_id(res.getString("group_id"));
 				circle.setCreator_id(res.getInt("creator_id"));
@@ -107,6 +108,7 @@ public class GetMemberCirclesServlet extends HttpServlet {
 				int category = res.getInt("category");
 				circle.setCircle_category(CategoryCircleUtils
 						.getCateGoryNameByCode(category));
+
 				circleLists.add(circle);
 			}
 		} catch (SQLException e) {

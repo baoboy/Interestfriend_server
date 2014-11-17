@@ -17,12 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.CircleDao;
+import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.CategoryCircleUtils;
 import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CircleDaoFactory;
+import com.interestfriend.factory.MembersDaoFactory;
 
 public class SearchNearCirclesServlet extends HttpServlet {
 
@@ -88,6 +90,7 @@ public class SearchNearCirclesServlet extends HttpServlet {
 		CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		ResultSet res = dao.findCirclesByLongitudeAndLatitude(longitude,
 				latitude);
+		MembersDao mDao = MembersDaoFactory.getInstance();
 		List<Circle> circleLists = new ArrayList<Circle>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (res != null) {
@@ -101,7 +104,8 @@ public class SearchNearCirclesServlet extends HttpServlet {
 					circle.setCircle_avatar(res.getString("circle_avatar"));
 					circle.setCircle_description(res
 							.getString("circle_description"));
-					circle.setCircle_id(res.getInt("circle_id"));
+					int circle_id = res.getInt("circle_id");
+					circle.setCircle_id(circle_id);
 					circle.setCircle_name(res.getString("circle_name"));
 					circle.setGroup_id(res.getString("group_id"));
 					circle.setDistance((int) Utils.getDistanceOfMeter(latitude,
@@ -114,6 +118,8 @@ public class SearchNearCirclesServlet extends HttpServlet {
 					int category = res.getInt("category");
 					circle.setCircle_category(CategoryCircleUtils
 							.getCateGoryNameByCode(category));
+					circle.setCircle_member_num(mDao
+							.getCircleMemberNumOfCircle(circle_id));
 					circleLists.add(circle);
 				}
 			} catch (SQLException e) {

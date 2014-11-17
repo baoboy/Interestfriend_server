@@ -19,4 +19,6 @@ public interface MembersDao {
 	boolean updateCircleLastRequestTimeAndState(Members member);
 
 	CircleStatus findCircleStatus(int circle_id);
+
+	int getCircleMemberNumOfCircle(int circle_id);
 }

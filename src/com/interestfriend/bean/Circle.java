@@ -14,6 +14,15 @@ public class Circle {
 	private String circle_creator_name = "";
 	private String circle_create_time = "";
 	private String circle_category = "";
+	private int circle_member_num = 1;
+
+	public int getCircle_member_num() {
+		return circle_member_num;
+	}
+
+	public void setCircle_member_num(int circle_member_num) {
+		this.circle_member_num = circle_member_num;
+	}
 
 	public String getCircle_category() {
 		return circle_category;
