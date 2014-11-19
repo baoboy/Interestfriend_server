@@ -108,7 +108,8 @@ public class GetMemberCirclesServlet extends HttpServlet {
 				int category = res.getInt("category");
 				circle.setCircle_category(CategoryCircleUtils
 						.getCateGoryNameByCode(category));
-
+				circle.setCircle_member_num(dao
+						.getCircleMemberNumOfCircle(circle_id));
 				circleLists.add(circle);
 			}
 		} catch (SQLException e) {
