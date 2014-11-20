@@ -15,7 +15,7 @@ import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.UserDaoFactory;
 
-public class FindPasswordGetVerifyCode extends HttpServlet {
+public class FindPasswordCheckCellphone extends HttpServlet {
 	/**
 	 * 
 	 */
@@ -24,7 +24,7 @@ public class FindPasswordGetVerifyCode extends HttpServlet {
 	/**
 	 * Constructor of the object.
 	 */
-	public FindPasswordGetVerifyCode() {
+	public FindPasswordCheckCellphone() {
 		super();
 	}
 
@@ -77,11 +77,11 @@ public class FindPasswordGetVerifyCode extends HttpServlet {
 		UserDao dao = UserDaoFactory.getUserDaoInstance();
 		boolean isExist = dao.verifyCellphone(cellphone);
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (!isExist) {
-			params.put("err", ErrorEnum.NOT_EXIST_USER.name());
-			params.put("rt", 0);
+		if (isExist) {
+			params.put("rt", 1);
 		} else {
-			params.put("err", 1);
+			params.put("rt", 0);
+			params.put("err", ErrorEnum.NOT_EXIST_USER.name());
 		}
 		PrintWriter out = response.getWriter();
 		System.out.println(JsonUtil.toJsonString(params));
