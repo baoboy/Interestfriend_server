@@ -81,7 +81,7 @@ public class VerifyCellPhoneServlet extends HttpServlet {
 			params.put("err", ErrorEnum.USER_ALREADY_EXIST.name());
 			params.put("rt", 0);
 		} else {
-			params.put("err", 1);
+			params.put("rt", 1);
 		}
 		PrintWriter out = response.getWriter();
 		System.out.println(JsonUtil.toJsonString(params));
