@@ -1,3 +1,9 @@
 eclipse.preferences.version=1
 encoding//src/com/interestfriend/Utils/MD5.java=UTF-8
 encoding//src/com/interestfriend/huanxin/EasemobSendMessage.java=UTF-8
+encoding//src/com/interestfriend/smscode/AbsRestClient.java=UTF-8
+encoding//src/com/interestfriend/smscode/DateUtil.java=UTF-8
+encoding//src/com/interestfriend/smscode/EncryptUtil.java=UTF-8
+encoding//src/com/interestfriend/smscode/JsonReqClient.java=UTF-8
+encoding//src/com/interestfriend/smscode/SSLHttpClient.java=UTF-8
+encoding//src/com/interestfriend/smscode/SysConfig.java=UTF-8
