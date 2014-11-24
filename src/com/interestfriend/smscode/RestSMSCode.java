@@ -5,9 +5,11 @@
  */
 package com.interestfriend.smscode;
 
-import java.io.IOException;
-
-public class RestTest {
+public class RestSMSCode {
+	public static final String ACCOUNTSID = "cea526c74f8f77af93613464d94da1e7";
+	public static final String TOKEN = "390b46431da96b0a0452f936701fc054";
+	public static final String APPID = "f500ab6d729a490a9feae574a7c7a58c";
+	public static final String TEMPLATEID = "1500";
 
 	static AbsRestClient InstantiationRestAPI(boolean enable) {
 		return new JsonReqClient();
@@ -22,18 +24,14 @@ public class RestTest {
 					authToken, appId, templateId, to, param);
 			System.out.println("Response content is: " + result);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
-		String accountSid = "cea526c74f8f77af93613464d94da1e7";
-		String token = "390b46431da96b0a0452f936701fc054";
-		String appId = "f500ab6d729a490a9feae574a7c7a58c";
-		String templateId = "1500";
-		String to = "15801697156";
-		String para = "1234";
-		testTemplateSMS(true, accountSid, token, appId, templateId, to, para);
+	public static void sendCode(String code, String cellphone) {
+		testTemplateSMS(true, ACCOUNTSID, TOKEN, APPID, TEMPLATEID, cellphone,
+				code);
+
 	}
+
 }
