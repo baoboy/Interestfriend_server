@@ -32,7 +32,7 @@ public class RestTest {
 		String token = "390b46431da96b0a0452f936701fc054";
 		String appId = "f500ab6d729a490a9feae574a7c7a58c";
 		String templateId = "1500";
-		String to = "15801697156";
+		String to = "18560133195";
 		String para = "1234";
 		testTemplateSMS(true, accountSid, token, appId, templateId, to, para);
 	}
