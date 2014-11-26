@@ -97,6 +97,13 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 					circle.setCircle_description(res
 							.getString("circle_description"));
 					int circle_id = res.getInt("circle_id");
+					int circle_member_count = mDao
+							.getCircleMemberNumOfCircle(circle_id);
+					if (circle_member_count >= 1500) {
+						continue;
+					}
+					circle.setCircle_member_num(circle_member_count);
+
 					circle.setCircle_id(circle_id);
 					circle.setCircle_name(res.getString("circle_name"));
 					circle.setGroup_id(res.getString("group_id"));
@@ -106,8 +113,6 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 					circle.setCircle_creator_name(res.getString("user_name"));
 					circle.setCircle_category(CategoryCircleUtils
 							.getCateGoryNameByCode(category));
-					circle.setCircle_member_num(mDao
-							.getCircleMemberNumOfCircle(circle_id));
 					circleLists.add(circle);
 				}
 			} catch (SQLException e) {
