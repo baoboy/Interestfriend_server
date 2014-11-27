@@ -1,43 +1,25 @@
 package com.interestfriend.Utils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.interestfriend.Idao.MembersDao;
+import com.interestfriend.bean.Members;
+import com.interestfriend.factory.MembersDaoFactory;
 
 public class Test {
-	static List<User> lists1 = new ArrayList<User>();
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		User user = new User();
-		user.name = "bb";
-		lists1.add(user);
-		for (User u : lists1) {
-			delById();
-			lists1.add(u);
-			lists1.add(u);
-
+		MembersDao dao = MembersDaoFactory.getInstance();
+		for (int i = 0; i < 2000; i++) {
+			Members member = new Members();
+			member.setCircle_id(3);
+			member.setUser_id(8);
+			member.setCircle_last_request_time(DateUtils.getLastUpdateTime());
+			member.setUser_update_time(DateUtils.getLastUpdateTime());
+			boolean rt = dao.addMembers(member);
 		}
-		System.out.println(lists1);
+		System.out.println("finish");
 	}
 
-	public static void delById() {
-		for (Iterator<User> it = lists1.iterator(); it.hasNext();) {
-			if (it.next().name.equals("bb")) {
-				it.remove();
-				break;
-			}
-		}
-	}
-
-	public static class User {
-		String name;
-
-		@Override
-		public String toString() {
-			return "name:" + name;
-		}
-	}
 }

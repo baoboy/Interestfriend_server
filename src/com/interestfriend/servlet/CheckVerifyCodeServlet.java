@@ -12,25 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.SMSCodeDao;
 import com.interestfriend.Idao.UserDao;
-import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
-import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.SMSCode;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.SMSCodeDaoFactory;
 import com.interestfriend.factory.UserDaoFactory;
-import com.interestfriend.smscode.RestSMSCode;
 
-public class FindPasswordGetVerifyCode extends HttpServlet {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class CheckVerifyCodeServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public FindPasswordGetVerifyCode() {
+	public CheckVerifyCodeServlet() {
 		super();
 	}
 
@@ -58,6 +51,20 @@ public class FindPasswordGetVerifyCode extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		out.println("<HTML>");
+		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+		out.println("  <BODY>");
+		out.print("    This is ");
+		out.print(this.getClass());
+		out.println(", using the GET method");
+		out.println("  </BODY>");
+		out.println("</HTML>");
+		out.flush();
+		out.close();
 	}
 
 	/**
@@ -77,37 +84,26 @@ public class FindPasswordGetVerifyCode extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf8");
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		String cellphone = request.getParameter("user_cellphone");
-		UserDao dao = UserDaoFactory.getUserDaoInstance();
-		boolean isExist = dao.verifyCellphone(cellphone);
+		String sms_code = request.getParameter("sms_code");
+		SMSCodeDao dao = SMSCodeDaoFactory.getinstance();
+		String code = dao.findCodeByCellphone(cellphone);
+		boolean res = code.equals(sms_code);
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (!isExist) {
-			params.put("err", ErrorEnum.NOT_EXIST_USER.name());
+		if (!res) {
+			params.put("err", ErrorEnum.SMS_CODE_ERR.name());
 			params.put("rt", 0);
 		} else {
 			params.put("rt", 1);
+			dao.delCodeByUserCellPhone(cellphone);
 		}
 		PrintWriter out = response.getWriter();
-		System.out.println(JsonUtil.toJsonString(params));
 		out.print(JsonUtil.toJsonString(params));
 		out.flush();
 		out.close();
-
-		if (isExist) {
-			SMSCode code = new SMSCode();
-			String str_code = Utils.getSMSCode();
-			code.setSms_code(str_code);
-			code.setUser_cellphone(cellphone);
-			code.setTime(DateUtils.getUpLoadFileName());
-			SMSCodeDao c_dao = SMSCodeDaoFactory.getinstance();
-			c_dao.delCodeByUserCellPhone(cellphone);
-			c_dao.insertToDB(code);
-			RestSMSCode.sendCode(str_code, cellphone);
-			System.out.println("sms_code:" + str_code);
-		}
 	}
 
 	/**
