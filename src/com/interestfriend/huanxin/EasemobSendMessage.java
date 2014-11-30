@@ -94,7 +94,7 @@ public class EasemobSendMessage {
 		msgBody.put("type", "txt");
 		msgBody.put("msg", "hello from rest");
 		body.put("msg", msgBody);
-		body.put("from", fromUser);
+		body.put("from", "growth");
 		Map<String, String> extBody = new HashMap<String, String>();
 		extBody.put("publisher_id", publisher_id);
 		// extBody.put("attr2", "v2");
