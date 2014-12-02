@@ -150,6 +150,11 @@ public class EasemobGroupMessage {
 		addUserToGroup(EasemobConstans.APP_KEY, token, groupid, username);
 	}
 
+	public static void deleteFromGroup(String group_id, String username) {
+		String token = EasemobUserAPI.getOrgToken();
+		deleteUserFromGroup(EasemobConstans.APP_KEY, token, group_id, username);
+	}
+
 	/**
 	 * 在群组中添加一个人
 	 * 
@@ -171,6 +176,15 @@ public class EasemobGroupMessage {
 
 	}
 
+	/**
+	 * 从群组中删除一个人
+	 * 
+	 * 
+	 * @param appkey
+	 * @param adminToken
+	 * @param groupid
+	 * @param username
+	 */
 	public static void deleteUserFromGroup(String appkey, String adminToken,
 			String groupid, String username) {
 
@@ -185,6 +199,7 @@ public class EasemobGroupMessage {
 
 	public static void deleteChatGroups(String groupid) {
 		String token = EasemobUserAPI.getOrgToken();
+		System.out.println("token::::::::::;;" + token);
 		try {
 			deleteChatGroups(EasemobConstans.APP_KEY, token, groupid);
 		} catch (KeyManagementException e) {

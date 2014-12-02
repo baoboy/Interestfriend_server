@@ -11,6 +11,7 @@ import com.interestfriend.Utils.PinYinUtil;
 import com.interestfriend.bean.Members;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.CircleStatus;
+import com.interestfriend.enums.Status;
 
 public class MembersDapImpl implements MembersDao {
 
@@ -226,5 +227,26 @@ public class MembersDapImpl implements MembersDao {
 			DBConnection.close(pstmt);
 		}
 		return 1;
+	}
+
+	@Override
+	public Status findUserStateInCircle(int user_id, int cirlce_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		String findByIDSQL = "select user_state from circlemembers where user_id=? and circle_id=?";
+		try {
+			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
+			pstmt.setInt(1, user_id); // 设置参数
+			pstmt.setInt(2, cirlce_id); // 设置参数
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				return Status.convert(rs.getString("user_state"));
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+		}
+		return Status.INVALID;
 	}
 }

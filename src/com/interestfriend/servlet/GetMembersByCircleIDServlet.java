@@ -18,11 +18,13 @@ import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.DateUtils;
+import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.bean.User;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.CircleStatus;
 import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.enums.Status;
 import com.interestfriend.factory.MembersDaoFactory;
 
 public class GetMembersByCircleIDServlet extends HttpServlet {
@@ -84,19 +86,29 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
 		Map<String, Object> params = new HashMap<String, Object>();
-
+		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		int cid = Integer.valueOf(request.getParameter("circle_id"));
 		long lastReqTime = Long.valueOf(request.getParameter("lastReqTime"));
 
 		System.out.println(cid + "       " + lastReqTime);
 		MembersDao dao = MembersDaoFactory.getInstance();
 		CircleStatus status = dao.findCircleStatus(cid);
+		Status user_status = dao.findUserStateInCircle(user_id, cid);
+		System.out.println("user_sate" + user_status);
 		if (status == CircleStatus.DEL) {
 			params.put("rt", 0);
 			params.put("err", ErrorEnum.CIRCLE_ALERADY_DISSOLVE.name());
-			JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
 			PrintWriter out = response.getWriter();
-			out.print(jsonObjectFromMap.toString());
+			out.print(JsonUtil.toJsonString(params));
+			out.flush();
+			out.close();
+			return;
+		}
+		if (user_status == Status.DEL) {
+			params.put("rt", 0);
+			params.put("err", ErrorEnum.KICKOUT_CIRCLE.name());
+			PrintWriter out = response.getWriter();
+			out.print(JsonUtil.toJsonString(params));
 			out.flush();
 			out.close();
 			return;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Status {
-	ADD, UPDATE, INVALID;
+	ADD, UPDATE, DEL,INVALID;
 	public static Map<String, Status> s2s = new HashMap<String, Status>();
 	static {
 		for (Status s : Status.values()) {

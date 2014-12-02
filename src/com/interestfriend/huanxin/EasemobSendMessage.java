@@ -406,4 +406,51 @@ public class EasemobSendMessage {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 踢出圈子提醒
+	 * 
+	 * @param textContent
+	 * @param to_user_id
+	 */
+	public static void sendMessageForKickOutCircle(String textContent,
+			String to_user_id, int circle_id) {
+		try {
+			String token = getAccessToken(EasemobConstans.APP_KEY,
+					EasemobConstans.USER_NAME, EasemobConstans.PASSWORD);
+			String httpUrl = "https://a1.easemob.com/"
+					+ EasemobConstans.APP_KEY.replaceFirst("#", "/")
+					+ "/messages";
+			List<String> toUsernames = new ArrayList<String>();
+			toUsernames.add(to_user_id);
+			Map<String, Object> body = new HashMap<String, Object>();
+			body.put("target_type", "users");
+			body.put("target", toUsernames);
+			Map<String, String> msgBody = new HashMap<String, String>();
+			msgBody.put("type", "txt");
+			msgBody.put("msg", textContent);
+			body.put("msg", msgBody);
+			body.put("from", EasemobConstans.KICK_OUT_USER_ID);
+			Map<String, String> extBody = new HashMap<String, String>();
+			extBody.put("user_name", "趣友");
+			extBody.put("user_avatar", "");
+			extBody.put("circle_id", circle_id + "");
+			body.put("ext", extBody);
+			Client client = getClient(true);
+			WebTarget target = ((javax.ws.rs.client.Client) client)
+					.target(httpUrl);
+			Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
+					.header("Authorization", "Bearer " + token)
+					.buildPost(Entity.json(body)).invoke();
+			String resultMsg = response.readEntity(String.class);
+			System.out.println("resultMsg:" + resultMsg);
+		} catch (KeyManagementException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

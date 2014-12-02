@@ -15,6 +15,8 @@ import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
+import com.interestfriend.huanxin.EasemobGroupMessage;
+import com.interestfriend.huanxin.EasemobSendMessage;
 
 public class KickOutMemberServlet extends HttpServlet {
 
@@ -73,7 +75,11 @@ public class KickOutMemberServlet extends HttpServlet {
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		int user_id = Integer.valueOf(request.getParameter("kickout_user_id"));
+		String kick_out_user_chat_id = request
+				.getParameter("kickout_user_chat_id");
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
+		String group_id = request.getParameter("group_id");
+		String circle_name = request.getParameter("circle_name");
 		Members member = new Members();
 		member.setCircle_id(circle_id);
 		member.setUser_id(user_id);
@@ -97,6 +103,12 @@ public class KickOutMemberServlet extends HttpServlet {
 		out.print(params);
 		out.flush();
 		out.close();
+		if (rt) {
+			EasemobSendMessage.sendMessageForKickOutCircle("您已经被管理员踢出 '"
+					+ circle_name + "'", kick_out_user_chat_id, circle_id);
+			EasemobGroupMessage
+					.deleteFromGroup(group_id, kick_out_user_chat_id);
+		}
 	}
 
 	/**

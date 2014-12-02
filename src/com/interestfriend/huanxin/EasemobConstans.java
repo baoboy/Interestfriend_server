@@ -12,5 +12,6 @@ public class EasemobConstans {
 	public static final String DISSOLVE_CIRCLE_USER_ID = "dissolvecircle";
 	public static final String PRAISE_USER_ID = "praise";
 	public static final String COMMENT_USER_ID = "comment";
+	public static final String KICK_OUT_USER_ID = "kickout";
 
 }
