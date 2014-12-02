@@ -102,7 +102,7 @@ public class DissolveCircleServlet extends HttpServlet {
 		out.flush();
 		out.close();
 		EasemobSendMessage.sendTextMessageForDissolve(group_id, "'"
-				+ circle_name + "' 已被解散", circle_id + "");
+				+ circle_name + "' 已被解散", circle_id + "", user_id);
 		EasemobGroupMessage.deleteChatGroups(group_id);
 	}
 

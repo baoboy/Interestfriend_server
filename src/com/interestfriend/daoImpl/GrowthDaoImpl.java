@@ -62,14 +62,16 @@ public class GrowthDaoImpl implements GrowthDao {
 		if (refushState == 1) {
 			sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where cid=? and  (time>? or last_update_time > ?) order by time desc limit 0,20";
 		} else {
-			sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where cid=? and (time <? or last_update_time > ?) order by time desc limit 0,20";
+			sql = "select growth.*,`user`.user_avatar,`user`.user_name  from  growth  INNER JOIN  `user`  on  growth.publisher_id =`user`.user_id where cid=? and (time <? ) order by time desc limit 0,20";
 
 		}
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cid);
 			pstmt.setString(2, refushTime);
-			pstmt.setString(3, refushTime);
+			if (refushState == 1) {
+				pstmt.setString(3, refushTime);
+			}
 			System.out.println("resushTIme:" + refushTime);
 			rs = pstmt.executeQuery();
 			return rs;

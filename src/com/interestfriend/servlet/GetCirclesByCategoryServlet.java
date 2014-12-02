@@ -23,6 +23,7 @@ import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.CategoryCircleUtils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
+import com.interestfriend.enums.CircleStatus;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CircleDaoFactory;
 import com.interestfriend.factory.MembersDaoFactory;
@@ -97,6 +98,10 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 					circle.setCircle_description(res
 							.getString("circle_description"));
 					int circle_id = res.getInt("circle_id");
+					CircleStatus status = mDao.findCircleStatus(circle_id);
+					if (status == CircleStatus.DEL) {
+						continue;
+					}
 					int circle_member_count = mDao
 							.getCircleMemberNumOfCircle(circle_id);
 					if (circle_member_count >= 1500) {

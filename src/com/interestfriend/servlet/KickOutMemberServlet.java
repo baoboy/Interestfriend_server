@@ -83,8 +83,8 @@ public class KickOutMemberServlet extends HttpServlet {
 		member.setUser_update_time(lastReqTime);
 		MembersDao dao = MembersDaoFactory.getInstance();
 		boolean rt = dao.kickOutMemaber(member);
-		member.setCircle_last_request_time(lastReqTime);
-		dao.updateCircleLastRequestTimeAndState(member);
+		// member.setCircle_last_request_time(lastReqTime);
+		// dao.updateCircleLastRequestTimeAndState(member);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (!rt) {
 			params.put("err", ErrorEnum.INVALID.name());

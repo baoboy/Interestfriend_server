@@ -66,7 +66,6 @@ public class EasemobSendMessage {
 	}
 
 	public static void main(String[] args) {
-		sendTextMessageForDissolve("1412996732230555", "1111", 1 + "");
 	}
 
 	/**
@@ -320,7 +319,7 @@ public class EasemobSendMessage {
 	 * 
 	 */
 	public static void sendTextMessageForDissolve(String group_id,
-			String message_content, String circle_id) {
+			String message_content, String circle_id, int user_id) {
 		try {
 			String token = getAccessToken(EasemobConstans.APP_KEY,
 					EasemobConstans.USER_NAME, EasemobConstans.PASSWORD);
@@ -341,6 +340,7 @@ public class EasemobSendMessage {
 			extBody.put("user_name", "趣友");
 			extBody.put("user_avatar", "");
 			extBody.put("circle_id", circle_id);
+			extBody.put("user_id", user_id + "");
 			body.put("ext", extBody);
 			ObjectMapper mapper = new ObjectMapper();
 			Client client = getClient(true);

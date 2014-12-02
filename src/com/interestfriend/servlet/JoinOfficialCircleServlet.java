@@ -87,27 +87,30 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 				.getParameter("circle_creator"));
 		String group_id = request.getParameter("group_id");
 		String huanxin_userName = request.getParameter("huanxin_username");//
-		// long lastReqTime = DateUtils.getLastUpdateTime();
-		// Members member = new Members();
-		// member.setCircle_id(circle_id);
-		// member.setUser_id(user_id);
-		// member.setUser_update_time(lastReqTime);
-		// member.setCircle_last_request_time(lastReqTime);
-		// MembersDao dao = MembersDaoFactory.getInstance();
-		// boolean rt = dao.addMembers(member);
-		// EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
-		// Map<String, Object> params = new HashMap<String, Object>();
-		// if (!rt) {
-		// params.put("err", ErrorEnum.INVALID.name());
-		// params.put("rt", 0);
-		// } else {
-		// params.put("rt", 1);
-		// params.put("circle_last_request_time", lastReqTime);
-		// }
-		// PrintWriter out = response.getWriter();
-		// out.print(params);
-		// out.flush();
-		// out.close();
+		if (circle_id < 0) {
+			long lastReqTime = DateUtils.getLastUpdateTime();
+			Members member = new Members();
+			member.setCircle_id(circle_id);
+			member.setUser_id(user_id);
+			member.setUser_update_time(lastReqTime);
+			member.setCircle_last_request_time(lastReqTime);
+			MembersDao dao = MembersDaoFactory.getInstance();
+			boolean rt = dao.addMembers(member);
+			EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
+			Map<String, Object> params = new HashMap<String, Object>();
+			if (!rt) {
+				params.put("err", ErrorEnum.INVALID.name());
+				params.put("rt", 0);
+			} else {
+				params.put("rt", 1);
+				params.put("circle_last_request_time", lastReqTime);
+			}
+			PrintWriter out = response.getWriter();
+			out.print(params);
+			out.flush();
+			out.close();
+			return;
+		}
 
 		// RequestJoinCircleDao rDAO =
 		// RequestJoinCircleDaoFactory.getInstance();

@@ -16,6 +16,7 @@ public class CategoryCircleUtils {
 		c = new CategoryCircle();
 		c.setCode(2);
 		c.setName("”Œœ∑ ¿ΩÁ");
+		c.setLogo("http://192.168.1.101:8080/InterestFriend/images/category/category_game.png");
 		lists.add(c);
 		c = new CategoryCircle();
 		c.setCode(3);
