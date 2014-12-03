@@ -234,7 +234,7 @@ public class MembersDapImpl implements MembersDao {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
-		String findByIDSQL = "select user_state from circlemembers where user_id=? and circle_id=?";
+		String findByIDSQL = "select user_state from circlemembers where user_id=? and circle_id=? order by last_update_time desc";
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, user_id); // 设置参数

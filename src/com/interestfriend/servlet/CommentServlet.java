@@ -111,15 +111,9 @@ public class CommentServlet extends HttpServlet {
 			GrowthDao gDao = GrowthDaoFactory.getGrowthDaoInstance();
 			boolean res = gDao.updateGrowthUpdateTime(growth_id);
 			System.out.println(res);
-			if (growth_publisher_id == Integer.valueOf(publisher_id)) {
-				return;
-			}
 			String growth_publisher_huanxin_name = gDao
 					.getUserHuanXinNameByGrowthID(growth_id,
 							growth_publisher_id);
-			EasemobSendMessage.sendTextMessageForpRraiseAndComment(circle_id,
-					growth_id, growth_publisher_huanxin_name, "'" + user_name
-							+ "‘ 评论了您的成长");
 			if (!"".equals(reply_someone_name)) {
 				if (Integer.valueOf(reply_someone_id) == Integer
 						.valueOf(publisher_id)) {
@@ -130,8 +124,17 @@ public class CommentServlet extends HttpServlet {
 								Integer.valueOf(reply_someone_id));
 				EasemobSendMessage.sendTextMessageForpRraiseAndComment(
 						circle_id, growth_id, growth_publisher_huanxin_name,
-						"'" + user_name + "‘ 回复了您的成长");
+						"'" + user_name + "‘ 回复了您的评论");
 			}
+			if (growth_publisher_id == Integer.valueOf(publisher_id)) {
+				return;
+			}
+			EasemobSendMessage.sendTextMessageForpRraiseAndComment(circle_id,
+					growth_id, growth_publisher_huanxin_name, "'" + user_name
+							+ "‘ 评论了您的动态");
+			System.out.println("reply:::::::" + reply_someone_id + "  "
+					+ publisher_id);
+
 		}
 	}
 

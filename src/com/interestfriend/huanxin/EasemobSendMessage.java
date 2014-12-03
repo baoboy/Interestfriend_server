@@ -21,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.interestfriend.Utils.Constants;
 
 /**
  * REST API Demo: 发送消息REST API httpclient实现
@@ -91,7 +92,7 @@ public class EasemobSendMessage {
 		body.put("target", toUsernames);
 		Map<String, String> msgBody = new HashMap<String, String>();
 		msgBody.put("type", "txt");
-		msgBody.put("msg", "hello from rest");
+		msgBody.put("msg", "系统通知");
 		body.put("msg", msgBody);
 		body.put("from", "growth");
 		Map<String, String> extBody = new HashMap<String, String>();
@@ -216,7 +217,7 @@ public class EasemobSendMessage {
 			extBody.put("huanxin_userName", huanxin_userName);
 			extBody.put("join_circle_name", join_circle_name);
 			extBody.put("user_name", "趣友");
-			extBody.put("user_avatar", "");
+			extBody.put("user_avatar", Constants.APP_AVATAR);
 			body.put("ext", extBody);
 			Client client = getClient(true);
 			WebTarget target = ((javax.ws.rs.client.Client) client)
@@ -255,7 +256,7 @@ public class EasemobSendMessage {
 			body.put("from", EasemobConstans.REFUSE_JON_CIRCLE_USER_ID);
 			Map<String, String> extBody = new HashMap<String, String>();
 			extBody.put("user_name", "趣友");
-			extBody.put("user_avatar", "");
+			extBody.put("user_avatar", Constants.APP_AVATAR);
 			body.put("ext", extBody);
 			Client client = getClient(true);
 			WebTarget target = ((javax.ws.rs.client.Client) client)
@@ -294,7 +295,7 @@ public class EasemobSendMessage {
 			body.put("from", EasemobConstans.RECEIVE_JOIN_CIRCLE_USER_ID);
 			Map<String, String> extBody = new HashMap<String, String>();
 			extBody.put("user_name", "趣友");
-			extBody.put("user_avatar", "");
+			extBody.put("user_avatar", Constants.APP_AVATAR);
 			body.put("ext", extBody);
 			Client client = getClient(true);
 			WebTarget target = ((javax.ws.rs.client.Client) client)
@@ -338,7 +339,7 @@ public class EasemobSendMessage {
 			body.put("from", EasemobConstans.DISSOLVE_CIRCLE_USER_ID);
 			Map<String, String> extBody = new HashMap<String, String>();
 			extBody.put("user_name", "趣友");
-			extBody.put("user_avatar", "");
+			extBody.put("user_avatar", Constants.APP_AVATAR);
 			extBody.put("circle_id", circle_id);
 			extBody.put("user_id", user_id + "");
 			body.put("ext", extBody);
@@ -385,7 +386,7 @@ public class EasemobSendMessage {
 			body.put("from", EasemobConstans.PRAISE_USER_ID);
 			Map<String, String> extBody = new HashMap<String, String>();
 			extBody.put("user_name", "趣友");
-			extBody.put("user_avatar", "");
+			extBody.put("user_avatar", Constants.APP_AVATAR);
 			extBody.put("growth_id", growth_id + "");
 			extBody.put("circle_id", cid + "");
 			body.put("ext", extBody);
@@ -433,7 +434,7 @@ public class EasemobSendMessage {
 			body.put("from", EasemobConstans.KICK_OUT_USER_ID);
 			Map<String, String> extBody = new HashMap<String, String>();
 			extBody.put("user_name", "趣友");
-			extBody.put("user_avatar", "");
+			extBody.put("user_avatar", Constants.APP_AVATAR);
 			extBody.put("circle_id", circle_id + "");
 			body.put("ext", extBody);
 			Client client = getClient(true);

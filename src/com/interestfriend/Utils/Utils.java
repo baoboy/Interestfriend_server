@@ -102,4 +102,8 @@ public class Utils {
 		}
 		return str.toString();
 	}
+
+	public static void print(String str) {
+		System.out.println(str);
+	}
 }

@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.interestfriend.Idao.CircleDao;
+import com.interestfriend.Utils.Constants;
 import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 public class CircleDaoImpl implements CircleDao {
 
@@ -109,7 +111,8 @@ public class CircleDaoImpl implements CircleDao {
 	@Override
 	public ResultSet findCirclesByLongitudeAndLatitude(double longitude,
 			double latitude) {
-		double[] getAround = Utils.getAround(latitude, longitude, 4000);
+		double[] getAround = Utils.getAround(latitude, longitude,
+				Constants.NEAR_RAIDUS);
 		double minLat = getAround[0];
 		double minLong = getAround[1];
 		double maxLat = getAround[2];
@@ -119,7 +122,7 @@ public class CircleDaoImpl implements CircleDao {
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 
-		String findByIDSQL = "select circle.*,user.user_name from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id"; // SQL语句
+		String findByIDSQL = "select circle.*,user.user_name from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id limit 0,20"; // SQL语句
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setDouble(1, minLat);

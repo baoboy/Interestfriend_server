@@ -120,7 +120,7 @@ public class GrowthPraiseServlet extends HttpServlet {
 							growth_publisher_id);
 			EasemobSendMessage.sendTextMessageForpRraiseAndComment(circle_id,
 					growth_id, growth_publisher_huanxin_name, "'" + user_name
-							+ "‘ 赞了您的成长");
+							+ "‘ 赞了您的动态");
 
 		}
 	}
