@@ -415,7 +415,7 @@ public class EasemobSendMessage {
 	 * @param to_user_id
 	 */
 	public static void sendMessageForKickOutCircle(String textContent,
-			String to_user_id, int circle_id) {
+			String to_user_id, int circle_id, int kickout_user_id) {
 		try {
 			String token = getAccessToken(EasemobConstans.APP_KEY,
 					EasemobConstans.USER_NAME, EasemobConstans.PASSWORD);
@@ -436,6 +436,7 @@ public class EasemobSendMessage {
 			extBody.put("user_name", "趣友");
 			extBody.put("user_avatar", Constants.APP_AVATAR);
 			extBody.put("circle_id", circle_id + "");
+			extBody.put("kickout_user_id", kickout_user_id + "");
 			body.put("ext", extBody);
 			Client client = getClient(true);
 			WebTarget target = ((javax.ws.rs.client.Client) client)
