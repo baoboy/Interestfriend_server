@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.interestfriend.Utils.Constants;
 
 /**
- * REST API Demo: 发送消息REST API httpclient实现
+ * REST API : 发送消息REST API httpclient实现
  * 
  * Doc URL: http://developer.easemob.com/docs/emchat/rest/sendmessage.html
  * 
@@ -43,7 +43,7 @@ public class EasemobSendMessage {
 			List<String> toUsernames = new ArrayList<String>();
 			toUsernames.add(group_id);
 			String fromUser = "growth";
-			String txtContent = "Hello,It is a test message!";
+			String txtContent = "有人更新了动态,快去看看吧";
 			Map<String, String> sendResult;
 			sendResult = sendTextMessage(EasemobConstans.APP_KEY, token,
 					txtContent, fromUser, toUsernames, publisher_id);
@@ -92,12 +92,14 @@ public class EasemobSendMessage {
 		body.put("target", toUsernames);
 		Map<String, String> msgBody = new HashMap<String, String>();
 		msgBody.put("type", "txt");
-		msgBody.put("msg", "系统通知");
+		msgBody.put("msg", "textContent");
 		body.put("msg", msgBody);
 		body.put("from", "growth");
 		Map<String, String> extBody = new HashMap<String, String>();
 		extBody.put("publisher_id", publisher_id);
-		// extBody.put("attr2", "v2");
+		extBody.put("user_name", "趣友");
+		extBody.put("user_avatar", Constants.APP_AVATAR);
+		body.put("ext", extBody);
 		body.put("ext", extBody);
 		ObjectMapper mapper = new ObjectMapper();
 		Client client = getClient(true);

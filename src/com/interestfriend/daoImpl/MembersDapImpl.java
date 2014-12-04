@@ -50,7 +50,7 @@ public class MembersDapImpl implements MembersDao {
 
 		// String findByIDSQL = "select * from circle where user_id = ?"; //
 		// SQL语句
-		String findByIDSQL = "select circle.*, circlemembers.circle_state,user.user_name from( circle inner join circlemembers on circle.circle_id=circlemembers.circle_id AND circlemembers.user_id=? and  circlemembers.circle_last_request_time>?)inner join user on  circle.creator_id= user.user_id ";
+		String findByIDSQL = "select circle.*, circlemembers.circle_state,circlemembers.user_state,user.user_name from( circle inner join circlemembers on circle.circle_id=circlemembers.circle_id AND circlemembers.user_id=? and  circlemembers.circle_last_request_time>?)inner join user on  circle.creator_id= user.user_id ";
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, userID); // 设置参数
@@ -218,7 +218,6 @@ public class MembersDapImpl implements MembersDao {
 			rs = pstmt.executeQuery(); // 执行查询
 			rs.last(); // 移到最后一行
 			int rowCount = rs.getRow(); // 得到当前行号，也就是记录数
-			System.out.println("member_count:" + rowCount);
 			return rowCount;
 		} catch (Exception e) {
 			System.out.println(e.toString());

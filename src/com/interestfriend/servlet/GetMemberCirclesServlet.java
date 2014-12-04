@@ -90,7 +90,8 @@ public class GetMemberCirclesServlet extends HttpServlet {
 		try {
 			while (res.next()) {
 				String state = res.getString("circle_state");
-				if ("DEL".equals(state)) {
+				String user_state = res.getString("user_state");
+				if ("DEL".equals(state) || "DEL".equals(user_state)) {
 					continue;
 				}
 				Circle circle = new Circle();
