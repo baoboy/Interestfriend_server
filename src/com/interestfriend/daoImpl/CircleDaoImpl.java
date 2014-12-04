@@ -7,10 +7,10 @@ import java.sql.SQLException;
 
 import com.interestfriend.Idao.CircleDao;
 import com.interestfriend.Utils.Constants;
+import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 public class CircleDaoImpl implements CircleDao {
 
@@ -18,7 +18,7 @@ public class CircleDaoImpl implements CircleDao {
 		int autoIncKeyFromApi = -1;
 
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String addSQL = "insert into circle(creator_id,circle_name,circle_description,circle_avatar,group_id,category,longitude,latitude,circle_create_time) values(?,?,?,?,?,?,?,?,?)";
+		String addSQL = "insert into circle(creator_id,circle_name,circle_description,circle_avatar,group_id,category,longitude,latitude,circle_create_time,last_request_time) values(?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 
@@ -33,6 +33,7 @@ public class CircleDaoImpl implements CircleDao {
 			pstmt.setDouble(7, circle.getLongitude());
 			pstmt.setDouble(8, circle.getLatitude());
 			pstmt.setString(9, circle.getCircle_create_time());
+			pstmt.setString(10, circle.getCircle_create_time());
 			pstmt.executeUpdate(); // 执行更新
 			rs = pstmt.getGeneratedKeys(); // 获取自增主键！
 			if (rs.next()) {
@@ -68,11 +69,16 @@ public class CircleDaoImpl implements CircleDao {
 	}
 
 	@Override
-	public ResultSet findCirclesByCategory(int category) {
+	public ResultSet findCirclesByCategory(int category, int page) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
-		String findByIDSQL = "select circle.* ,user.user_name from circle inner join user   on circle.creator_id=user.user_id and  category = ?"; // SQL语句
+		int startIndex = (page - 1) * 20;
+		int endIndex = page * 20;
+		Utils.print("page:" + startIndex + "   " + endIndex);
+
+		String findByIDSQL = "select circle.* ,user.user_name from circle inner join user   on circle.creator_id=user.user_id and  category = ? order by circle.last_request_time desc  limit "
+				+ startIndex + "," + endIndex; // SQL语句
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, category); // 设置参数
@@ -110,7 +116,7 @@ public class CircleDaoImpl implements CircleDao {
 
 	@Override
 	public ResultSet findCirclesByLongitudeAndLatitude(double longitude,
-			double latitude) {
+			double latitude, int page) {
 		double[] getAround = Utils.getAround(latitude, longitude,
 				Constants.NEAR_RAIDUS);
 		double minLat = getAround[0];
@@ -121,15 +127,17 @@ public class CircleDaoImpl implements CircleDao {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
-
-		String findByIDSQL = "select circle.*,user.user_name from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id limit 0,20"; // SQL语句
+		int startIndex = (page - 1) * 20;
+		int endIndex = page * 20;
+		String findByIDSQL = "select circle.*,user.user_name from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id order by circle.last_request_time desc  limit "
+				+ startIndex + "," + endIndex; // SQL语句
+		Utils.print("page:" + startIndex + "   " + endIndex);
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setDouble(1, minLat);
 			pstmt.setDouble(2, maxLat);
 			pstmt.setDouble(3, minLong);
 			pstmt.setDouble(4, maxLong);
-
 			rs = pstmt.executeQuery(); // 执行查询
 		} catch (Exception e) {
 		} finally {
@@ -146,6 +154,27 @@ public class CircleDaoImpl implements CircleDao {
 			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
 			pstmt.setString(1, circle.getCircle_description());
 			pstmt.setInt(2, circle.getCircle_id());
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateCircleLastRequestTime(int creator_id) {
+		String sql = "UPDATE circle SET last_request_time = ?  WHERE creator_id =?";
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setString(1, DateUtils.getRegisterTime());
+			pstmt.setInt(2, creator_id);
 			int res = pstmt.executeUpdate(); // 执行查询
 			if (res > 0) {
 				return true;

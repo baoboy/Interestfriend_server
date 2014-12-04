@@ -83,6 +83,7 @@ public class SearchNearCirclesServlet extends HttpServlet {
 
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
+		int page = Integer.valueOf(request.getParameter("page"));
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		double longitude = Double.valueOf(request.getParameter("longitude"));
 		double latitude = Double.valueOf(request.getParameter("latitude")
@@ -90,7 +91,7 @@ public class SearchNearCirclesServlet extends HttpServlet {
 		System.out.println(longitude + "     " + latitude);
 		CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 		ResultSet res = dao.findCirclesByLongitudeAndLatitude(longitude,
-				latitude);
+				latitude, page);
 		MembersDao mDao = MembersDaoFactory.getInstance();
 		List<Circle> circleLists = new ArrayList<Circle>();
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -149,6 +150,7 @@ public class SearchNearCirclesServlet extends HttpServlet {
 		out.flush();
 		out.close();
 		System.out.println(jsonObjectFromMap.toString());
+		dao.updateCircleLastRequestTime(user_id);// 更新查看附近圈子时间
 	}
 
 	/**
@@ -158,7 +160,6 @@ public class SearchNearCirclesServlet extends HttpServlet {
 	 *             if an error occurs
 	 */
 	public void init() throws ServletException {
-		// Put your code here
 	}
 
 }

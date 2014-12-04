@@ -7,7 +7,7 @@ import com.interestfriend.bean.CategoryCircle;
 
 public class CategoryCircleUtils {
 	public static List<CategoryCircle> lists = new ArrayList<CategoryCircle>();
-	public static final String URL = "http://10.6.7.219:8080/InterestFriend/images/category/";
+	public static final String URL = "http://192.168.20.103:8080/InterestFriend/images/category/";
 	static {
 		CategoryCircle c = new CategoryCircle();
 		c.setCode(1);

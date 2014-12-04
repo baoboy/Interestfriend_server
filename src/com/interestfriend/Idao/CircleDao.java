@@ -9,12 +9,14 @@ public interface CircleDao {
 
 	ResultSet findCirclesByUserID(int userID);
 
-	ResultSet findCirclesByCategory(int category);// 按类别查找圈子
+	ResultSet findCirclesByCategory(int category, int page);// 按类别查找圈子
 
 	String getGroupIdByCircleID(int circle_id);// 获取聊天群组id
 
 	ResultSet findCirclesByLongitudeAndLatitude(double longitude,
-			double latitude); // 按经纬度查找附近圈子
+			double latitude, int page); // 按经纬度查找附近圈子
 
 	boolean updateCircleDiscreption(Circle circle); // 修改圈子描述
+
+	boolean updateCircleLastRequestTime(int creator_id);
 }

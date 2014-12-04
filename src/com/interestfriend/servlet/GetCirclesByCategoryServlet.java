@@ -81,13 +81,13 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		response.setContentType("text/html; charset=utf8");
 		request.setCharacterEncoding("utf8");
 		MembersDao mDao = MembersDaoFactory.getInstance();
+		int page = Integer.valueOf(request.getParameter("page"));
 		int category = Integer.valueOf(request.getParameter("category"));
 		CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
-		ResultSet res = dao.findCirclesByCategory(category);
+		ResultSet res = dao.findCirclesByCategory(category, page);
 		List<Circle> circleLists = new ArrayList<Circle>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (res != null) {
