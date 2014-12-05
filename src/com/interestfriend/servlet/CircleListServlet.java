@@ -102,6 +102,11 @@ public class CircleListServlet extends HttpServlet {
 		List<Circle> circleLists = new ArrayList<Circle>();
 		try {
 			while (res.next()) {
+				String state = res.getString("circle_state");
+				String user_state = res.getString("user_state");
+				if ("DEL".equals(state) || "DEL".equals(user_state)) {
+					continue;
+				}
 				Circle circle = new Circle();
 				circle.setCircle_avatar(res.getString("circle_avatar"));
 				circle.setCircle_description(res

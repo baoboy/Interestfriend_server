@@ -129,8 +129,14 @@ public class CircleDaoImpl implements CircleDao {
 		ResultSet rs = null;
 		int startIndex = (page - 1) * 20;
 		int endIndex = page * 20;
-		String findByIDSQL = "select circle.*,user.user_name from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id order by circle.last_request_time desc  limit "
-				+ startIndex + "," + endIndex; // SQL语句
+		String findByIDSQL = "select circle.*,user.user_name from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id order by circle.last_request_time   limit "
+				+ startIndex + "," + endIndex;
+		// String findByIDSQL =
+		// "select circle.*,user.user_name , circle.longitude-"
+		// + longitude
+		// +
+		// " dis from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id order by dis   limit "
+		// + startIndex + "," + endIndex;
 		Utils.print("page:" + startIndex + "   " + endIndex);
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
@@ -175,6 +181,29 @@ public class CircleDaoImpl implements CircleDao {
 			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
 			pstmt.setString(1, DateUtils.getRegisterTime());
 			pstmt.setInt(2, creator_id);
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateCircleLongitudeAndLatitude(double longitude,
+			double latitude, int creator_id) {
+		String sql = "UPDATE circle SET longitude = ?,latitude= ? WHERE creator_id =?";
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setDouble(1, longitude);
+			pstmt.setDouble(2, latitude);
+			pstmt.setInt(3, creator_id);
 			int res = pstmt.executeUpdate(); // 执行查询
 			if (res > 0) {
 				return true;

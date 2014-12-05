@@ -18,9 +18,11 @@ import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.CategoryCircleUtils;
+import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.factory.MembersDaoFactory;
+import com.mysql.jdbc.Util;
 
 public class GetMemberCirclesServlet extends HttpServlet {
 

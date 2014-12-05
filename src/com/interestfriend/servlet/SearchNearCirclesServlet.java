@@ -150,7 +150,7 @@ public class SearchNearCirclesServlet extends HttpServlet {
 		out.flush();
 		out.close();
 		System.out.println(jsonObjectFromMap.toString());
-		dao.updateCircleLastRequestTime(user_id);// 更新查看附近圈子时间
+		dao.updateCircleLongitudeAndLatitude(longitude, latitude, user_id);
 	}
 
 	/**

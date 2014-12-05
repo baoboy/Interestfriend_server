@@ -19,4 +19,7 @@ public interface CircleDao {
 	boolean updateCircleDiscreption(Circle circle); // ĞŞ¸ÄÈ¦×ÓÃèÊö
 
 	boolean updateCircleLastRequestTime(int creator_id);
+
+	boolean updateCircleLongitudeAndLatitude(double longitude, double latitude,
+			int creator_id);
 }

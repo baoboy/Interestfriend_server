@@ -55,7 +55,6 @@ public class MembersDapImpl implements MembersDao {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, userID); // 设置参数
 			pstmt.setLong(2, lastReqTime);
-
 			rs = pstmt.executeQuery(); // 执行查询
 		} catch (Exception e) {
 		} finally {
