@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.PinYinUtil;
+import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.User;
 import com.interestfriend.db.DBConnection;
 
@@ -42,6 +43,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public boolean verifyCellphone(String cellPhone) {
+		Utils.print("cellPhone:" + cellPhone);
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		String sql = "select user_id from user where user_cellphone = ? ";
 		PreparedStatement pstmt = null; // 声明预处理对象

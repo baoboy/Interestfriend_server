@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.interestfriend.Idao.SMSCodeDao;
 import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.SMSCode;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.SMSCodeDaoFactory;
@@ -91,6 +92,7 @@ public class CheckVerifyCodeServlet extends HttpServlet {
 		String sms_code = request.getParameter("sms_code");
 		SMSCodeDao dao = SMSCodeDaoFactory.getinstance();
 		String code = dao.findCodeByCellphone(cellphone);
+		Utils.print("check_code:" + sms_code + "  " + code + "   " + cellphone);
 		boolean res = code.equals(sms_code);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (!res) {
