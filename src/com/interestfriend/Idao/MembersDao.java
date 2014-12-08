@@ -24,4 +24,6 @@ public interface MembersDao {
 	Status findUserStateInCircle(int user_id, int cirlce_id);// 查找用户在圈子内的状态
 
 	int getCircleMemberNumOfCircle(int circle_id);
+
+	boolean findMemberInCircle(int circle_id, int user_id);// 该成员在圈子内是否存在
 }

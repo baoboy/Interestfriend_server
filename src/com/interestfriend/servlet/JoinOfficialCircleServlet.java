@@ -87,6 +87,14 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 				.getParameter("circle_creator"));
 		String group_id = request.getParameter("group_id");
 		String huanxin_userName = request.getParameter("huanxin_username");//
+		MembersDao dao = MembersDaoFactory.getInstance();
+		boolean res = dao.findMemberInCircle(circle_id, user_id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		if (res) {
+			params.put("err", ErrorEnum.INVALID.name());
+			params.put("rt", 0);
+			return;
+		}
 		if (circle_id < 0) {
 			long lastReqTime = DateUtils.getLastUpdateTime();
 			Members member = new Members();
@@ -94,10 +102,8 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 			member.setUser_id(user_id);
 			member.setUser_update_time(lastReqTime);
 			member.setCircle_last_request_time(lastReqTime);
-			MembersDao dao = MembersDaoFactory.getInstance();
 			boolean rt = dao.addMembers(member);
 			EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
-			Map<String, Object> params = new HashMap<String, Object>();
 			if (!rt) {
 				params.put("err", ErrorEnum.INVALID.name());
 				params.put("rt", 0);
@@ -124,7 +130,6 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 		EasemobSendMessage.sendMessageForJoinCircle("'" + user_name + "'"
 				+ " 请求加入您创建的   ’" + circle_name + "‘  圈子", user_chat_id,
 				circle_id, user_id, group_id, huanxin_userName, circle_name);
-		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("rt", 1);
 		params.put("circle_last_request_time", DateUtils.getLastUpdateTime());
 		PrintWriter out = response.getWriter();
