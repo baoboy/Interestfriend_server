@@ -131,12 +131,6 @@ public class CircleDaoImpl implements CircleDao {
 		int endIndex = page * 20;
 		String findByIDSQL = "select circle.*,user.user_name from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id order by circle.last_request_time   limit "
 				+ startIndex + "," + endIndex;
-		// String findByIDSQL =
-		// "select circle.*,user.user_name , circle.longitude-"
-		// + longitude
-		// +
-		// " dis from circle ,user where latitude BETWEEN ? AND ? and  longitude  BETWEEN ? AND ?  and circle.creator_id=`user`.user_id order by dis   limit "
-		// + startIndex + "," + endIndex;
 		Utils.print("page:" + startIndex + "   " + endIndex);
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值

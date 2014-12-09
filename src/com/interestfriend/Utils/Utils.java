@@ -39,13 +39,22 @@ public class Utils {
 				39.9160140, 116.4659610));
 		System.out.println(getDistanceOfMeter(39.914994, 116.455932,
 				39.9160140, 116.4659910));
-		System.out.println(getDistanceOfMeter(39.914994, 116.455932,
-				39.9160140, 116.4679610));
-		System.out.println(getDistanceOfMeter(39.914994, 116.455932,
-				39.9160140, 116.4759610));
-		System.out.println(getDistanceOfMeter(39.914994, 116.455932,
-				39.9160140, 116.4989610));
+		// System.out.println(getDistanceOfMeter(39.914994, 116.455932,
+		// 39.9160140, 116.4679610));
+		// System.out.println(getDistanceOfMeter(39.914994, 116.455932,
+		// 39.9160140, 116.4759610));
+		// System.out.println(getDistanceOfMeter(39.914994, 116.455932,
+		// 39.9160140, 116.4989610));
+		System.out.println();
+		System.out.println();
+		System.out.println();
 
+		System.out.println(Math.sqrt(39.9160140 + 116.4159610));
+		System.out.println(Math.sqrt(39.9160140 + 116.4240610));
+		System.out.println(Math.sqrt(39.9160140 + 116.4639200));
+		System.out.println(Math.sqrt(39.9160140 + 116.4639610));
+		System.out.println(Math.sqrt(39.9160140 + 116.4659610));
+		System.out.println(Math.sqrt(39.9160140 + 116.4659910));
 	}
 
 	/**

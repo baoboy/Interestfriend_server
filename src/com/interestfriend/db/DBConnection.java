@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class DBConnection {
 	private static final String DBDRIVER = "com.mysql.jdbc.Driver"; // 驱动类类名
@@ -19,9 +20,17 @@ public class DBConnection {
 			conn = DriverManager.getConnection(DBURL, DBUSER, DBPASSWORD); // 获得连接对象
 		} catch (ClassNotFoundException e) { // 捕获驱动类无法找到异常
 			e.printStackTrace();
+			System.out.println(e.toString());
 		} catch (SQLException e) { // 捕获SQL异常
 			e.printStackTrace();
+			System.out.println(e.toString());
+
 		}
+	}
+
+	public static int getInt() {
+		return -8;
+
 	}
 
 	public static Connection getConnection() {
