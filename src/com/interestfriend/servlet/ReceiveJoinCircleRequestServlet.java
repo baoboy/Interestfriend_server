@@ -116,7 +116,7 @@ public class ReceiveJoinCircleRequestServlet extends HttpServlet {
 		out.flush();
 		out.close();
 		EasemobSendMessage.sendMessageForReceiveJoinCircle("管理员已经同意您加入  ‘"
-				+ join_circle_name + "'", huanxin_userName);
+				+ join_circle_name + "' 圈子", huanxin_userName);
 		System.out.println("---" + huanxin_userName);
 	}
 

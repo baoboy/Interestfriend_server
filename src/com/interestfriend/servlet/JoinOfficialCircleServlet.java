@@ -11,14 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.MembersDao;
-import com.interestfriend.Idao.RequestJoinCircleDao;
 import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Members;
-import com.interestfriend.bean.RequestJoinCircle;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.factory.RequestJoinCircleDaoFactory;
 import com.interestfriend.factory.UserDaoFactory;
 import com.interestfriend.huanxin.EasemobGroupMessage;
 import com.interestfriend.huanxin.EasemobSendMessage;
@@ -91,8 +88,12 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 		boolean res = dao.findMemberInCircle(circle_id, user_id);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (res) {
-			params.put("err", ErrorEnum.INVALID.name());
+			params.put("err", ErrorEnum.ALERADY_IN_CIRCLE.name());
 			params.put("rt", 0);
+			PrintWriter out = response.getWriter();
+			out.print(params);
+			out.flush();
+			out.close();
 			return;
 		}
 		if (circle_id < 0) {
@@ -103,7 +104,6 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 			member.setUser_update_time(lastReqTime);
 			member.setCircle_last_request_time(lastReqTime);
 			boolean rt = dao.addMembers(member);
-			EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
 			if (!rt) {
 				params.put("err", ErrorEnum.INVALID.name());
 				params.put("rt", 0);
@@ -117,14 +117,7 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 			out.close();
 			return;
 		}
-
-		// RequestJoinCircleDao rDAO =
-		// RequestJoinCircleDaoFactory.getInstance();
-		// RequestJoinCircle rCircle = new RequestJoinCircle();
-		// rCircle.setJoin_circle_creator_id(circle_creator);
-		// rCircle.setJoin_circle_id(circle_id);
-		// rCircle.setRequest_join_circle_user_id(user_id);
-		// rDAO.requestJoinCircle(rCircle);
+		EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
 		UserDao uDao = UserDaoFactory.getUserDaoInstance();
 		String user_chat_id = uDao.findUserChatIDByUserID(circle_creator);
 		EasemobSendMessage.sendMessageForJoinCircle("'" + user_name + "'"

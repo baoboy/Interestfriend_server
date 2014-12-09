@@ -145,7 +145,7 @@ public class MembersDapImpl implements MembersDao {
 			sql = "UPDATE circlemembers SET  last_update_time ="
 					+ DateUtils.getLastUpdateTime() + ",user_state= '"
 					+ member.getUser_state() + "' WHERE user_id ="
-					+ member.getUser_id();
+					+ member.getUser_id() + " and user_state <> 'DEL'";
 		}
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
@@ -168,7 +168,7 @@ public class MembersDapImpl implements MembersDao {
 		String sql = "UPDATE circlemembers SET  circle_last_request_time ="
 				+ member.getCircle_last_request_time() + ",circle_state= '"
 				+ member.getCircle_state() + "' WHERE circle_id ="
-				+ member.getCircle_id();
+				+ member.getCircle_id() + " and circle_state <> 'DEL'";
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {

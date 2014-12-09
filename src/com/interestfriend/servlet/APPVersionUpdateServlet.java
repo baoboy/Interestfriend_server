@@ -14,8 +14,10 @@ import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.Constants;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.Utils.Utils;
 import com.interestfriend.factory.UserDaoFactory;
 import com.interestfriend.huanxin.EasemobSendMessage;
+import com.mysql.jdbc.Util;
 
 public class APPVersionUpdateServlet extends HttpServlet {
 
@@ -80,6 +82,7 @@ public class APPVersionUpdateServlet extends HttpServlet {
 		out.print(JsonUtil.toJsonString(params));
 		out.flush();
 		out.close();
+		Utils.print("new_version:" + JsonUtil.toJsonString(params));
 	}
 
 	/**

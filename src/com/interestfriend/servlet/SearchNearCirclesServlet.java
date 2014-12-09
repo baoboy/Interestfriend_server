@@ -134,7 +134,7 @@ public class SearchNearCirclesServlet extends HttpServlet {
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-				System.out.println(e.toString());
+				Utils.print(e.toString());
 			} finally {
 				DBConnection.close(res);
 			}

@@ -85,7 +85,7 @@ public class RefuseJoinCircleRequestServlet extends HttpServlet {
 				.getParameter("request_join_circle_user_huanxin_username");
 		String join_circle_name = request.getParameter("join_circle_name");
 		EasemobSendMessage.sendMessageForFefuseJoinCircle("创建者拒绝您加入  ‘"
-				+ join_circle_name + "'", huanxin_userName);
+				+ join_circle_name + "' 圈子", huanxin_userName);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("rt", 1);
 		PrintWriter out = response.getWriter();
