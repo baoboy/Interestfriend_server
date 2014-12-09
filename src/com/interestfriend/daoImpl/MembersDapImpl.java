@@ -210,7 +210,7 @@ public class MembersDapImpl implements MembersDao {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
-		String findByIDSQL = "select user_id from  circlemembers where circle_id=?";
+		String findByIDSQL = "select user_id from  circlemembers where circle_id=? and user_state <> 'DEL'";
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, circle_id); // 设置参数
@@ -246,5 +246,26 @@ public class MembersDapImpl implements MembersDao {
 		} finally {
 		}
 		return Status.INVALID;
+	}
+
+	@Override
+	public boolean findMemberInCircle(int circle_id, int user_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		String findByIDSQL = "select user_id from circlemembers where user_id=? and circle_id=? and user_state <> 'DEL'";
+		try {
+			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
+			pstmt.setInt(1, user_id); // 设置参数
+			pstmt.setInt(2, circle_id); // 设置参数
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+		}
+		return false;
 	}
 }
