@@ -190,6 +190,7 @@ public class AddGrowthServlet extends HttpServlet {
 			if (growth_id > 0) {
 				params.put("rt", 1);
 				params.put("gid", growth_id);
+				params.put("cid", cid);
 				params.put("images", growthImages);
 				params.put("time", time);
 

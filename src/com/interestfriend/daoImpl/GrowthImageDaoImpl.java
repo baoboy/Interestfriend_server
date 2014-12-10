@@ -48,6 +48,8 @@ public class GrowthImageDaoImpl implements GrowthImageDao {
 				GrowthImage img = new GrowthImage();
 				img.setImg_url(res.getString("image_url"));
 				img.setImg_id(res.getInt("image_id"));
+				img.setCid(cid);
+				img.setGrowth_id(growth_id);
 				images.add(img);
 			}
 			return images;

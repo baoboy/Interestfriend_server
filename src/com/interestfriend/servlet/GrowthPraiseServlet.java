@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.GrowthPraiseDao;
+import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.bean.GrowthPraise;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.GrowthDaoFactory;
 import com.interestfriend.factory.GrowthPraiseDaoFactory;
+import com.interestfriend.factory.MembersDaoFactory;
 import com.interestfriend.huanxin.EasemobSendMessage;
 
 public class GrowthPraiseServlet extends HttpServlet {
@@ -113,6 +115,12 @@ public class GrowthPraiseServlet extends HttpServlet {
 			boolean res = gDao.updateGrowthUpdateTime(growth_id);
 			System.out.println(res);
 			if (growth_publisher_id == user_id) {
+				return;
+			}
+			MembersDao mdao = MembersDaoFactory.getInstance();
+			res = mdao.findMemberInCircle(circle_id,
+					Integer.valueOf(growth_publisher_id));
+			if (!res) {
 				return;
 			}
 			String growth_publisher_huanxin_name = gDao

@@ -101,9 +101,18 @@ public class ReceiveJoinCircleRequestServlet extends HttpServlet {
 		member.setUser_update_time(lastReqTime);
 		member.setCircle_last_request_time(lastReqTime);
 		MembersDao dao = MembersDaoFactory.getInstance();
+		boolean res = dao.findMemberInCircle(circle_id, user_id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		if (res) {
+			params.put("rt", 1);
+			PrintWriter out = response.getWriter();
+			out.print(params);
+			out.flush();
+			out.close();
+			return;
+		}
 		boolean rt = dao.addMembers(member);
 		EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
-		Map<String, Object> params = new HashMap<String, Object>();
 		if (!rt) {
 			params.put("err", ErrorEnum.INVALID.name());
 			params.put("rt", 0);

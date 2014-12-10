@@ -104,8 +104,8 @@ public class KickOutMemberServlet extends HttpServlet {
 		out.flush();
 		out.close();
 		if (rt) {
-			EasemobSendMessage.sendMessageForKickOutCircle("您已经被管理员踢出 '"
-					+ circle_name + "'", kick_out_user_chat_id, circle_id,
+			EasemobSendMessage.sendMessageForKickOutCircle("您已经被管理员踢出  '"
+					+ circle_name + "' 圈子", kick_out_user_chat_id, circle_id,
 					user_id);
 			EasemobGroupMessage
 					.deleteFromGroup(group_id, kick_out_user_chat_id);

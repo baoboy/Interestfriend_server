@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.CommentDao;
 import com.interestfriend.Idao.GrowthDao;
+import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Comment;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CommentDaoFactory;
 import com.interestfriend.factory.GrowthDaoFactory;
+import com.interestfriend.factory.MembersDaoFactory;
 import com.interestfriend.huanxin.EasemobSendMessage;
 
 public class CommentServlet extends HttpServlet {
@@ -114,9 +117,16 @@ public class CommentServlet extends HttpServlet {
 			String growth_publisher_huanxin_name = gDao
 					.getUserHuanXinNameByGrowthID(growth_id,
 							growth_publisher_id);
+			MembersDao mdao = MembersDaoFactory.getInstance();
+
 			if (!"".equals(reply_someone_name)) {
 				if (Integer.valueOf(reply_someone_id) == Integer
 						.valueOf(publisher_id)) {
+					return;
+				}
+				res = mdao.findMemberInCircle(circle_id,
+						Integer.valueOf(reply_someone_id));
+				if (!res) {
 					return;
 				}
 				growth_publisher_huanxin_name = gDao
@@ -127,6 +137,11 @@ public class CommentServlet extends HttpServlet {
 						"'" + user_name + "‘ 回复了您的评论");
 			}
 			if (growth_publisher_id == Integer.valueOf(publisher_id)) {
+				return;
+			}
+			res = mdao.findMemberInCircle(circle_id,
+					Integer.valueOf(growth_publisher_id));
+			if (!res) {
 				return;
 			}
 			EasemobSendMessage.sendTextMessageForpRraiseAndComment(circle_id,
