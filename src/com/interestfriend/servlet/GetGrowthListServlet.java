@@ -21,6 +21,7 @@ import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.GrowthImageDao;
 import com.interestfriend.Idao.GrowthPraiseDao;
 import com.interestfriend.Utils.DateUtils;
+import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Growth;
 import com.interestfriend.bean.GrowthPraise;
 import com.interestfriend.db.DBConnection;
@@ -90,6 +91,7 @@ public class GetGrowthListServlet extends HttpServlet {
 		int cid = Integer.valueOf(request.getParameter("cid"));
 		int refushState = Integer.valueOf(request.getParameter("refushState"));
 		String refushTime = request.getParameter("refushTime");
+		Utils.print("refushTime::::::::" + refushTime);
 		GrowthDao dao = GrowthDaoFactory.getGrowthDaoInstance();
 		ResultSet res = dao.getGrowthByCid(cid, refushState, refushTime);
 		List<Growth> lists = new ArrayList<Growth>();

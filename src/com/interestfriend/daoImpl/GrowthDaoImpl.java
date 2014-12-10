@@ -72,7 +72,6 @@ public class GrowthDaoImpl implements GrowthDao {
 			if (refushState == 1) {
 				pstmt.setString(3, refushTime);
 			}
-			System.out.println("resushTIme:" + refushTime);
 			rs = pstmt.executeQuery();
 			return rs;
 		} catch (SQLException e) {
@@ -188,7 +187,7 @@ public class GrowthDaoImpl implements GrowthDao {
 				growth.setPublisher_name(res.getString("user_name"));
 				growth.setPraise_count(res.getInt("praise_count"));
 				growth.setPraises(gDao.findPraiseUserByGrowthID(growth_id));
-
+				growth.setLast_update_time(res.getString("last_update_time"));
 				return growth;
 
 			}
