@@ -95,11 +95,11 @@ public class EasemobSendMessage {
 		msgBody.put("msg", textContent);
 		body.put("msg", msgBody);
 		body.put("from", "growth");
-		Map<String, String> extBody = new HashMap<String, String>();
+		Map<String, Object> extBody = new HashMap<String, Object>();
 		extBody.put("publisher_id", publisher_id);
 		extBody.put("user_name", "趣友");
 		extBody.put("user_avatar", Constants.APP_AVATAR);
-		body.put("ext", extBody);
+		extBody.put("user_id", -1);
 		body.put("ext", extBody);
 		ObjectMapper mapper = new ObjectMapper();
 		Client client = getClient(true);

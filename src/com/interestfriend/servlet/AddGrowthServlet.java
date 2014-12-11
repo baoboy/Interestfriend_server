@@ -176,7 +176,6 @@ public class AddGrowthServlet extends HttpServlet {
 			growth.setContent(content);
 			growth.setTime(time);
 			growth.setPublisher_id(Integer.valueOf(publisher_id));
-
 			GrowthDao growthDao = GrowthDaoFactory.getGrowthDaoInstance();
 			int growth_id = growthDao.insertGrowthToDB(growth);
 			for (GrowthImage img : growthImages) {
