@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="Interestfriend_server"
+  name="InterestFriend"
   id="myeclipse.1409749674859"
   context-root="/InterestFriend"
   j2ee-spec="5.0"
-  archive="Interestfriend_server.war">
+  archive="InterestFriend.war">
   <attributes>
     <attribute name="webrootdir" value="WebRoot" />
   </attributes>

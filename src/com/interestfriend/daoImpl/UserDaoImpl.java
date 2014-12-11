@@ -113,33 +113,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean updateUserInfo(int user_id, String column, String value) {
 		String sql = "";
-		// if ("昵称".equals(column)) {
-		// sql = "UPDATE user SET user_name = '" + value
-		// + "' , user_last_update_time ="
-		// + DateUtils.getLastUpdateTime() + ",user_state= 'UPDATE' "
-		// + " ,user_sort_key= '"
-		// + PinYinUtil.converterToFirstSpell(value)
-		// + " ', user_pinyin_str= '"
-		// + PinYinUtil.converterToSpell(value) + "' WHERE user_id =?";
-		// } else if ("交友宣言".equals(column)) {
-		// sql = "UPDATE user SET user_declaration = '" + value
-		// + "' , user_last_update_time ="
-		// + DateUtils.getLastUpdateTime() + ",user_state= 'UPDATE' "
-		// + " WHERE user_id =?";
-		// } else if ("个人介绍".equals(column)) {
-		// sql = "UPDATE user SET user_description = '" + value
-		// + "' , user_last_update_time ="
-		// + DateUtils.getLastUpdateTime() + ",user_state= 'UPDATE' "
-		// + " WHERE user_id =?";
-		// }
-
-		if ("昵称".equals(column)) {
-			sql = "UPDATE user SET user_name = '" + value
-					+ "' ,user_sort_key= '"
-					+ PinYinUtil.converterToFirstSpell(value)
-					+ " ', user_pinyin_str= '"
-					+ PinYinUtil.converterToSpell(value) + "' WHERE user_id =?";
-		} else if ("交友宣言".equals(column)) {
+		if ("交友宣言".equals(column)) {
 			sql = "UPDATE user SET user_declaration = '" + value
 					+ "' WHERE user_id =?";
 		} else if ("个人介绍".equals(column)) {
@@ -257,6 +231,29 @@ public class UserDaoImpl implements UserDao {
 			DBConnection.close(pstmt); // 关闭预处理对象
 		}
 		return "";
+	}
+
+	@Override
+	public boolean updateUserName(int user_id, String name,
+			String user_sort_key, String user_pinyin) {
+		String sql = "UPDATE user SET user_name = '" + name
+				+ "' ,user_sort_key= '" + user_sort_key
+				+ " ', user_pinyin_str= '" + user_pinyin + "' WHERE user_id =?";
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setInt(1, user_id);
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return false;
 	}
 
 }

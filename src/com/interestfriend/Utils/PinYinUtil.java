@@ -21,7 +21,7 @@ public class PinYinUtil {
 	 *            ºº×Ö
 	 * @return Æ´Òô
 	 */
-	public static String converterToFirstSpell(String chines) {
+	private static String converterToFirstSpell(String chines) {
 		String pinyinName = "";
 		char[] nameChar = chines.toCharArray();
 		HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();

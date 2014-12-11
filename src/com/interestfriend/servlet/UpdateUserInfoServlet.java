@@ -90,6 +90,29 @@ public class UpdateUserInfoServlet extends HttpServlet {
 		String value = request.getParameter("value");
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		UserDao dao = UserDaoFactory.getUserDaoInstance();
+		if ("Í«≥∆".equals(cloumn)) {
+			String user_pinyin = request.getParameter("user_pinyin");
+			String user_sort_key = request.getParameter("user_sort_key");
+			boolean res = dao.updateUserName(user_id, value, user_sort_key,
+					user_pinyin);
+			Map<String, Object> params = new HashMap<String, Object>();
+			if (!res) {
+				params.put("err", ErrorEnum.INVALID.name());
+				params.put("rt", 0);
+			} else {
+				params.put("err", 1);
+				MembersDao mDao = MembersDaoFactory.getInstance();
+				Members member = new Members();
+				member.setUser_id(Integer.valueOf(user_id));
+				member.setUser_state("UPDATE");
+				mDao.updateMemberLastUpdateTimeAndState(member);
+			}
+			PrintWriter out = response.getWriter();
+			out.print(JsonUtil.toJsonString(params));
+			out.flush();
+			out.close();
+			return;
+		}
 		boolean isSuccess = dao.updateUserInfo(user_id, cloumn, value);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (!isSuccess) {

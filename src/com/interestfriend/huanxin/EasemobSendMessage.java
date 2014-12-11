@@ -92,7 +92,7 @@ public class EasemobSendMessage {
 		body.put("target", toUsernames);
 		Map<String, String> msgBody = new HashMap<String, String>();
 		msgBody.put("type", "txt");
-		msgBody.put("msg", "textContent");
+		msgBody.put("msg", textContent);
 		body.put("msg", msgBody);
 		body.put("from", "growth");
 		Map<String, String> extBody = new HashMap<String, String>();

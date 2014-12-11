@@ -171,6 +171,9 @@ public class UserRegisterServlet extends HttpServlet {
 			String user_gender = request.getAttribute("user_gender").toString();
 			String user_birthday = request.getAttribute("user_birthday")
 					.toString();
+			String user_pinyin = request.getAttribute("user_pinyin").toString();
+			String user_sort_key = request.getAttribute("user_sort_key")
+					.toString();
 			user.setUserBirthday(user_birthday);
 			user.setUserCellPhone(user_cellphone);
 			user.setUserGender(user_gender);
@@ -178,8 +181,8 @@ public class UserRegisterServlet extends HttpServlet {
 			user.setUserPassword(user_password);
 			user.setUserRegisterTime(DateUtils.getRegisterTime());
 			user.setUserLastUpdateTime(DateUtils.getLastUpdateTime());
-			user.setPinYinFir(PinYinUtil.converterToSpell(user_nameString));
-			user.setSortKey(PinYinUtil.converterToFirstSpell(user_nameString));
+			user.setPinYinFir(user_pinyin);
+			user.setSortKey(user_sort_key);
 			user.setUserState("add");
 			user.setUserChatId(user_cellphone);
 			UserDao dao = UserDaoFactory.getUserDaoInstance();
