@@ -206,8 +206,7 @@ public class CreateCircleServlet extends HttpServlet {
 				params.put("circle_id", cid);
 				params.put("rt", 1);
 				params.put("circle_last_request_time", time);
-
-				EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
+ 				EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
 
 			}
 			PrintWriter out = response.getWriter();

@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class DBConnection {
 	private static final String DBDRIVER = "com.mysql.jdbc.Driver"; // 驱动类类名
-	private static final String DBURL = "jdbc:mysql://localhost:3306/test";// 连接URL
-	private static final String DBUSER = "binbin"; // 数据库用户名
+	private static final String DBURL = "jdbc:mysql://127.0.0.1:3306/quyou";// 连接URL
+	private static final String DBUSER = "root"; // 数据库用户名 
 	private static final String DBPASSWORD = "passwordbinbin"; // 数据库密码
 	private static Connection conn = null; // 声明一个连接对象
 
