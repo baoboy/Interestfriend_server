@@ -184,7 +184,7 @@ public class UserRegisterServlet extends HttpServlet {
 			user.setPinYinFir(user_pinyin);
 			user.setSortKey(user_sort_key);
 			user.setUserState("add");
-			user.setUserChatId(user_cellphone);
+			user.setUserChatId(MD5.Md5(user_cellphone));
 			UserDao dao = UserDaoFactory.getUserDaoInstance();
 			boolean isSuccess = dao.insertUserToDB(user);
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -192,9 +192,9 @@ public class UserRegisterServlet extends HttpServlet {
 				params.put("err", ErrorEnum.INVALID.name());
 				params.put("rt", 0);
 			} else {
-				// EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
-				// MD5.Md5(user_password));
-				EasemobUserAPI.createNewUser(user_cellphone, user_password);
+				EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
+						MD5.Md5(user_password));
+				// EasemobUserAPI.createNewUser(user_cellphone, user_password);
 				params.put("rt", 1);
 			}
 			PrintWriter out = response.getWriter();

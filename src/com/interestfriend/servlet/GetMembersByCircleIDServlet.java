@@ -124,7 +124,7 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 				u.setUserBirthday(res.getString("user_birthday"));
 				u.setUserGender(res.getString("user_gender"));
 				u.setUserRegisterTime(res.getString("user_register_time"));
-				u.setUserChatId(res.getString("user_cellphone"));
+				u.setUserChatId(res.getString("user_chat_id"));
 				u.setPinYinFir(res.getString("user_pinyin_str"));
 				u.setSortKey(res.getString("user_sort_key"));
 				u.setUserState(res.getString("user_state"));

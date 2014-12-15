@@ -228,7 +228,8 @@ public class EasemobSendMessage {
 					.header("Authorization", "Bearer " + token)
 					.buildPost(Entity.json(body)).invoke();
 			String resultMsg = response.readEntity(String.class);
-			System.out.println("resultMsg:" + resultMsg);
+			System.out.println("resultMsg:Join" + huanxin_userName + "   "
+					+ resultMsg);
 		} catch (KeyManagementException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
