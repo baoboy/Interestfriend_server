@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,18 +19,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import com.interestfriend.Idao.CircleDao;
-import com.interestfriend.Idao.MembersDao;
-import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
-import com.interestfriend.bean.Circle;
-import com.interestfriend.bean.Members;
-import com.interestfriend.enums.ErrorEnum;
-import com.interestfriend.factory.CircleDaoFactory;
-import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
 
-public class CreateCircleServlet extends HttpServlet {
+public class ErrorLog extends HttpServlet {
 
 	/**
 	 * 
@@ -41,7 +31,7 @@ public class CreateCircleServlet extends HttpServlet {
 	/**
 	 * Constructor of the object.
 	 */
-	public CreateCircleServlet() {
+	public ErrorLog() {
 		super();
 	}
 
@@ -105,18 +95,12 @@ public class CreateCircleServlet extends HttpServlet {
 
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
-		Circle circle = new Circle();
-		String path = request.getContextPath();
-
-		String serverPath = request.getScheme() + "://"
-				+ request.getServerName() + ":" + request.getServerPort()
-				+ path + "/circle_images/";
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		String avatarSavePath = request.getSession().getServletContext()
-				.getRealPath("/circle_images")
+		String logSavePath = request.getSession().getServletContext()
+				.getRealPath("/error_log")
 				+ File.separator;
-
-		factory.setRepository(new File(avatarSavePath));
+		System.out.println("pth:::" + logSavePath);
+		factory.setRepository(new File(logSavePath));
 		factory.setSizeThreshold(1024 * 1024);
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		try {
@@ -137,21 +121,16 @@ public class CreateCircleServlet extends HttpServlet {
 				else {
 					// 获取路径名
 					String value = item.getName();
-					// 取到最后一个反斜杠。
-					int start = value.lastIndexOf("\\");
 					// 截取上传文件的 字符串名字。+1是去掉反斜杠。
 					// String filename = value.substring(start + 1);
-					String fileName = DateUtils.getUpLoadFileName()
-							+ value.substring(value.length() - 4,
-									value.length());
-					serverPath += fileName;
+					String fileName = value;
 					// request.setAttribute(name, filename);
 					/*
 					 * 第三方提供的方法直接写到文件中。 item.write(new File(path,filename));
 					 */
 					// 收到写到接收的文件中。
 					OutputStream out = new FileOutputStream(new File(
-							avatarSavePath, fileName));
+							logSavePath, fileName));
 					InputStream in = item.getInputStream();
 					int length = 0;
 					byte[] buf = new byte[1024];
@@ -161,67 +140,17 @@ public class CreateCircleServlet extends HttpServlet {
 					in.close();
 					out.close();
 					item.delete();
-					circle.setCircle_avatar(serverPath);
 				}
-			}
-			String circle_name = request.getAttribute("circle_name").toString();
-			String circle_description = request.getAttribute(
-					"circle_description").toString();
-			String huanxin_userName = request.getAttribute("huanxin_username")
-					.toString();
-			String category = request.getAttribute("category").toString();
-			int user_id = Integer.valueOf(request.getAttribute("user_id")
-					.toString());
-			double longitude = Double.valueOf(request.getAttribute("longitude")
-					.toString());
-			double latitude = Double.valueOf(request.getAttribute("latitude")
-					.toString());
-			String group_id = EasemobGroupMessage.createCircleGroup(
-					circle_name, circle_description);
-			circle.setCreator_id(user_id);
-			circle.setCircle_description(circle_description);
-			circle.setCircle_name(circle_name);
-			circle.setGroup_id(group_id);
-			circle.setCategory(Integer.valueOf(category));
-			circle.setLatitude(latitude);
-			circle.setLongitude(longitude);
-			circle.setCircle_create_time(DateUtils.getRegisterTime());
-			CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
-			int cid = dao.insertCircleToDB(circle);
-			Members member = new Members();
-			member.setCircle_id(cid);
-			member.setUser_id(user_id);
-			long time = DateUtils.getLastUpdateTime();
-			member.setUser_update_time(time);
-			member.setCircle_last_request_time(time);
-			MembersDao daoM = MembersDaoFactory.getInstance();
-			boolean rt = daoM.addMembers(member);
-			Map<String, Object> params = new HashMap<String, Object>();
-			if (!rt) {
-				params.put("err", ErrorEnum.INVALID.name());
-				params.put("rt", 0);
-			} else {
-				params.put("circle_logo", serverPath);
-				params.put("group_id", group_id);
-				params.put("circle_id", cid);
-				params.put("rt", 1);
-				params.put("circle_last_request_time", time);
-
-			}
-			PrintWriter out = response.getWriter();
-			out.print(JsonUtil.toJsonString(params));
-			System.out.println("路径：" + serverPath);
-			System.out.println(params.toString());
-			out.flush();
-			out.close();
-			if (rt) {
-				EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.toString());
 		}
-
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("rt", 1);
+		PrintWriter out = response.getWriter();
+		out.print(JsonUtil.toJsonString(params));
+		out.flush();
+		out.close();
 	}
 
 	/**
