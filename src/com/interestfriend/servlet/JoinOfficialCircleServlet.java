@@ -115,9 +115,9 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 			out.print(params);
 			out.flush();
 			out.close();
+			EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
 			return;
 		}
-		EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
 		UserDao uDao = UserDaoFactory.getUserDaoInstance();
 		String user_chat_id = uDao.findUserChatIDByUserID(circle_creator);
 		EasemobSendMessage.sendMessageForJoinCircle("'" + user_name + "'"
