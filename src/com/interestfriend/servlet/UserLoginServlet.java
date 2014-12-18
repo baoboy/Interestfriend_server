@@ -2,6 +2,8 @@ package com.interestfriend.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,8 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.bean.User;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.UserDaoFactory;
 
@@ -70,27 +75,52 @@ public class UserLoginServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
+		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		String user_cellphone = request.getParameter("user_cellphone");
 		String user_passwrod = request.getParameter("user_password");
 		UserDao dao = UserDaoFactory.getUserDaoInstance();
-		int resultCode = dao.userLogon(user_cellphone, user_passwrod);
+		int user_id = dao.userLogon(user_cellphone, user_passwrod);
+		ResultSet res = dao.getUserInfo(user_id);
+		User u = new User();
+		try {
+			while (res.next()) {
+				u.setUserID(res.getInt("user_id"));
+				u.setUserName(res.getString("user_name"));
+				u.setUserAvatar(res.getString("user_avatar"));
+				u.setUserBirthday(res.getString("user_birthday"));
+				u.setUserGender(res.getString("user_gender"));
+				u.setUserRegisterTime(res.getString("user_register_time"));
+				u.setUserChatId(res.getString("user_cellphone"));
+				u.setPinYinFir(res.getString("user_pinyin_str"));
+				u.setSortKey(res.getString("user_sort_key"));
+				u.setUserDeclaration(res.getString("user_declaration"));
+				u.setUserDescription(res.getString("user_description"));
+				u.setUserChatId(res.getString("user_chat_id"));
+				break;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		if (resultCode == -1) {
+		if (user_id == -1) {
 			params.put("err", ErrorEnum.NOT_EXIST_USER.name());
 			params.put("rt", 0);
-		} else if (resultCode == -2) {
+		} else if (user_id == -2) {
 			params.put("err", ErrorEnum.WRONG_PASSWORD.name());
 			params.put("rt", 0);
 		} else {
-			params.put("user_id", resultCode);
 			params.put("rt", 1);
+			params.put("user_id", user_id);
+			params.put("user", u);
 		}
 		PrintWriter out = response.getWriter();
-		out.print(JsonUtil.toJsonString(params));
+		JSONObject jsonObject = JSONObject.fromObject(params);
+		out.print(jsonObject.toString());
 		out.flush();
 		out.close();
+		System.out.println(jsonObject.toString());
+
 	}
 
 	/**
