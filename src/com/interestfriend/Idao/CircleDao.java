@@ -3,6 +3,7 @@ package com.interestfriend.Idao;
 import java.sql.ResultSet;
 
 import com.interestfriend.bean.Circle;
+import com.interestfriend.bean.User;
 
 public interface CircleDao {
 	int insertCircleToDB(Circle circle);// 插入一条圈子信息到数据库
@@ -22,4 +23,7 @@ public interface CircleDao {
 
 	boolean updateCircleLongitudeAndLatitude(double longitude, double latitude,
 			int creator_id);
+
+	boolean updateCircleLogo(int circle_id, String circle_logo);
+
 }
