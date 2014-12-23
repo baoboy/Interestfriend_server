@@ -75,7 +75,7 @@ public class GetUserInfoServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
-		int user_id = Integer.valueOf(request.getParameter("user_id"));
+		int user_id = Integer.valueOf(request.getParameter("circle_member_id"));
 		UserDao dao = UserDaoFactory.getUserDaoInstance();
 		ResultSet res = dao.getUserInfo(user_id);
 		User u = new User();

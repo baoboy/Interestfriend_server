@@ -10,10 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.interestfriend.Idao.SMSCodeDao;
 import com.interestfriend.Idao.UserDao;
+import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
+import com.interestfriend.Utils.Utils;
+import com.interestfriend.bean.SMSCode;
 import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.SMSCodeDaoFactory;
 import com.interestfriend.factory.UserDaoFactory;
+import com.interestfriend.smscode.RestSMSCode;
 
 public class VerifyCellPhoneServlet extends HttpServlet {
 	/**
@@ -88,7 +94,18 @@ public class VerifyCellPhoneServlet extends HttpServlet {
 		out.print(JsonUtil.toJsonString(params));
 		out.flush();
 		out.close();
-
+		if (!isExist) {
+			SMSCode code = new SMSCode();
+			String str_code = Utils.getSMSCode();
+			code.setSms_code(str_code);
+			code.setUser_cellphone(cellphone);
+			code.setTime(DateUtils.getUpLoadFileName());
+			SMSCodeDao c_dao = SMSCodeDaoFactory.getinstance();
+			c_dao.delCodeByUserCellPhone(cellphone);
+			c_dao.insertToDB(code);
+			RestSMSCode.sendCode(str_code, cellphone);
+			System.out.println("sms_code:" + str_code);
+		}
 	}
 
 	/**
