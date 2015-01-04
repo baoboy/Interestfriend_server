@@ -114,6 +114,16 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 			return;
 		}
 		ResultSet res = dao.findMembersByCircleID(cid, lastReqTime);
+		if (res == null) {
+			params.put("rt", 0);
+			params.put("err", ErrorEnum.INVALID.name());
+			JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
+			PrintWriter out = response.getWriter();
+			out.print(jsonObjectFromMap.toString());
+			System.out.println(jsonObjectFromMap.toString());
+			out.flush();
+			out.close();
+		}
 		List<User> userLists = new ArrayList<User>();
 		try {
 			while (res.next()) {

@@ -1,7 +1,15 @@
 package com.interestfriend.huanxin;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.interestfriend.Utils.MD5;
+import com.interestfriend.Utils.Utils;
 
 /**
  * REST API Demo : 用户管理REST API HttpClient4.3实现
@@ -140,15 +148,18 @@ public class EasemobUserAPI {
 				false, getAccessTokenPostBody);
 		System.out.println(orgAdminToken);
 
-		// 创建用户
-		Map<String, Object> createNewUserPostBody = new HashMap<String, Object>();
-		createNewUserPostBody.put("username", "222");
-		createNewUserPostBody.put("password", "123aaa");
-		EasemobUserAPI.createNewUser(host, appKey, createNewUserPostBody,
-				orgAdminToken);
-		// // 删除用户
-		// String id = "testuser2";
-		// EasemobUserAPI.deleteUser(host, appKey, id, orgAdminToken);
+		/**
+		 * 重置IM用户密码 提供管理员token
+		 */
+		String username = "18560133195";
+		ObjectNode json2 = JsonNodeFactory.instance.objectNode();
+		json2.put("newpassword", MD5.Md5("1234567"));
+		ObjectNode modifyIMUserPasswordWithAdminTokenNode = modifyIMUserPasswordWithAdminToken(
+				username, json2);
+		if (null != modifyIMUserPasswordWithAdminTokenNode) {
+			Utils.print("重置IM用户密码 提供管理员token: "
+					+ modifyIMUserPasswordWithAdminTokenNode.toString());
+		}
 	}
 
 	public static void createNewUser(String username, String password) {
@@ -168,4 +179,55 @@ public class EasemobUserAPI {
 				EasemobConstans.APP_KEY, createNewUserPostBody, orgAdminToken);
 
 	}
+
+	/**
+	 * 重置IM用户密码 提供管理员token
+	 * 
+	 * @param userPrimaryKey
+	 * @param dataObjectNode
+	 * @return
+	 */
+	public static ObjectNode modifyIMUserPasswordWithAdminToken(
+			String userPrimaryKey, ObjectNode dataObjectNode) {
+		JsonNodeFactory factory = new JsonNodeFactory(false);
+		ObjectNode objectNode = factory.objectNode();
+		// 通过app的client_id和client_secret来获取app管理员token
+		Credential credential = new ClientSecretCredential(
+				EasemobConstans.APP_CLIENT_ID,
+				EasemobConstans.APP_CLIENT_SECRET, Roles.USER_ROLE_APPADMIN);
+		// check Constants.APPKEY format
+		if (!HttpsUtils.match("^(?!-)[0-9a-zA-Z\\-]+#[0-9a-zA-Z]+",
+				EasemobConstans.APP_KEY)) {
+			objectNode.put("message", "Bad format of Constants.APPKEY");
+			return objectNode;
+		}
+
+		if (StringUtils.isEmpty(userPrimaryKey)) {
+			objectNode
+					.put("message",
+							"Property that named userPrimaryKey must be provided，the value is username or uuid of imuser.");
+			return objectNode;
+		}
+
+		if (null != dataObjectNode && !dataObjectNode.has("newpassword")) {
+			objectNode.put("message",
+					"Property that named newpassword must be provided .");
+			return objectNode;
+		}
+
+		try {
+			URL modifyIMUserPasswordWithAdminTokenUrl = HttpsUtils
+					.getURL(EasemobConstans.APP_KEY.replace("#", "/")
+							+ "/users/" + userPrimaryKey + "/password");
+			objectNode = HttpsUtils.sendHTTPRequest(
+					modifyIMUserPasswordWithAdminTokenUrl, credential,
+					dataObjectNode, HTTPMethod.METHOD_PUT);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return objectNode;
+	}
+
 }

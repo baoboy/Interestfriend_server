@@ -13,5 +13,18 @@ public class EasemobConstans {
 	public static final String PRAISE_USER_ID = "praise";
 	public static final String COMMENT_USER_ID = "comment";
 	public static final String KICK_OUT_USER_ID = "kickout";
-
+	// API_SERVER_HOST
+	public static String API_SERVER_HOST = PropertiesUtils.getProperties()
+			.getProperty("API_SERVER_HOST");
+	// API_HTTP_SCHEMA
+	public static String API_HTTP_SCHEMA = "https";
+	// APPKEY
+	public static String APPKEY = PropertiesUtils.getProperties().getProperty(
+			"APPKEY");
+	// APP_CLIENT_ID
+	public static String APP_CLIENT_ID = PropertiesUtils.getProperties()
+			.getProperty("APP_CLIENT_ID");
+	// APP_CLIENT_SECRET
+	public static String APP_CLIENT_SECRET = PropertiesUtils.getProperties()
+			.getProperty("APP_CLIENT_SECRET");
 }

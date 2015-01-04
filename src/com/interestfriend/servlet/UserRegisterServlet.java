@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,13 +23,21 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.MD5;
-import com.interestfriend.Utils.PinYinUtil;
 import com.interestfriend.bean.User;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.UserDaoFactory;
 import com.interestfriend.huanxin.EasemobUserAPI;
 
 public class UserRegisterServlet extends HttpServlet {
+	String avatarSavePath = "";
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		avatarSavePath = this.getServletConfig().getServletContext()
+				.getRealPath("/user-avatar")
+				+ File.separator;
+	}
 
 	/**
 	 * 
@@ -109,10 +118,7 @@ public class UserRegisterServlet extends HttpServlet {
 		String serverPath = request.getScheme() + "://"
 				+ request.getServerName() + ":" + request.getServerPort()
 				+ path + "/user-avatar/";
-		String avatarSavePath = request.getSession().getServletContext()
-				.getRealPath("/user-avatar")
-				+ File.separator;
-		// 设置暂时存放文件的存储室，这个存储室可以和最终存储文件的文件夹不同。因为当文件很大的话会占用过多内存所以设置存储室。
+ 		// 设置暂时存放文件的存储室，这个存储室可以和最终存储文件的文件夹不同。因为当文件很大的话会占用过多内存所以设置存储室。
 		factory.setRepository(new File(avatarSavePath));
 		// 设置缓存的大小，当上传文件的容量超过缓存时，就放到暂时存储室。
 		factory.setSizeThreshold(1024 * 1024);
@@ -192,9 +198,11 @@ public class UserRegisterServlet extends HttpServlet {
 				params.put("err", ErrorEnum.INVALID.name());
 				params.put("rt", 0);
 			} else {
-				EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
-						MD5.Md5(user_password));
+				// EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
+				// MD5.Md5(user_password));
 				// EasemobUserAPI.createNewUser(user_cellphone, user_password);
+				EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
+						MD5.Md5(user_cellphone));
 				params.put("rt", 1);
 			}
 			PrintWriter out = response.getWriter();
@@ -204,7 +212,7 @@ public class UserRegisterServlet extends HttpServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e.toString());
+			System.out.println("upload_pic:"+e.toString());
 		}
 
 	}

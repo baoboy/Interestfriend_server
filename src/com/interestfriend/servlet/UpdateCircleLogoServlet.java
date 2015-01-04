@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,15 @@ import com.interestfriend.factory.CircleDaoFactory;
 import com.interestfriend.factory.MembersDaoFactory;
 
 public class UpdateCircleLogoServlet extends HttpServlet {
+	String avatarSavePath = "";
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		avatarSavePath = this.getServletConfig().getServletContext()
+				.getRealPath("/circle_images")
+				+ File.separator;
+	}
 
 	/**
 	 * 
@@ -109,9 +119,6 @@ public class UpdateCircleLogoServlet extends HttpServlet {
 		String serverPath = request.getScheme() + "://"
 				+ request.getServerName() + ":" + request.getServerPort()
 				+ path + "/circle_images/";
-		String avatarSavePath = request.getSession().getServletContext()
-				.getRealPath("/circle_images/")
-				+ File.separator;
 		// 设置暂时存放文件的存储室，这个存储室可以和最终存储文件的文件夹不同。因为当文件很大的话会占用过多内存所以设置存储室。
 		factory.setRepository(new File(avatarSavePath));
 		// 设置缓存的大小，当上传文件的容量超过缓存时，就放到暂时存储室。

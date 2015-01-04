@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,6 @@ import com.interestfriend.Idao.CircleDao;
 import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.GrowthImageDao;
 import com.interestfriend.Utils.DateUtils;
-import com.interestfriend.Utils.ImageUtil;
 import com.interestfriend.bean.Growth;
 import com.interestfriend.bean.GrowthImage;
 import com.interestfriend.enums.ErrorEnum;
@@ -36,6 +36,16 @@ import com.interestfriend.factory.GrowthImageDaoFactory;
 import com.interestfriend.huanxin.EasemobSendMessage;
 
 public class AddGrowthServlet extends HttpServlet {
+	String growthImageSavePath = "";
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		growthImageSavePath = this.getServletConfig().getServletContext()
+				.getRealPath("/growth-image")
+				+ File.separator;
+	}
+
 	/**
 	 * Constructor of the object.
 	 */
@@ -108,10 +118,6 @@ public class AddGrowthServlet extends HttpServlet {
 				+ request.getServerName() + ":" + request.getServerPort()
 				+ path + "/growth-image/";
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		String growthImageSavePath = request.getSession().getServletContext()
-				.getRealPath("/growth-image")
-				+ File.separator;
-
 		factory.setRepository(new File(growthImageSavePath));
 		factory.setSizeThreshold(1024 * 1024);
 		ServletFileUpload upload = new ServletFileUpload(factory);

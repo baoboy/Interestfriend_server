@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,15 @@ import com.interestfriend.factory.MembersDaoFactory;
 import com.interestfriend.huanxin.EasemobGroupMessage;
 
 public class CreateCircleServlet extends HttpServlet {
+	String avatarSavePath = "";
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		avatarSavePath = this.getServletConfig().getServletContext()
+				.getRealPath("/circle_images")
+				+ File.separator;
+	}
 
 	/**
 	 * 
@@ -112,10 +122,6 @@ public class CreateCircleServlet extends HttpServlet {
 				+ request.getServerName() + ":" + request.getServerPort()
 				+ path + "/circle_images/";
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		String avatarSavePath = request.getSession().getServletContext()
-				.getRealPath("/circle_images")
-				+ File.separator;
-
 		factory.setRepository(new File(avatarSavePath));
 		factory.setSizeThreshold(1024 * 1024);
 		ServletFileUpload upload = new ServletFileUpload(factory);

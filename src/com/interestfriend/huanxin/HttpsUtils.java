@@ -1,10 +1,14 @@
 package com.interestfriend.huanxin;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -23,8 +27,12 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * HttpClient Utils
@@ -34,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @SuppressWarnings("all")
 public class HttpsUtils {
+	private static JsonNodeFactory factory = new JsonNodeFactory(false);
 
 	public static String Method_GET = "GET";
 	public static String Method_POST = "POST";
@@ -43,12 +52,86 @@ public class HttpsUtils {
 	/**
 	 * Send SSL Request
 	 * 
+	 * @return
+	 */
+	public static ObjectNode sendHTTPRequest(URL url, Credential credentail,
+			Object dataBody, String method) {
+
+		HttpClient httpClient = getClient(true);
+
+		ObjectNode resObjectNode = factory.objectNode();
+
+		try {
+
+			HttpResponse response = null;
+
+			if (method.equals(HTTPMethod.METHOD_POST)) {
+				HttpPost httpPost = new HttpPost(url.toURI());
+
+				if (credentail != null) {
+					Token.applyAuthentication(httpPost, credentail);
+				}
+				httpPost.setEntity(new StringEntity(dataBody.toString(),
+						"UTF-8"));
+
+				response = httpClient.execute(httpPost);
+			} else if (method.equals(HTTPMethod.METHOD_PUT)) {
+				HttpPut httpPut = new HttpPut(url.toURI());
+				if (credentail != null) {
+					Token.applyAuthentication(httpPut, credentail);
+				}
+				httpPut.setEntity(new StringEntity(dataBody.toString(), "UTF-8"));
+
+				response = httpClient.execute(httpPut);
+			} else if (method.equals(HTTPMethod.METHOD_GET)) {
+
+				HttpGet httpGet = new HttpGet(url.toURI());
+				if (credentail != null) {
+					Token.applyAuthentication(httpGet, credentail);
+				}
+
+				response = httpClient.execute(httpGet);
+
+			} else if (method.equals(HTTPMethod.METHOD_DELETE)) {
+				HttpDelete httpDelete = new HttpDelete(url.toURI());
+
+				if (credentail != null) {
+					Token.applyAuthentication(httpDelete, credentail);
+				}
+
+				response = httpClient.execute(httpDelete);
+			}
+
+			HttpEntity entity = response.getEntity();
+			if (null != entity) {
+				String responseContent = EntityUtils.toString(entity, "UTF-8");
+				EntityUtils.consume(entity);
+
+				ObjectMapper mapper = new ObjectMapper();
+				JsonFactory factory = mapper.getJsonFactory();
+				JsonParser jp = factory.createJsonParser(responseContent);
+
+				resObjectNode = mapper.readTree(jp);
+				resObjectNode.put("statusCode", response.getStatusLine()
+						.getStatusCode());
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			httpClient.getConnectionManager().shutdown();
+		}
+
+		return resObjectNode;
+	}
+
+	/**
+	 * Send SSL Request
+	 * 
 	 * @param reqURL
 	 * @param token
 	 * @param str
 	 * @return
 	 */
-	@SuppressWarnings("finally")
 	public static String sendSSLRequest(String reqURL, String token,
 			String body, String method) {
 
@@ -167,4 +250,74 @@ public class HttpsUtils {
 
 		return map;
 	}
+
+	/**
+	 * Check illegal String
+	 * 
+	 * @param regex
+	 * @param str
+	 * @return
+	 */
+	public static boolean match(String regex, String str) {
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(str);
+
+		return matcher.lookingAt();
+	}
+
+	public static URL getURL(String path) {
+		URL url = null;
+
+		try {
+			url = new URL(EasemobConstans.API_HTTP_SCHEMA,
+					EasemobConstans.API_SERVER_HOST, "/" + path);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return url;
+	}
+
+	/**
+	 * Create a httpClient instance
+	 * 
+	 * @param isSSL
+	 * @return HttpClient instance
+	 */
+	public static HttpClient getClient(boolean isSSL) {
+
+		HttpClient httpClient = new DefaultHttpClient();
+		if (isSSL) {
+			X509TrustManager xtm = new X509TrustManager() {
+				public void checkClientTrusted(X509Certificate[] chain,
+						String authType) throws CertificateException {
+				}
+
+				public void checkServerTrusted(X509Certificate[] chain,
+						String authType) throws CertificateException {
+				}
+
+				public X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
+			};
+
+			try {
+				SSLContext ctx = SSLContext.getInstance("TLS");
+
+				ctx.init(null, new TrustManager[] { xtm }, null);
+
+				SSLSocketFactory socketFactory = new SSLSocketFactory(ctx);
+
+				httpClient.getConnectionManager().getSchemeRegistry()
+						.register(new Scheme("https", 443, socketFactory));
+
+			} catch (Exception e) {
+				throw new RuntimeException();
+			}
+		}
+
+		return httpClient;
+	}
+
 }
