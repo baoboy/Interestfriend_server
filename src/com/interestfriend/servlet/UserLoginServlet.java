@@ -79,6 +79,8 @@ public class UserLoginServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String user_cellphone = request.getParameter("user_cellphone");
 		String user_passwrod = request.getParameter("user_password");
+		System.out.println("user:" + user_cellphone + "        "
+				+ user_passwrod);
 		UserDao dao = UserDaoFactory.getUserDaoInstance();
 		int user_id = dao.userLogon(user_cellphone, user_passwrod);
 		ResultSet res = dao.getUserInfo(user_id);

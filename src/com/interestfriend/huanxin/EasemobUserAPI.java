@@ -46,6 +46,7 @@ public class EasemobUserAPI {
 		String reqURL = "https://" + host + "/" + rest;
 		String result = HttpsUtils.sendSSLRequest(reqURL, token,
 				HttpsUtils.Map2Json(body), HttpsUtils.Method_POST);
+		System.out.println("register:" + result);
 		return result;
 	}
 
