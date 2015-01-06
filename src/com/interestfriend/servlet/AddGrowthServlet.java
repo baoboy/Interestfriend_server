@@ -1,13 +1,11 @@
 package com.interestfriend.servlet;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -118,15 +116,18 @@ public class AddGrowthServlet extends HttpServlet {
 				+ request.getServerName() + ":" + request.getServerPort()
 				+ path + "/growth-image/";
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		factory.setRepository(new File(growthImageSavePath));
-		factory.setSizeThreshold(1024 * 1024);
+		factory.setRepository(new File(growthImageSavePath + "/temp"));
+		factory.setSizeThreshold(4096);
 		ServletFileUpload upload = new ServletFileUpload(factory);
+		// 设置允许上传的最大文件大小 10M
+		upload.setSizeMax(10 * 1024 * 1024);
 		int imgIndex = 1;
 		try {
-			// 调用 parseRequest（request）方法 获得上传文件 FileItem 的集合list 可实现多文件上传。
-			@SuppressWarnings("unchecked")
-			List<FileItem> list = (List<FileItem>) upload.parseRequest(request);
-			for (FileItem item : list) {
+			// 解析HTTP请求消息头
+			List fileItems = upload.parseRequest(request);
+			Iterator iter = fileItems.iterator();
+			while (iter.hasNext()) {
+				FileItem item = (FileItem) iter.next();
 				// 如果获取的表单信息是普通的文本信息。即通过页面表单形式传递来的字符串。
 				if (item.isFormField()) {
 					// 获取表单属性名字。
@@ -157,66 +158,70 @@ public class AddGrowthServlet extends HttpServlet {
 					 * 第三方提供的方法直接写到文件中。 item.write(new File(path,filename));
 					 */
 					// 收到写到接收的文件中。
-					OutputStream out = new FileOutputStream(new File(
-							growthImageSavePath, fileName));
-					InputStream in = item.getInputStream();
-					int length = 0;
-					byte[] buf = new byte[1024];
-					while ((length = in.read(buf)) != -1) {
-						out.write(buf, 0, length);
-					}
-					in.close();
-					out.close();
-					item.delete();
+					// OutputStream out = new FileOutputStream(new File(
+					// growthImageSavePath, fileName));
+					// InputStream in = item.getInputStream();
+					// int length = 0;
+					// byte[] buf = new byte[1024];
+					// while ((length = in.read(buf)) != -1) {
+					// out.write(buf, 0, length);
+					// }
+					// in.close();
+					// out.close();
+					File file = new File(growthImageSavePath, fileName);
+					item.write(file);
+					// item.delete();
 					// ImageUtil.resize(new File(avatarSavePath + fileName),
 					// new File(avatarSavePath + path_200), 200, 0.7f);
 				}
 			}
-			int cid = Integer.valueOf(request.getAttribute("cid").toString());
-			String publisher_id = request.getAttribute("user_id").toString();
-			String content = request.getAttribute("content").toString();
-			// String time = request.getAttribute("time").toString();
-			String time = DateUtils.getGrowthShowTime();
-			Growth growth = new Growth();
-			growth.setCid(cid);
-			growth.setContent(content);
-			growth.setTime(time);
-			growth.setPublisher_id(Integer.valueOf(publisher_id));
-			GrowthDao growthDao = GrowthDaoFactory.getGrowthDaoInstance();
-			int growth_id = growthDao.insertGrowthToDB(growth);
-			for (GrowthImage img : growthImages) {
-				img.setCid(cid);
-				img.setGrowth_id(growth_id);
-			}
-			GrowthImageDao imgDao = GrowthImageDaoFactory
-					.getGrowthImageDaoInstance();
-			imgDao.insertGrowthImageToDB(growthImages);
-			Map<String, Object> params = new HashMap<String, Object>();
-			if (growth_id > 0) {
-				params.put("rt", 1);
-				params.put("gid", growth_id);
-				params.put("cid", cid);
-				params.put("images", growthImages);
-				params.put("time", time);
-
-			} else {
-				params.put("rt", 0);
-				params.put("err", ErrorEnum.INVALID.name());
-			}
-			JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
-			System.out.println(jsonObjectFromMap.toString());
-			PrintWriter out = response.getWriter();
-			out.print(jsonObjectFromMap.toString());
-			out.flush();
-			out.close();
-			if (growth_id > 0) {
-				CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
-				String group_id = dao.getGroupIdByCircleID(cid);
-				EasemobSendMessage.sendGroupMessage(group_id, publisher_id);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("img:" + e.toString());
 		}
+		int cid = Integer.valueOf(request.getAttribute("cid").toString());
+		String publisher_id = request.getAttribute("user_id").toString();
+		String content = request.getAttribute("content").toString();
+		// String time = request.getAttribute("time").toString();
+		String time = DateUtils.getGrowthShowTime();
+		Growth growth = new Growth();
+		growth.setCid(cid);
+		growth.setContent(content);
+		growth.setTime(time);
+		growth.setPublisher_id(Integer.valueOf(publisher_id));
+		GrowthDao growthDao = GrowthDaoFactory.getGrowthDaoInstance();
+		int growth_id = growthDao.insertGrowthToDB(growth);
+		for (GrowthImage img : growthImages) {
+			img.setCid(cid);
+			img.setGrowth_id(growth_id);
+		}
+		GrowthImageDao imgDao = GrowthImageDaoFactory
+				.getGrowthImageDaoInstance();
+		imgDao.insertGrowthImageToDB(growthImages);
+		Map<String, Object> params = new HashMap<String, Object>();
+		if (growth_id > 0) {
+			params.put("rt", 1);
+			params.put("gid", growth_id);
+			params.put("cid", cid);
+			params.put("images", growthImages);
+			params.put("time", time);
+
+		} else {
+			params.put("rt", 0);
+			params.put("err", ErrorEnum.INVALID.name());
+		}
+		JSONObject jsonObjectFromMap = JSONObject.fromObject(params);
+		System.out.println(jsonObjectFromMap.toString());
+		PrintWriter out = response.getWriter();
+		out.print(jsonObjectFromMap.toString());
+		out.flush();
+		out.close();
+		if (growth_id > 0) {
+			CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
+			String group_id = dao.getGroupIdByCircleID(cid);
+			EasemobSendMessage.sendGroupMessage(group_id, publisher_id);
+		}
+
 	}
 
 	/**
