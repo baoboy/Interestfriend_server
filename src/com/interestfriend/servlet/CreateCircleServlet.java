@@ -127,7 +127,6 @@ public class CreateCircleServlet extends HttpServlet {
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		try {
 			// 调用 parseRequest（request）方法 获得上传文件 FileItem 的集合list 可实现多文件上传。
-			@SuppressWarnings("unchecked")
 			List<FileItem> list = (List<FileItem>) upload.parseRequest(request);
 			for (FileItem item : list) {
 				// 如果获取的表单信息是普通的文本信息。即通过页面表单形式传递来的字符串。
