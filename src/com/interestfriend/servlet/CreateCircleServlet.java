@@ -151,21 +151,8 @@ public class CreateCircleServlet extends HttpServlet {
 							+ value.substring(value.length() - 4,
 									value.length());
 					serverPath += fileName;
-					// request.setAttribute(name, filename);
-					/*
-					 * 第三方提供的方法直接写到文件中。 item.write(new File(path,filename));
-					 */
-					// 收到写到接收的文件中。
-					OutputStream out = new FileOutputStream(new File(
-							avatarSavePath, fileName));
-					InputStream in = item.getInputStream();
-					int length = 0;
-					byte[] buf = new byte[1024];
-					while ((length = in.read(buf)) != -1) {
-						out.write(buf, 0, length);
-					}
-					in.close();
-					out.close();
+					File file = new File(avatarSavePath, fileName);
+					item.write(file);
 					item.delete();
 					circle.setCircle_avatar(serverPath);
 				}

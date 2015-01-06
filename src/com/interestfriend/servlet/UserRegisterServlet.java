@@ -118,7 +118,7 @@ public class UserRegisterServlet extends HttpServlet {
 		String serverPath = request.getScheme() + "://"
 				+ request.getServerName() + ":" + request.getServerPort()
 				+ path + "/user-avatar/";
- 		// 设置暂时存放文件的存储室，这个存储室可以和最终存储文件的文件夹不同。因为当文件很大的话会占用过多内存所以设置存储室。
+		// 设置暂时存放文件的存储室，这个存储室可以和最终存储文件的文件夹不同。因为当文件很大的话会占用过多内存所以设置存储室。
 		factory.setRepository(new File(avatarSavePath));
 		// 设置缓存的大小，当上传文件的容量超过缓存时，就放到暂时存储室。
 		factory.setSizeThreshold(1024 * 1024);
@@ -149,21 +149,8 @@ public class UserRegisterServlet extends HttpServlet {
 							+ value.substring(value.length() - 4,
 									value.length());
 					// request.setAttribute(name, filename);
-					/*
-					 * 第三方提供的方法直接写到文件中。 item.write(new File(path,filename));
-					 */
-					// 收到写到接收的文件中。
-					OutputStream out = new FileOutputStream(new File(
-							avatarSavePath, filename));
-					InputStream in = item.getInputStream();
-					int length = 0;
-					byte[] buf = new byte[1024];
-					System.out.println("获取文件总量的容量:" + item.getSize());
-					while ((length = in.read(buf)) != -1) {
-						out.write(buf, 0, length);
-					}
-					in.close();
-					out.close();
+					File file = new File(avatarSavePath, filename);
+					item.write(file);
 					item.delete();
 					user.setUserAvatar(serverPath + filename);
 				}
@@ -212,7 +199,7 @@ public class UserRegisterServlet extends HttpServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("upload_pic:"+e.toString());
+			System.out.println("upload_pic:" + e.toString());
 		}
 
 	}
