@@ -152,9 +152,9 @@ public class EasemobUserAPI {
 		/**
 		 * 重置IM用户密码 提供管理员token
 		 */
-		String username = "18560133195";
+		String username = "83cb133253b3e6b1dcef9c90368fd078";
 		ObjectNode json2 = JsonNodeFactory.instance.objectNode();
-		json2.put("newpassword", MD5.Md5("1234567"));
+		json2.put("newpassword", "83cb133253b3e6b1dcef9c90368fd078");
 		ObjectNode modifyIMUserPasswordWithAdminTokenNode = modifyIMUserPasswordWithAdminToken(
 				username, json2);
 		if (null != modifyIMUserPasswordWithAdminTokenNode) {
