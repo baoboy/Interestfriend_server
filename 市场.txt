@@ -2,8 +2,8 @@
 腾讯市场（上架中）
 小米市场（上架中）
 百度市场（上架中）
-豌豆荚(等待上传应用）
-安智(审核中)
+豌豆荚(上架中）
+安智(应用审核中)
 机锋(等待上传应用）
 N多(等待上传应用）http://www.nduoa.com/developer/apk/edit/id/843498/upgrade/0
 搜狗手机助手（身份待认证）
@@ -12,7 +12,8 @@ UC应用商店
 91市场（上架中）
 联想开放平台 （上架中）
 应用汇 （待注册）http://www.appchina.com/account/login
-木蚂蚁(审核中)账号songjianbin66@126.com
+木蚂蚁(上架中)账号songjianbin66@126.com
 华为开发者联盟（身份审核中）
-优亿市场 http://www.eoemarket.com/（身份审核中）
+优亿市场 http://www.eoemarket.com/（应用审核中）
+魅族（上架审核中）
   
