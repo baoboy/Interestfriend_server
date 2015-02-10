@@ -72,11 +72,12 @@ public class APPVersionUpdateServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html");
+		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("rt", 1);
 		params.put("app_version", Constants.APP_VSERSION);
+		params.put("version_info", Constants.VERSION_INFO);
 		params.put("app_link", Constants.APP_LINK);
 		PrintWriter out = response.getWriter();
 		out.print(JsonUtil.toJsonString(params));

@@ -32,6 +32,75 @@ import com.interestfriend.Utils.Constants;
  * 
  */
 public class EasemobSendMessage {
+	public static void sendNotifyForSomeOneJoinCircle(String group_id,
+			int user_id, String user_name) {
+		String token = "";
+		// 获取token
+		try {
+			token = getAccessToken(EasemobConstans.APP_KEY,
+					EasemobConstans.USER_NAME, EasemobConstans.PASSWORD);
+			System.out.println("token:" + token);
+			// 发送Text消息
+			List<String> toUsernames = new ArrayList<String>();
+			toUsernames.add(group_id);
+			String fromUser = "joinnotify";
+			String txtContent = "欢迎 [ " + user_name + " ] 加入圈子,点击查看TA的资料吧";
+			Map<String, String> sendResult;
+			sendResult = sendTextMessageNotify(EasemobConstans.APP_KEY, token,
+					txtContent, fromUser, toUsernames, user_id + "");
+			for (String toUsername : toUsernames) {
+				String isSuccess = sendResult.get(toUsername);
+				if (isSuccess.equals("success")) {
+					System.out.println("send message to " + toUsername
+							+ " success!");
+				} else {
+					System.out.println("send message to " + toUsername
+							+ " fail!");
+				}
+			}
+		} catch (KeyManagementException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static Map<String, String> sendTextMessageNotify(String appKey,
+			String token, String textContent, String fromUser,
+			List<String> toUsernames, String join_circle_user_id)
+			throws IOException, KeyManagementException,
+			NoSuchAlgorithmException {
+		String httpUrl = "https://a1.easemob.com/"
+				+ appKey.replaceFirst("#", "/") + "/messages";
+		Map<String, Object> body = new HashMap<String, Object>();
+		body.put("target_type", "chatgroups");
+		body.put("target", toUsernames);
+		Map<String, String> msgBody = new HashMap<String, String>();
+		msgBody.put("type", "txt");
+		msgBody.put("msg", textContent);
+		body.put("msg", msgBody);
+		body.put("from", fromUser);
+		Map<String, Object> extBody = new HashMap<String, Object>();
+		extBody.put("join_circle_user_id", join_circle_user_id);
+		extBody.put("user_name", "趣友");
+		extBody.put("user_avatar", Constants.APP_AVATAR);
+		extBody.put("user_id", -1);
+		body.put("ext", extBody);
+		ObjectMapper mapper = new ObjectMapper();
+		Client client = getClient(true);
+		WebTarget target = ((javax.ws.rs.client.Client) client).target(httpUrl);
+		Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
+				.header("Authorization", "Bearer " + token)
+				.buildPost(Entity.json(body)).invoke();
+		String resultMsg = response.readEntity(String.class);
+		String content = mapper.readTree(resultMsg).get("data").toString();
+		Map<String, String> result = mapper.readValue(content, Map.class);
+		System.out.println("resultMsg:" + resultMsg);
+		return result;
+	}
+
 	public static void sendGroupMessage(String group_id, String publisher_id) {
 		String token = "";
 		// 获取token

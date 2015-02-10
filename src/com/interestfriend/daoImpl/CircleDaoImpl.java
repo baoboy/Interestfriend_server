@@ -25,8 +25,8 @@ public class CircleDaoImpl implements CircleDao {
 		try {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, circle.getCreator_id());
-			pstmt.setString(2, circle.getCircle_name());// 设置第二个参数
-			pstmt.setString(3, circle.getCircle_description());
+			pstmt.setString(2, circle.getCircle_name().replace("'", ""));// 设置第二个参数
+			pstmt.setString(3, circle.getCircle_description().replace("'", ""));
 			pstmt.setString(4, circle.getCircle_avatar());
 			pstmt.setString(5, circle.getGroup_id());
 			pstmt.setInt(6, circle.getCategory());

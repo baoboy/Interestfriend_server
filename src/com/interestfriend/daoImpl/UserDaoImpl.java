@@ -20,15 +20,15 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
-			pstmt.setString(1, user.getUserName());// 设置第二个参数
+			pstmt.setString(1, user.getUserName().replace("'", ""));// 设置第二个参数
 			pstmt.setString(2, user.getUserCellPhone());
 			pstmt.setString(3, user.getUserPassword());
 			pstmt.setString(4, user.getUserGender());
 			pstmt.setString(5, user.getUserAvatar());
 			pstmt.setString(6, user.getUserBirthday());
 			pstmt.setString(7, user.getUserRegisterTime());
-			pstmt.setString(8, user.getSortKey());
-			pstmt.setString(9, user.getPinYinFir());
+			pstmt.setString(8, user.getSortKey().replace("'", ""));
+			pstmt.setString(9, user.getPinYinFir().replace("'", ""));
 			pstmt.setString(10, user.getUserChatId());
 
 			int count = pstmt.executeUpdate(); // 执行更新

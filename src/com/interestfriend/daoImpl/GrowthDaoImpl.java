@@ -33,7 +33,7 @@ public class GrowthDaoImpl implements GrowthDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, growth.getCid());
 			pstmt.setInt(2, growth.getPublisher_id());
-			pstmt.setString(3, growth.getContent());
+			pstmt.setString(3, growth.getContent().replace("'", ""));
 			pstmt.setString(4, growth.getTime());
 			pstmt.setString(5, growth.getTime());
 			pstmt.setString(6, Status.ADD.name());

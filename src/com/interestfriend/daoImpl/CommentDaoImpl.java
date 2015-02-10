@@ -28,7 +28,7 @@ public class CommentDaoImpl implements CommentDao {
 			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
 			pstmt.setInt(1, comment.getGrowth_id());
 			pstmt.setInt(2, comment.getPublisher_id());
-			pstmt.setString(3, comment.getComment_content());// 设置第二个参数
+			pstmt.setString(3, comment.getComment_content().replace("'", ""));// 设置第二个参数
 			pstmt.setString(4, comment.getComment_time());
 			pstmt.setString(5, comment.getReply_someone_name());
 			pstmt.setInt(6, comment.getReply_someone_id());
