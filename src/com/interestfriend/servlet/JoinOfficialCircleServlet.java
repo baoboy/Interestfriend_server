@@ -15,8 +15,8 @@ import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.huanxinImpl.EasemobChatGroups;
+import com.interestfriend.huanxinImpl.EasemobMessages;
 
 public class JoinOfficialCircleServlet extends HttpServlet {
 
@@ -113,8 +113,8 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 		out.print(params);
 		out.flush();
 		out.close();
-		EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
-		EasemobSendMessage.sendNotifyForSomeOneJoinCircle(group_id, user_id,
+		EasemobChatGroups.addUserToGroup(group_id, huanxin_userName);
+		EasemobMessages.sendNotifyForSomeOneJoinCircle(group_id, user_id,
 				user_name);
 		// }
 		// UserDao uDao = UserDaoFactory.getUserDaoInstance();

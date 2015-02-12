@@ -31,7 +31,7 @@ import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CircleDaoFactory;
 import com.interestfriend.factory.GrowthDaoFactory;
 import com.interestfriend.factory.GrowthImageDaoFactory;
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.huanxinImpl.EasemobMessages;
 
 public class AddGrowthServlet extends HttpServlet {
 	String growthImageSavePath = "";
@@ -219,7 +219,7 @@ public class AddGrowthServlet extends HttpServlet {
 		if (growth_id > 0) {
 			CircleDao dao = CircleDaoFactory.getCircleDaoInstance();
 			String group_id = dao.getGroupIdByCircleID(cid);
-			EasemobSendMessage.sendGroupMessage(group_id, publisher_id);
+			EasemobMessages.sendNotifyForDongTai(group_id, publisher_id);
 		}
 
 	}

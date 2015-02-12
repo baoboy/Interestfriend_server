@@ -19,7 +19,7 @@ import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.GrowthDaoFactory;
 import com.interestfriend.factory.GrowthPraiseDaoFactory;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.huanxinImpl.EasemobMessages;
 
 public class GrowthPraiseServlet extends HttpServlet {
 
@@ -126,7 +126,7 @@ public class GrowthPraiseServlet extends HttpServlet {
 			String growth_publisher_huanxin_name = gDao
 					.getUserHuanXinNameByGrowthID(growth_id,
 							growth_publisher_id);
-			EasemobSendMessage.sendTextMessageForpRraiseAndComment(circle_id,
+			EasemobMessages.sendTextMessageForpRraiseAndComment(circle_id,
 					growth_id, growth_publisher_huanxin_name, "'" + user_name
 							+ "¡® ÔÞÁËÄúµÄ¶¯Ì¬");
 

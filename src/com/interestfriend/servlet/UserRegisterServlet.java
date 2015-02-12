@@ -1,10 +1,7 @@
 package com.interestfriend.servlet;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +23,7 @@ import com.interestfriend.Utils.MD5;
 import com.interestfriend.bean.User;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.UserDaoFactory;
-import com.interestfriend.huanxin.EasemobUserAPI;
+import com.interestfriend.huanxinImpl.EasemobIMUsers;
 
 public class UserRegisterServlet extends HttpServlet {
 	String avatarSavePath = "";
@@ -188,7 +185,7 @@ public class UserRegisterServlet extends HttpServlet {
 				// EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
 				// MD5.Md5(user_password));
 				// EasemobUserAPI.createNewUser(user_cellphone, user_password);
-				EasemobUserAPI.createNewUser(MD5.Md5(user_cellphone),
+				EasemobIMUsers.createNewUser(MD5.Md5(user_cellphone),
 						MD5.Md5(user_cellphone));
 				params.put("rt", 1);
 			}

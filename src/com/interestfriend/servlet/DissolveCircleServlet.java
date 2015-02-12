@@ -15,8 +15,8 @@ import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.huanxinImpl.EasemobChatGroups;
+import com.interestfriend.huanxinImpl.EasemobMessages;
 
 public class DissolveCircleServlet extends HttpServlet {
 
@@ -101,9 +101,9 @@ public class DissolveCircleServlet extends HttpServlet {
 		out.print(params);
 		out.flush();
 		out.close();
-		EasemobSendMessage.sendTextMessageForDissolve(group_id, "'"
-				+ circle_name + "' 已被解散", circle_id + "", user_id);
-		EasemobGroupMessage.deleteChatGroups(group_id);
+		EasemobMessages.sendTextMessageForDissolve(group_id, "'" + circle_name
+				+ "' 已被解散", circle_id + "", user_id);
+		EasemobChatGroups.deleteChatGroups(group_id);
 	}
 
 	/**

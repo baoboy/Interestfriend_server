@@ -10,14 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.Constants;
-import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.Utils.Utils;
-import com.interestfriend.factory.UserDaoFactory;
-import com.interestfriend.huanxin.EasemobSendMessage;
-import com.mysql.jdbc.Util;
 
 public class APPVersionUpdateServlet extends HttpServlet {
 

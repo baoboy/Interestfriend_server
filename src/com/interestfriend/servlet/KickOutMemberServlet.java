@@ -15,8 +15,8 @@ import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.huanxinImpl.EasemobChatGroups;
+import com.interestfriend.huanxinImpl.EasemobMessages;
 
 public class KickOutMemberServlet extends HttpServlet {
 
@@ -104,11 +104,10 @@ public class KickOutMemberServlet extends HttpServlet {
 		out.flush();
 		out.close();
 		if (rt) {
-			EasemobSendMessage.sendMessageForKickOutCircle("您已经被管理员踢出  '"
+			EasemobMessages.sendMessageForKickOutCircle("您已经被管理员踢出  '"
 					+ circle_name + "' 圈子", kick_out_user_chat_id, circle_id,
 					user_id);
-			EasemobGroupMessage
-					.deleteFromGroup(group_id, kick_out_user_chat_id);
+			EasemobChatGroups.deleteFromGroup(group_id, kick_out_user_chat_id);
 		}
 	}
 

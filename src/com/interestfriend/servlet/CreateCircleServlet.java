@@ -1,12 +1,8 @@
 package com.interestfriend.servlet;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +26,7 @@ import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CircleDaoFactory;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
+import com.interestfriend.huanxinImpl.EasemobChatGroups;
 
 public class CreateCircleServlet extends HttpServlet {
 	String avatarSavePath = "";
@@ -168,8 +164,8 @@ public class CreateCircleServlet extends HttpServlet {
 					.toString());
 			double latitude = Double.valueOf(request.getAttribute("latitude")
 					.toString());
-			String group_id = EasemobGroupMessage.createCircleGroup(
-					circle_name, circle_description);
+			String group_id = EasemobChatGroups.createCircleGroup(circle_name,
+					circle_description);
 			circle.setCreator_id(user_id);
 			circle.setCircle_description(circle_description);
 			circle.setCircle_name(circle_name);
@@ -207,7 +203,7 @@ public class CreateCircleServlet extends HttpServlet {
 			out.flush();
 			out.close();
 			if (rt) {
-				EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
+				EasemobChatGroups.addUserToGroup(group_id, huanxin_userName);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
