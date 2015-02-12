@@ -129,17 +129,20 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 			while (res.next()) {
 				User u = new User();
 				u.setUserID(res.getInt("user_id"));
-				u.setUserName(res.getString("user_name"));
+				u.setUserName(res.getString("user_name").replace("'", ""));
 				u.setUserAvatar(res.getString("user_avatar"));
 				u.setUserBirthday(res.getString("user_birthday"));
 				u.setUserGender(res.getString("user_gender"));
 				u.setUserRegisterTime(res.getString("user_register_time"));
 				u.setUserChatId(res.getString("user_chat_id"));
-				u.setPinYinFir(res.getString("user_pinyin_str"));
-				u.setSortKey(res.getString("user_sort_key"));
+				u.setPinYinFir(res.getString("user_pinyin_str")
+						.replace("'", ""));
+				u.setSortKey(res.getString("user_sort_key").replace("'", ""));
 				u.setUserState(res.getString("user_state"));
-				u.setUserDeclaration(res.getString("user_declaration"));
-				u.setUserDescription(res.getString("user_description"));
+				u.setUserDeclaration(res.getString("user_declaration").replace(
+						"'", ""));
+				u.setUserDescription(res.getString("user_description").replace(
+						"'", ""));
 
 				userLists.add(u);
 			}
