@@ -74,7 +74,9 @@ public class CircleDaoImpl implements CircleDao {
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 		int startIndex = (page - 1) * 20;
-		int endIndex = page * 20;
+		// int endIndex = page * 20;
+		int endIndex = 20;
+
 		Utils.print("page:" + startIndex + "   " + endIndex);
 
 		String findByIDSQL = "select circle.* ,user.user_name from circle inner join user   on circle.creator_id=user.user_id and  category = ? order by circle.last_request_time desc  limit "
