@@ -1,0 +1,5 @@
+<SoNgB5iN2bIn1>BiN
+
+
+UPDATE mysql.user SET password=PASSWORD('<SoNgB5iN2bIn1>BiN') WHERE User='root';
+FLUSH PRIVILEGES;

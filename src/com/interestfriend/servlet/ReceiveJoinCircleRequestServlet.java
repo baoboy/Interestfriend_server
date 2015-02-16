@@ -15,8 +15,8 @@ import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.huanxinImpl.EasemobChatGroups;
+import com.interestfriend.huanxinImpl.EasemobMessages;
 
 public class ReceiveJoinCircleRequestServlet extends HttpServlet {
 
@@ -112,7 +112,7 @@ public class ReceiveJoinCircleRequestServlet extends HttpServlet {
 			return;
 		}
 		boolean rt = dao.addMembers(member);
-		EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
+		EasemobChatGroups.addUserToGroup(group_id, huanxin_userName);
 		if (!rt) {
 			params.put("err", ErrorEnum.INVALID.name());
 			params.put("rt", 0);
@@ -124,7 +124,7 @@ public class ReceiveJoinCircleRequestServlet extends HttpServlet {
 		out.print(params);
 		out.flush();
 		out.close();
-		EasemobSendMessage.sendMessageForReceiveJoinCircle("管理员已经同意您加入  ‘"
+		EasemobMessages.sendMessageForReceiveJoinCircle("管理员已经同意您加入  ‘"
 				+ join_circle_name + "' 圈子", huanxin_userName);
 		System.out.println("---" + huanxin_userName);
 	}

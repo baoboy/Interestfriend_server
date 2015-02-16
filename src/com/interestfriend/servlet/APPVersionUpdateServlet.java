@@ -10,14 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.Constants;
-import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
 import com.interestfriend.Utils.Utils;
-import com.interestfriend.factory.UserDaoFactory;
-import com.interestfriend.huanxin.EasemobSendMessage;
-import com.mysql.jdbc.Util;
 
 public class APPVersionUpdateServlet extends HttpServlet {
 
@@ -72,11 +67,14 @@ public class APPVersionUpdateServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html");
+		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("rt", 1);
+		params.put("app_version_name", Constants.APP_VSERSION_NAME);
+		params.put("app_version_code", Constants.APP_VSERSION_CODE);
 		params.put("app_version", Constants.APP_VSERSION);
+		params.put("version_info", Constants.VERSION_INFO);
 		params.put("app_link", Constants.APP_LINK);
 		PrintWriter out = response.getWriter();
 		out.print(JsonUtil.toJsonString(params));

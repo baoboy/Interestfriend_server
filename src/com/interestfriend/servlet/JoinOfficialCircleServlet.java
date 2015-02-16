@@ -11,14 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.MembersDao;
-import com.interestfriend.Idao.UserDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.bean.Members;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.factory.UserDaoFactory;
-import com.interestfriend.huanxin.EasemobGroupMessage;
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.huanxinImpl.EasemobChatGroups;
+import com.interestfriend.huanxinImpl.EasemobMessages;
 
 public class JoinOfficialCircleServlet extends HttpServlet {
 
@@ -115,8 +113,9 @@ public class JoinOfficialCircleServlet extends HttpServlet {
 		out.print(params);
 		out.flush();
 		out.close();
-		EasemobGroupMessage.addUserToGroup(group_id, huanxin_userName);
-		return;
+		EasemobChatGroups.addUserToGroup(group_id, huanxin_userName);
+		EasemobMessages.sendNotifyForSomeOneJoinCircle(group_id, user_id,
+				user_name);
 		// }
 		// UserDao uDao = UserDaoFactory.getUserDaoInstance();
 		// String user_chat_id = uDao.findUserChatIDByUserID(circle_creator);

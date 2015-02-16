@@ -25,8 +25,8 @@ public class CircleDaoImpl implements CircleDao {
 		try {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, circle.getCreator_id());
-			pstmt.setString(2, circle.getCircle_name());// 设置第二个参数
-			pstmt.setString(3, circle.getCircle_description());
+			pstmt.setString(2, circle.getCircle_name().replace("'", ""));// 设置第二个参数
+			pstmt.setString(3, circle.getCircle_description().replace("'", ""));
 			pstmt.setString(4, circle.getCircle_avatar());
 			pstmt.setString(5, circle.getGroup_id());
 			pstmt.setInt(6, circle.getCategory());
@@ -74,7 +74,9 @@ public class CircleDaoImpl implements CircleDao {
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
 		int startIndex = (page - 1) * 20;
-		int endIndex = page * 20;
+		// int endIndex = page * 20;
+		int endIndex = 20;
+
 		Utils.print("page:" + startIndex + "   " + endIndex);
 
 		String findByIDSQL = "select circle.* ,user.user_name from circle inner join user   on circle.creator_id=user.user_id and  category = ? order by circle.last_request_time desc  limit "

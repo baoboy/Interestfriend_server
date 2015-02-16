@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.huanxinImpl.EasemobMessages;
 
 public class RefuseJoinCircleRequestServlet extends HttpServlet {
 
@@ -84,7 +84,7 @@ public class RefuseJoinCircleRequestServlet extends HttpServlet {
 		String huanxin_userName = request
 				.getParameter("request_join_circle_user_huanxin_username");
 		String join_circle_name = request.getParameter("join_circle_name");
-		EasemobSendMessage.sendMessageForFefuseJoinCircle("创建者拒绝您加入  ‘"
+		EasemobMessages.sendMessageForFefuseJoinCircle("创建者拒绝您加入  ‘"
 				+ join_circle_name + "' 圈子", huanxin_userName);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("rt", 1);

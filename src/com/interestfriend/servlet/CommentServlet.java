@@ -15,13 +15,12 @@ import com.interestfriend.Idao.GrowthDao;
 import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
-import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Comment;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.CommentDaoFactory;
 import com.interestfriend.factory.GrowthDaoFactory;
 import com.interestfriend.factory.MembersDaoFactory;
-import com.interestfriend.huanxin.EasemobSendMessage;
+import com.interestfriend.huanxinImpl.EasemobMessages;
 
 public class CommentServlet extends HttpServlet {
 
@@ -132,9 +131,9 @@ public class CommentServlet extends HttpServlet {
 				growth_publisher_huanxin_name = gDao
 						.getUserHuanXinNameByGrowthID(growth_id,
 								Integer.valueOf(reply_someone_id));
-				EasemobSendMessage.sendTextMessageForpRraiseAndComment(
-						circle_id, growth_id, growth_publisher_huanxin_name,
-						"'" + user_name + "‘ 回复了您的评论");
+				EasemobMessages.sendTextMessageForpRraiseAndComment(circle_id,
+						growth_id, growth_publisher_huanxin_name, "'"
+								+ user_name + "‘ 回复了您的评论");
 			}
 			if (growth_publisher_id == Integer.valueOf(publisher_id)) {
 				return;
@@ -144,7 +143,7 @@ public class CommentServlet extends HttpServlet {
 			if (!res) {
 				return;
 			}
-			EasemobSendMessage.sendTextMessageForpRraiseAndComment(circle_id,
+			EasemobMessages.sendTextMessageForpRraiseAndComment(circle_id,
 					growth_id, growth_publisher_huanxin_name, "'" + user_name
 							+ "‘ 评论了您的动态");
 			System.out.println("reply:::::::" + reply_someone_id + "  "

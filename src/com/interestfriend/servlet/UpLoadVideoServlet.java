@@ -22,12 +22,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.interestfriend.Idao.VideoDao;
 import com.interestfriend.Utils.DateUtils;
 import com.interestfriend.Utils.JsonUtil;
-import com.interestfriend.Utils.Utils;
-import com.interestfriend.bean.GrowthImage;
 import com.interestfriend.bean.Video;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.VideoDaoFactory;
-import com.interestfriend.huanxin.EasemobUserAPI;
 
 public class UpLoadVideoServlet extends HttpServlet {
 
