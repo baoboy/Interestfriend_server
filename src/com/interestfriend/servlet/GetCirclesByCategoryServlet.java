@@ -21,6 +21,7 @@ import net.sf.json.JSONObject;
 import com.interestfriend.Idao.CircleDao;
 import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.CategoryCircleUtils;
+import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.CircleStatus;
@@ -99,6 +100,7 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 							.getString("circle_description"));
 					int circle_id = res.getInt("circle_id");
 					CircleStatus status = mDao.findCircleStatus(circle_id);
+
 					if (status == CircleStatus.DEL) {
 						continue;
 					}
@@ -138,6 +140,7 @@ public class GetCirclesByCategoryServlet extends HttpServlet {
 		out.print(jsonObjectFromMap.toString());
 		out.flush();
 		out.close();
+		System.out.println(jsonObjectFromMap.toString());
 	}
 
 	/**
