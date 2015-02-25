@@ -92,7 +92,8 @@ public class UpdateCircleDiscirptionServlet extends HttpServlet {
 
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf8");
-		String circle_description = request.getParameter("circle_description");
+		String circle_description = request.getParameter("circle_description")
+				.replace("'", "");
 		int circle_id = Integer.valueOf(request.getParameter("circle_id"));
 		Circle circle = new Circle();
 		circle.setCircle_description(circle_description);

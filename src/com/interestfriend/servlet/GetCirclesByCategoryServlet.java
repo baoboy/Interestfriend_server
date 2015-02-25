@@ -14,14 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sun.security.jgss.spi.MechanismFactory;
-
 import net.sf.json.JSONObject;
 
 import com.interestfriend.Idao.CircleDao;
 import com.interestfriend.Idao.MembersDao;
 import com.interestfriend.Utils.CategoryCircleUtils;
-import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.Circle;
 import com.interestfriend.db.DBConnection;
 import com.interestfriend.enums.CircleStatus;

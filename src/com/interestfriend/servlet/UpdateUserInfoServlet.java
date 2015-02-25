@@ -87,7 +87,7 @@ public class UpdateUserInfoServlet extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf8");
 		String cloumn = request.getParameter("cloumn");
-		String value = request.getParameter("value");
+		String value = request.getParameter("value").replace("'", "");
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		UserDao dao = UserDaoFactory.getUserDaoInstance();
 		if ("Í«≥∆".equals(cloumn)) {
