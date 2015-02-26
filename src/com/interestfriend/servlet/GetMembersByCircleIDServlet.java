@@ -140,7 +140,9 @@ public class GetMembersByCircleIDServlet extends HttpServlet {
 				u.setUserState(res.getString("user_state"));
 				u.setUserDeclaration(res.getString("user_declaration"));
 				u.setUserDescription(res.getString("user_description"));
-
+				u.setUserAddress(res.getString("user_address"));
+				u.setUserProvince(res.getString("user_province"));
+				u.setUserProvinceKey(res.getString("user_province_key"));
 				userLists.add(u);
 			}
 		} catch (SQLException e) {

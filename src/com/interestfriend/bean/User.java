@@ -16,6 +16,33 @@ public class User {
 	private String userState = "ADD";// add / del /update
 	private String userDeclaration = "";
 	private String userDescription = "";
+	private String userAddress = "";
+	private String userProvince = "";
+	private String userProvinceKey = "";
+
+	public String getUserAddress() {
+		return userAddress;
+	}
+
+	public void setUserAddress(String userAddress) {
+		this.userAddress = userAddress;
+	}
+
+	public String getUserProvince() {
+		return userProvince;
+	}
+
+	public void setUserProvince(String userProvince) {
+		this.userProvince = userProvince;
+	}
+
+	public String getUserProvinceKey() {
+		return userProvinceKey;
+	}
+
+	public void setUserProvinceKey(String userProvinceKey) {
+		this.userProvinceKey = userProvinceKey;
+	}
 
 	public String getUserDeclaration() {
 		return userDeclaration;

@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.interestfriend.Idao.UserDao;
-import com.interestfriend.Utils.DateUtils;
-import com.interestfriend.Utils.PinYinUtil;
 import com.interestfriend.Utils.Utils;
 import com.interestfriend.bean.User;
 import com.interestfriend.db.DBConnection;
@@ -16,7 +14,7 @@ public class UserDaoImpl implements UserDao {
 
 	public boolean insertUserToDB(User user) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String addSQL = "insert into USER(user_name,user_cellphone,user_password,user_gender,user_avatar,user_birthday,user_register_time,user_sort_key,user_pinyin_str,user_chat_id) values(?,?,?,?,?,?,?,?,?,?)";
+		String addSQL = "insert into USER(user_name,user_cellphone,user_password,user_gender,user_avatar,user_birthday,user_register_time,user_sort_key,user_pinyin_str,user_chat_id,user_address,user_province,user_province_key) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
@@ -30,6 +28,9 @@ public class UserDaoImpl implements UserDao {
 			pstmt.setString(8, user.getSortKey().replace("'", ""));
 			pstmt.setString(9, user.getPinYinFir().replace("'", ""));
 			pstmt.setString(10, user.getUserChatId());
+			pstmt.setString(11, user.getUserAddress());
+			pstmt.setString(12, user.getUserProvince());
+			pstmt.setString(13, user.getUserProvinceKey());
 
 			int count = pstmt.executeUpdate(); // 执行更新
 			return count > 0;
@@ -239,6 +240,29 @@ public class UserDaoImpl implements UserDao {
 		String sql = "UPDATE user SET user_name = '" + name
 				+ "' ,user_sort_key= '" + user_sort_key
 				+ " ', user_pinyin_str= '" + user_pinyin + "' WHERE user_id =?";
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setInt(1, user_id);
+			int res = pstmt.executeUpdate(); // 执行查询
+			if (res > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateUserAddress(int user_id, String address,
+			String province, String province_key) {
+		String sql = "UPDATE user SET user_address = '" + address
+				+ "' ,user_province= '" + province + " ', user_province_key= '"
+				+ province_key + "' WHERE user_id =?";
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {

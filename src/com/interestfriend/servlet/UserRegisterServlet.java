@@ -164,6 +164,12 @@ public class UserRegisterServlet extends HttpServlet {
 			String user_pinyin = request.getAttribute("user_pinyin").toString();
 			String user_sort_key = request.getAttribute("user_sort_key")
 					.toString();
+			String user_address = request.getAttribute("user_address")
+					.toString();
+			String user_province = request.getAttribute("user_province")
+					.toString();
+			String user_province_key = request
+					.getAttribute("user_province_key").toString();
 			user.setUserBirthday(user_birthday);
 			user.setUserCellPhone(user_cellphone);
 			user.setUserGender(user_gender);
@@ -175,6 +181,9 @@ public class UserRegisterServlet extends HttpServlet {
 			user.setSortKey(user_sort_key);
 			user.setUserState("add");
 			user.setUserChatId(MD5.Md5(user_cellphone));
+			user.setUserAddress(user_address);
+			user.setUserProvince(user_province);
+			user.setUserProvinceKey(user_province_key);
 			UserDao dao = UserDaoFactory.getUserDaoInstance();
 			boolean isSuccess = dao.insertUserToDB(user);
 			Map<String, Object> params = new HashMap<String, Object>();

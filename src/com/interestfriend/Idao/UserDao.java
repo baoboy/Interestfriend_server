@@ -25,4 +25,7 @@ public interface UserDao {
 	boolean updataLoginPassword(String cell_phone, String password);
 
 	String findUserChatIDByUserID(int user_id);
+
+	boolean updateUserAddress(int user_id, String address, String province,
+			String province_key);
 }
