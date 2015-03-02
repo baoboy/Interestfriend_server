@@ -42,7 +42,7 @@ public class UserFriendDaoImpl implements UserFriendDao {
 		Connection conn = DBConnection.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		String sql = "select * user_friend_id,user_friend_name,user_friend_avatar,user_friend_chat_id,user_friend_circle from user_friend where user_id=?";
+		String sql = "select   user_friend_id,user_friend_name,user_friend_avatar,user_friend_chat_id,user_friend_circle from user_friend where user_id=?";
 		List<UserFriend> lists = new ArrayList<UserFriend>();
 		try {
 			pstmt = conn.prepareStatement(sql);
