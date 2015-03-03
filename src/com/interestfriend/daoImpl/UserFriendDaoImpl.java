@@ -68,4 +68,23 @@ public class UserFriendDaoImpl implements UserFriendDao {
 		return null;
 	}
 
+	@Override
+	public boolean delFriendByUserId(int user_id, int user_friend_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		String sql = "delete from user_friend where user_id=? and user_friend_id=?";
+		PreparedStatement pstmt = null; // 声明预处理对象
+		try {
+			pstmt = conn.prepareStatement(sql); // 获得预处理对象并赋值
+			pstmt.setInt(1, user_id);
+			pstmt.setInt(2, user_friend_id);
+			return pstmt.executeUpdate() > 0; // 执行更新
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt); // 关闭预处理对象
+			// DBConnection.close(conn); // 关闭连接对象
+		}
+		return false;
+	}
+
 }

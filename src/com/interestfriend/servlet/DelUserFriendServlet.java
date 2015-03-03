@@ -2,11 +2,16 @@ package com.interestfriend.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.interestfriend.Idao.UserFriendDao;
+import com.interestfriend.factory.UserFriendDaoFactory;
 
 public class DelUserFriendServlet extends HttpServlet {
 
@@ -80,6 +85,15 @@ public class DelUserFriendServlet extends HttpServlet {
 		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		int user_friend_id = Integer.valueOf(request
 				.getParameter("user_friend_id"));
+		UserFriendDao dao = UserFriendDaoFactory.getInstance();
+		dao.delFriendByUserId(user_id, user_friend_id);
+		dao.delFriendByUserId(user_friend_id, user_id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("rt", 1);
+		PrintWriter out = response.getWriter();
+		out.print(params);
+		out.flush();
+		out.close();
 	}
 
 	/**
