@@ -312,6 +312,33 @@ public class EasemobMessages {
 	}
 
 	/**
+	 * 发送验证信息
+	 * 
+	 * @param to_user_chat_id
+	 * @param reason
+	 * @param user_friend_id
+	 * @param user_friend_name
+	 * @param user_firend_avatar
+	 * @param from_circle
+	 */
+	public static void addUserFriendInvite(String to_user_chat_id,
+			String reason, int user_friend_id, String user_friend_name,
+			String user_firend_avatar, String from_circle) {
+		ObjectNode ext = factory.objectNode();
+		ext.put("user_name", "趣友");
+		ext.put("user_avatar", Constants.APP_AVATAR);
+		ext.put("user_friend_id", user_friend_id);
+		ext.put("user_friend_name", user_friend_name);
+		ext.put("user_firend_avatar", user_firend_avatar);
+		ext.put("from_circle", from_circle);
+		ext.put("reason", reason);
+
+		sendUserMessage(to_user_chat_id,
+				EasemobConstans.ADD_USER_FRIEND_INVITE, "'" + user_friend_name
+						+ "'请求加你为好友", ext);
+	}
+
+	/**
 	 * 像用户发送消息
 	 * 
 	 * @param targetuser
@@ -330,7 +357,7 @@ public class EasemobMessages {
 		txtmsg.put("type", "txt");
 		ObjectNode sendTxtMessageusernode = sendMessages(targetTypeus,
 				targetusers, txtmsg, from, ext);
-		System.out.println(sendTxtMessageusernode.toString());
+		System.out.println("sendMessage:" + sendTxtMessageusernode.toString());
 	}
 
 	/**

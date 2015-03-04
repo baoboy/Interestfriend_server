@@ -13,6 +13,8 @@ public class EasemobConstans {
 	public static final String PRAISE_USER_ID = "praise";
 	public static final String COMMENT_USER_ID = "comment";
 	public static final String KICK_OUT_USER_ID = "kickout";
+	public static final String ADD_USER_FRIEND_INVITE = "adduserfriendinvite";
+
 	// API_SERVER_HOST
 	public static String API_SERVER_HOST = PropertiesUtils.getProperties()
 			.getProperty("API_SERVER_HOST");
