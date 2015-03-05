@@ -11,9 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.interestfriend.Idao.UserFriendDao;
+import com.interestfriend.Idao.UserFriendInviteMessageDao;
 import com.interestfriend.bean.UserFriend;
+import com.interestfriend.bean.UserFriendInviteMessage;
 import com.interestfriend.enums.ErrorEnum;
 import com.interestfriend.factory.UserFriendDaoFactory;
+import com.interestfriend.factory.UserFriendInviteMessageDaoFactory;
 
 public class AddUserFriendServlet extends HttpServlet {
 
@@ -114,6 +117,12 @@ public class AddUserFriendServlet extends HttpServlet {
 		user.setUser_friend_id(user_id);
 		user.setUser_friend_name(user_name);
 		boolean result = dao.addUserFriend(user);
+		UserFriendInviteMessageDao messageDao = UserFriendInviteMessageDaoFactory
+				.getInstance();
+		UserFriendInviteMessage message = new UserFriendInviteMessage();
+		message.setTo_user_chat_id(user_chat_id);
+		message.setUser_id(user_friend_id);
+		messageDao.delMessage(message);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (!result) {
 			params.put("err", ErrorEnum.INVALID.name());

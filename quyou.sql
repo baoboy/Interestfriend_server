@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50703
 File Encoding         : 65001
 
-Date: 2015-02-28 17:06:17
+Date: 2015-03-05 13:54:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3921,6 +3921,20 @@ INSERT INTO `user` VALUES ('701', '无趣', '22e98f50c538cd678388977b0145e74f', 
 INSERT INTO `user` VALUES ('702', '刘三姐', '026025abb30dcefe5924e42fcf76494d', '19111111111', '123456', '女', '2015-2-26', 'http://192.168.31.247:8080/InterestFriend/user-avatar/2015-02-26-12-37-54.jpg', 'liusanjie', 'lsj', '2015-02-26', '', '', '重庆 南川', '重庆', 'chongqing');
 
 -- ----------------------------
+-- Table structure for user_firend_invite_message
+-- ----------------------------
+DROP TABLE IF EXISTS `user_firend_invite_message`;
+CREATE TABLE `user_firend_invite_message` (
+  `user_id` int(11) NOT NULL,
+  `to_user_chat_id` varchar(50) COLLATE utf8_unicode_ci DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of user_firend_invite_message
+-- ----------------------------
+INSERT INTO `user_firend_invite_message` VALUES ('386', 'ed3afde007785ceaea990c35477ed35f');
+
+-- ----------------------------
 -- Table structure for user_friend
 -- ----------------------------
 DROP TABLE IF EXISTS `user_friend`;
@@ -3933,11 +3947,15 @@ CREATE TABLE `user_friend` (
   `user_friend_chat_id` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_friend_circle` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of user_friend
 -- ----------------------------
+INSERT INTO `user_friend` VALUES ('11', '13', '381', '一切随缘', 'http://123.56.46.254:8080/InterestFriend/user-avatar/2015-02-06-09-09-16.jpg', '', '美图美句');
+INSERT INTO `user_friend` VALUES ('12', '381', '13', '五月', 'http://123.56.46.254:8080/InterestFriend/user-avatar/2015-02-05-11-55-03.jpg', 'ed3afde007785ceaea990c35477ed35f', '美图美句');
+INSERT INTO `user_friend` VALUES ('13', '386', '381', '一切随缘', 'http://123.56.46.254:8080/InterestFriend/user-avatar/2015-02-06-09-09-16.jpg', '', '美图美句');
+INSERT INTO `user_friend` VALUES ('14', '381', '386', '胖嘟嘟的小妮妮', 'http://123.56.46.254:8080/InterestFriend/user-avatar/2015-02-06-12-38-07.jpg', '7ba64ad8e2c7211ac4f6a97b3b485100', '美图美句');
 
 -- ----------------------------
 -- Table structure for video

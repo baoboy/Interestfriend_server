@@ -10,6 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.interestfriend.Idao.UserFriendDao;
+import com.interestfriend.Idao.UserFriendInviteMessageDao;
+import com.interestfriend.bean.UserFriend;
+import com.interestfriend.bean.UserFriendInviteMessage;
+import com.interestfriend.factory.UserFriendDaoFactory;
+import com.interestfriend.factory.UserFriendInviteMessageDaoFactory;
 import com.interestfriend.huanxinImpl.EasemobMessages;
 
 /**
@@ -79,8 +85,22 @@ public class AddUserFriendInviteServlet extends HttpServlet {
 		String user_name = request.getParameter("user_name");
 		String user_avatar = request.getParameter("user_avatar");
 		String from_circle = request.getParameter("from_circle");
-		EasemobMessages.addUserFriendInvite(to_user_chat_id, reason, user_id,
-				user_name, user_avatar, from_circle);
+		UserFriendInviteMessage message = new UserFriendInviteMessage();
+		message.setTo_user_chat_id(to_user_chat_id);
+		message.setUser_id(user_id);
+		UserFriendInviteMessageDao dao = UserFriendInviteMessageDaoFactory
+				.getInstance();
+		boolean result = dao.getMessage(message);
+		UserFriendDao userDao = UserFriendDaoFactory.getInstance();
+		UserFriend user = new UserFriend();
+		user.setUser_id(user_id);
+		user.setUser_friend_chat_id(to_user_chat_id);
+		boolean userResult = userDao.getUser(user);
+		if (!result && !userResult) {
+			EasemobMessages.addUserFriendInvite(to_user_chat_id, reason,
+					user_id, user_name, user_avatar, from_circle);
+			dao.addMessage(message);
+		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("rt", 1);
 		PrintWriter out = response.getWriter();

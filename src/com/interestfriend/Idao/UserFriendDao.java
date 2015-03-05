@@ -10,4 +10,6 @@ public interface UserFriendDao {
 	List<UserFriend> getUserFriendList(int user_id);
 
 	boolean delFriendByUserId(int user_id, int user_friend_id);
+
+	boolean getUser(UserFriend user);
 }

@@ -87,4 +87,27 @@ public class UserFriendDaoImpl implements UserFriendDao {
 		return false;
 	}
 
+	@Override
+	public boolean getUser(UserFriend user) {
+		Connection conn = DBConnection.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		String sql = "select  * from user_friend where user_id=? and user_friend_chat_id=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, user.getUser_id());
+			pstmt.setString(2, user.getUser_friend_chat_id());
+			res = pstmt.executeQuery();
+			while (res.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt);
+			DBConnection.close(res);
+		}
+		return false;
+	}
+
 }
