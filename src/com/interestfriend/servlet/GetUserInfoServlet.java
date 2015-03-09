@@ -96,6 +96,9 @@ public class GetUserInfoServlet extends HttpServlet {
 				u.setUserDeclaration(res.getString("user_declaration"));
 				u.setUserDescription(res.getString("user_description"));
 				u.setUserChatId(res.getString("user_chat_id"));
+				u.setUserAddress(res.getString("user_address"));
+				u.setUserProvince(res.getString("user_province"));
+				u.setUserProvinceKey(res.getString("user_province_key"));
 				break;
 			}
 		} catch (SQLException e) {

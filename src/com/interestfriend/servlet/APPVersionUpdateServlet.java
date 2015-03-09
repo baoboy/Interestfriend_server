@@ -78,8 +78,8 @@ public class APPVersionUpdateServlet extends HttpServlet {
 		params.put("app_link", Constants.APP_LINK);
 		PrintWriter out = response.getWriter();
 		out.print(JsonUtil.toJsonString(params));
-		out.flush();
-		out.close();
+		out.flush(); 
+		out.close(); 
 		Utils.print("new_version:" + JsonUtil.toJsonString(params));
 	}
 
