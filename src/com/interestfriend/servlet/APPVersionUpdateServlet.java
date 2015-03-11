@@ -23,7 +23,7 @@ public class APPVersionUpdateServlet extends HttpServlet {
 		super();
 	}
 
-	/**
+	/** 
 	 * Destruction of the servlet. <br>
 	 */
 	public void destroy() {
