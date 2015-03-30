@@ -16,9 +16,9 @@ import com.interestfriend.Utils.Utils;
 
 public class APPVersionUpdateServlet extends HttpServlet {
 
-	/**
+	/** 
 	 * Constructor of the object.
-	 */
+	 */ 
 	public APPVersionUpdateServlet() {
 		super();
 	}
