@@ -164,12 +164,16 @@ public class UserRegisterServlet extends HttpServlet {
 			String user_pinyin = request.getAttribute("user_pinyin").toString();
 			String user_sort_key = request.getAttribute("user_sort_key")
 					.toString();
-			String user_address = request.getAttribute("user_address")
-					.toString();
-			String user_province = request.getAttribute("user_province")
-					.toString();
-			String user_province_key = request
-					.getAttribute("user_province_key").toString();
+			String user_address = "";
+			String user_province = "";
+			String user_province_key = "";
+			if (null != request.getAttribute("user_address")) {
+				user_address = request.getAttribute("user_address").toString();
+				user_province = request.getAttribute("user_province")
+						.toString();
+				user_province_key = request.getAttribute("user_province_key")
+						.toString();
+			}
 			user.setUserBirthday(user_birthday);
 			user.setUserCellPhone(user_cellphone);
 			user.setUserGender(user_gender);

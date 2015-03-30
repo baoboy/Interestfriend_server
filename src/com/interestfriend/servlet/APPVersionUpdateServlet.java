@@ -23,7 +23,7 @@ public class APPVersionUpdateServlet extends HttpServlet {
 		super();
 	}
 
-	/**
+	/** 
 	 * Destruction of the servlet. <br>
 	 */
 	public void destroy() {
@@ -47,7 +47,7 @@ public class APPVersionUpdateServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		doPost(request, response);
 	}
 
 	/**
@@ -78,8 +78,8 @@ public class APPVersionUpdateServlet extends HttpServlet {
 		params.put("app_link", Constants.APP_LINK);
 		PrintWriter out = response.getWriter();
 		out.print(JsonUtil.toJsonString(params));
-		out.flush(); 
-		out.close(); 
+		out.flush();
+		out.close();
 		Utils.print("new_version:" + JsonUtil.toJsonString(params));
 	}
 

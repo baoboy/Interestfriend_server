@@ -323,11 +323,13 @@ public class EasemobMessages {
 	 */
 	public static void addUserFriendInvite(String to_user_chat_id,
 			String reason, int user_friend_id, String user_friend_name,
-			String user_firend_avatar, String from_circle) {
+			String user_firend_avatar, String from_circle,
+			String user_friend_chat_id) {
 		ObjectNode ext = factory.objectNode();
 		ext.put("user_name", "趣友");
 		ext.put("user_avatar", Constants.APP_AVATAR);
 		ext.put("user_friend_id", user_friend_id);
+		ext.put("user_friend_chat_id", user_friend_chat_id);
 		ext.put("user_friend_name", user_friend_name);
 		ext.put("user_firend_avatar", user_firend_avatar);
 		ext.put("from_circle", from_circle);
