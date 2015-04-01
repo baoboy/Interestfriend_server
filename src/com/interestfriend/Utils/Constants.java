@@ -1,6 +1,7 @@
 package com.interestfriend.Utils;
 
 public class Constants {
+	public static final String APP_VSERSION = "1.0.10";
 	public static final String APP_VSERSION_NAME = "1.0.10";
 	public static final int APP_VSERSION_CODE = 10;
 	public static final String VERSION_INFO = "修改添加好友不成功";
