@@ -10,16 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.interestfriend.Utils.Constants;
+import com.interestfriend.Idao.XinQingPraiseDao;
 import com.interestfriend.Utils.JsonUtil;
-import com.interestfriend.Utils.Utils;
+import com.interestfriend.bean.XinQingPraise;
+import com.interestfriend.enums.ErrorEnum;
+import com.interestfriend.factory.XinQingPraiseDaoFactory;
 
-public class APPVersionUpdateServlet extends HttpServlet {
+public class CancelXinQingPraiseServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public APPVersionUpdateServlet() {
+	public CancelXinQingPraiseServlet() {
 		super();
 	}
 
@@ -67,20 +69,30 @@ public class APPVersionUpdateServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf-8");
+
+		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("rt", 1);
-		params.put("app_version_name", Constants.APP_VSERSION_NAME);
-		params.put("app_version_code", Constants.APP_VSERSION_CODE);
-		params.put("app_version", Constants.APP_VSERSION);
-		params.put("version_info", Constants.VERSION_INFO);
-		params.put("app_link", Constants.APP_LINK);
 		PrintWriter out = response.getWriter();
+		int user_id = Integer.valueOf(request.getParameter("user_id"));
+		int xinqing_id = Integer.valueOf(request.getParameter("xinqing_id"));
+		XinQingPraiseDao dao = XinQingPraiseDaoFactory.getInstance();
+		XinQingPraise praise = new XinQingPraise();
+		praise.setXinqing_id(xinqing_id);
+		praise.setUser_id(user_id);
+		boolean ret = dao.cancelPraise(praise);
+		if (!ret) {
+			params.put("rt", 0);
+			params.put("err", ErrorEnum.INVALID.name());
+		} else {
+			params.put("rt", 1);
+			int praise_count = dao.getXinQingPraiseCount(xinqing_id);
+			params.put("praise_count", praise_count);
+		}
 		out.print(JsonUtil.toJsonString(params));
 		out.flush();
 		out.close();
-		Utils.print("new_version:" + JsonUtil.toJsonString(params));
+		System.out.println(JsonUtil.toJsonString(params));
 	}
 
 	/**

@@ -268,4 +268,25 @@ public class MembersDapImpl implements MembersDao {
 		}
 		return false;
 	}
+
+	@Override
+	public String getHuanXinIDByUserID(int user_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+		String findByIDSQL = "SELECT  user_chat_id FROM user where user_id=?"; // SQL语句
+		try {
+			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
+			pstmt.setInt(1, user_id); // 设置参数
+			rs = pstmt.executeQuery(); // 执行查询
+			while (rs.next()) {
+				return rs.getString("user_chat_id");
+			}
+		} catch (Exception e) {
+		} finally {
+			DBConnection.close(rs); // 关闭结果集对象
+			DBConnection.close(pstmt);
+		}
+		return "";
+	}
 }

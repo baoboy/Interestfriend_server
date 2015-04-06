@@ -7,9 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.interestfriend.Idao.XinQingCommentDao;
 import com.interestfriend.Idao.XinQingDao;
+import com.interestfriend.Idao.XinQingPraiseDao;
 import com.interestfriend.bean.XinQing;
+import com.interestfriend.bean.XinQingPraise;
 import com.interestfriend.db.DBConnection;
+import com.interestfriend.factory.XinQingCommentDaoFactory;
+import com.interestfriend.factory.XinQingPraiseDaoFactory;
 
 public class XinQingDaoImpl implements XinQingDao {
 
@@ -45,7 +50,8 @@ public class XinQingDaoImpl implements XinQingDao {
 	}
 
 	@Override
-	public List<XinQing> getXinQingList(int refushState, String refushTime) {
+	public List<XinQing> getXinQingList(int refushState, String refushTime,
+			int user_id) {
 		List<XinQing> lists = new ArrayList<XinQing>();
 		Connection conn = DBConnection.getConnection();
 		ResultSet res = null;
@@ -60,6 +66,8 @@ public class XinQingDaoImpl implements XinQingDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, refushTime);
 			res = pstmt.executeQuery();
+			XinQingCommentDao cDao = XinQingCommentDaoFactory.getInstance();
+			XinQingPraiseDao pDao = XinQingPraiseDaoFactory.getInstance();
 			while (res.next()) {
 				XinQing xin = new XinQing();
 				int xinqing_id = res.getInt("xinqing_id");
@@ -70,6 +78,13 @@ public class XinQingDaoImpl implements XinQingDao {
 				xin.setPublisher_avatar(res.getString("user_avatar"));
 				xin.setPublisher_name(res.getString("user_name"));
 				xin.setPublisher_id(res.getInt("publisher_id"));
+				xin.setComments(cDao.getCommentByXinQingID(xinqing_id));
+				xin.setPraises(pDao.findPraiseUserByXinQingID(xinqing_id));
+				XinQingPraise praise = new XinQingPraise();
+				praise.setUser_id(user_id);
+				praise.setXinqing_id(xinqing_id);
+				xin.setIsPraise(pDao.findPraiseByUserID(praise));
+
 				lists.add(xin);
 			}
 		} catch (SQLException e) {
@@ -77,5 +92,4 @@ public class XinQingDaoImpl implements XinQingDao {
 		}
 		return lists;
 	}
-
 }

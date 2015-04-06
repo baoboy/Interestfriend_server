@@ -7,23 +7,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.interestfriend.Idao.GrowthPraiseDao;
-import com.interestfriend.bean.GrowthPraise;
+import com.interestfriend.Idao.XinQingPraiseDao;
+import com.interestfriend.bean.XinQingPraise;
 import com.interestfriend.db.DBConnection;
 
-public class GrowthPraiseDaoImpl implements GrowthPraiseDao {
+public class XinQingPraiseDaoImpl implements XinQingPraiseDao {
 
 	@Override
-	public boolean insertPraiseToDB(GrowthPraise praise) {
+	public boolean insertPraiseToDB(XinQingPraise praise) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
-		String addSQL = "insert into growth_praise(user_id,growth_id) values(?,?)";
+		String addSQL = "insert into xinqing_praise(user_id,xinqing_id) values(?,?)";
 		PreparedStatement pstmt = null; // 声明预处理对象
 		try {
 			pstmt = conn.prepareStatement(addSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, praise.getUser_id());
-			pstmt.setInt(2, praise.getGrowth_id());// 设置第二个参数
+			pstmt.setInt(2, praise.getXinqing_id());// 设置第二个参数
 			int count = pstmt.executeUpdate(); // 执行更新
-			System.out.println("praise:" + count);
 			return count > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -34,15 +33,15 @@ public class GrowthPraiseDaoImpl implements GrowthPraiseDao {
 	}
 
 	@Override
-	public int findPraiseByUserID(GrowthPraise praise) {
+	public int findPraiseByUserID(XinQingPraise praise) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
 		ResultSet rs = null;
-		String findByIDSQL = "select growth_id from growth_praise where user_id = ? and growth_id =?"; // SQL语句
+		String findByIDSQL = "select xinqing_id from xinqing_praise where user_id = ? and xinqing_id =?"; // SQL语句
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
 			pstmt.setInt(1, praise.getUser_id()); // 设置参数
-			pstmt.setInt(2, praise.getGrowth_id()); // 设置参数
+			pstmt.setInt(2, praise.getXinqing_id()); // 设置参数
 
 			rs = pstmt.executeQuery(); // 执行查询
 			while (rs.next()) {
@@ -57,16 +56,15 @@ public class GrowthPraiseDaoImpl implements GrowthPraiseDao {
 	}
 
 	@Override
-	public boolean cancelPraise(GrowthPraise praise) {
+	public boolean cancelPraise(XinQingPraise praise) {
 		Connection conn = DBConnection.getConnection(); // 获得连接对象
 		PreparedStatement pstmt = null; // 声明预处理对象
-		String findByIDSQL = "DELETE FROM growth_praise WHERE growth_id=? and user_id=?"; // SQL语句
+		String findByIDSQL = "DELETE FROM xinqing_praise WHERE xinqing_id=? and user_id=?"; // SQL语句
 		try {
 			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
-			pstmt.setInt(1, praise.getGrowth_id()); // 设置参数
+			pstmt.setInt(1, praise.getXinqing_id()); // 设置参数
 			pstmt.setInt(2, praise.getUser_id());
 			int res = pstmt.executeUpdate(); // 执行查询
-			System.out.println("cancel:" + res);
 			return res > 0;
 		} catch (Exception e) {
 		} finally {
@@ -76,23 +74,23 @@ public class GrowthPraiseDaoImpl implements GrowthPraiseDao {
 	}
 
 	@Override
-	public List<GrowthPraise> findPraiseUserByGrowthID(int growth_id) {
+	public List<XinQingPraise> findPraiseUserByXinQingID(int xinqing_id) {
 		Connection conn = DBConnection.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		String sql = "select user.user_avatar,growth_praise.user_id from user, growth_praise where growth_id=? and user.user_id=growth_praise.user_id";
-		List<GrowthPraise> comments = new ArrayList<GrowthPraise>();
+		String sql = "select user.user_avatar,xinqing_praise.user_id from user, xinqing_praise where xinqing_id=? and user.user_id=xinqing_praise.user_id";
+		List<XinQingPraise> praises = new ArrayList<XinQingPraise>();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, growth_id);
+			pstmt.setInt(1, xinqing_id);
 			res = pstmt.executeQuery();
 			while (res.next()) {
-				GrowthPraise praise = new GrowthPraise();
+				XinQingPraise praise = new XinQingPraise();
 				praise.setUser_avatar(res.getString("user_avatar"));
 				praise.setUser_id(res.getInt("user_id"));
-				comments.add(praise);
+				praises.add(praise);
 			}
-			return comments;
+			return praises;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -100,5 +98,27 @@ public class GrowthPraiseDaoImpl implements GrowthPraiseDao {
 			DBConnection.close(res);
 		}
 		return null;
+	}
+
+	@Override
+	public int getXinQingPraiseCount(int xinqing_id) {
+		Connection conn = DBConnection.getConnection(); // 获得连接对象
+		PreparedStatement pstmt = null; // 声明预处理对象
+		ResultSet rs = null;
+
+		String findByIDSQL = "select user_id from xinqing_praise where xinqing_id = ?"; // SQL语句
+		try {
+			pstmt = conn.prepareStatement(findByIDSQL); // 获得预处理对象并赋值
+			pstmt.setInt(1, xinqing_id); // 设置参数
+			rs = pstmt.executeQuery(); // 执行查询
+			rs.last();
+			return rs.getRow(); // 获得ResultSet的总行数
+
+		} catch (Exception e) {
+		} finally {
+			DBConnection.close(rs); // 关闭结果集对象
+			DBConnection.close(pstmt);
+		}
+		return 0;
 	}
 }

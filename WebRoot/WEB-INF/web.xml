@@ -281,6 +281,27 @@
     <servlet-name>GetXinQingListServlet</servlet-name>
     <servlet-class>com.interestfriend.servlet.GetXinQingListServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>XinQingPraiseServlet</servlet-name>
+    <servlet-class>com.interestfriend.servlet.XinQingPraiseServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>XinQingCommentServlet</servlet-name>
+    <servlet-class>com.interestfriend.servlet.XinQingCommentServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>CancelXinQingPraiseServlet</servlet-name>
+    <servlet-class>com.interestfriend.servlet.CancelXinQingPraiseServlet</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -510,6 +531,18 @@
   <servlet-mapping>
     <servlet-name>GetXinQingListServlet</servlet-name>
     <url-pattern>/servlet/GetXinQingListServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>XinQingPraiseServlet</servlet-name>
+    <url-pattern>/servlet/XinQingPraiseServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>XinQingCommentServlet</servlet-name>
+    <url-pattern>/servlet/XinQingCommentServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CancelXinQingPraiseServlet</servlet-name>
+    <url-pattern>/servlet/CancelXinQingPraiseServlet</url-pattern>
   </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

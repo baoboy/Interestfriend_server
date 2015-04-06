@@ -26,4 +26,6 @@ public interface MembersDao {
 	int getCircleMemberNumOfCircle(int circle_id);
 
 	boolean findMemberInCircle(int circle_id, int user_id);// 该成员在圈子内是否存在
+
+	String getHuanXinIDByUserID(int user_id);
 }

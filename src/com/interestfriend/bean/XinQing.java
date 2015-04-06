@@ -1,5 +1,8 @@
 package com.interestfriend.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class XinQing {
 	private int xinqing_id = 0;
 	private int publisher_id = 0;// ·¢²¼Õßid
@@ -8,6 +11,33 @@ public class XinQing {
 	private String publisher_name = "";
 	private String publisher_avatar = "";
 	private String image_url = "";
+	private List<XinQingPraise> praises = new ArrayList<XinQingPraise>();
+	private List<XinQingComment> comments = new ArrayList<XinQingComment>();
+	private int isPraise;// 1 ÔŞ 0Î´ÔŞ
+
+	public int getIsPraise() {
+		return isPraise;
+	}
+
+	public void setIsPraise(int isPraise) {
+		this.isPraise = isPraise;
+	}
+
+	public List<XinQingPraise> getPraises() {
+		return praises;
+	}
+
+	public void setPraises(List<XinQingPraise> praises) {
+		this.praises = praises;
+	}
+
+	public List<XinQingComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<XinQingComment> comments) {
+		this.comments = comments;
+	}
 
 	public int getXinqing_id() {
 		return xinqing_id;

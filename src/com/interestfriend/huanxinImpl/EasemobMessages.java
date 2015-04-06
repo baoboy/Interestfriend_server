@@ -265,6 +265,17 @@ public class EasemobMessages {
 				textContent, ext);
 	}
 
+	public static void sendTextMessageForpXinQingRraiseAndComment(
+			int xinqing_id, String to_user_id, String message_content) {
+		ObjectNode ext = factory.objectNode();
+		ext.put("user_name", "趣友");
+		ext.put("user_avatar", Constants.APP_AVATAR);
+		ext.put("xinqing_id", xinqing_id + "");
+		sendUserMessage(to_user_id,
+				EasemobConstans.XINQING_PRAISE_AND_COMMENT_USER_ID,
+				message_content, ext);
+	}
+
 	/**
 	 * 赞 提醒
 	 * 

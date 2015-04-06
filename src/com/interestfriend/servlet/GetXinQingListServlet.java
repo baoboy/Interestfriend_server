@@ -74,8 +74,10 @@ public class GetXinQingListServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		int refushState = Integer.valueOf(request.getParameter("refushState"));
 		String refushTime = request.getParameter("refushTime");
+		int user_id = Integer.valueOf(request.getParameter("user_id"));
 		XinQingDao dao = XinQingDaoFactory.getInstance();
-		List<XinQing> lists = dao.getXinQingList(refushState, refushTime);
+		List<XinQing> lists = dao.getXinQingList(refushState, refushTime,
+				user_id);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("xinqings", lists);
 		params.put("rt", 1);
