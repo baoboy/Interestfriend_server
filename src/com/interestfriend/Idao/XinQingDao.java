@@ -9,4 +9,5 @@ public interface XinQingDao {
 
 	List<XinQing> getXinQingList(int refushState, String refushTime, int user_id);
 
+	XinQing getXinQingByID(int xinqing_id, int user_id);
 }

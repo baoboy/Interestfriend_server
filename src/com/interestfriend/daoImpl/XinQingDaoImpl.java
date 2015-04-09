@@ -92,4 +92,38 @@ public class XinQingDaoImpl implements XinQingDao {
 		}
 		return lists;
 	}
+
+	@Override
+	public XinQing getXinQingByID(int xinqing_id, int user_id) {
+		Connection conn = DBConnection.getConnection();
+		ResultSet res = null;
+		PreparedStatement pstmt = null;
+		String sql = "select xinqing.*,`user`.user_avatar,`user`.user_name  from  xinqing  INNER JOIN  `user`  on  xinqing.publisher_id =`user`.user_id  where xinqing_id=?";
+		XinQing xinqing = new XinQing();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, xinqing_id);
+			res = pstmt.executeQuery();
+			XinQingCommentDao cDao = XinQingCommentDaoFactory.getInstance();
+			XinQingPraiseDao pDao = XinQingPraiseDaoFactory.getInstance();
+			while (res.next()) {
+				xinqing.setXinqing_id(xinqing_id);
+				xinqing.setContent(res.getString("content"));
+				xinqing.setImage_url(res.getString("image_url"));
+				xinqing.setPublish_time(res.getString("publish_time"));
+				xinqing.setPublisher_avatar(res.getString("user_avatar"));
+				xinqing.setPublisher_name(res.getString("user_name"));
+				xinqing.setPublisher_id(res.getInt("publisher_id"));
+				xinqing.setComments(cDao.getCommentByXinQingID(xinqing_id));
+				xinqing.setPraises(pDao.findPraiseUserByXinQingID(xinqing_id));
+				XinQingPraise praise = new XinQingPraise();
+				praise.setUser_id(user_id);
+				praise.setXinqing_id(xinqing_id);
+				xinqing.setIsPraise(pDao.findPraiseByUserID(praise));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return xinqing;
+	}
 }

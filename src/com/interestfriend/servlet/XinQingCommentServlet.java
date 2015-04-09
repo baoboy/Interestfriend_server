@@ -109,23 +109,26 @@ public class XinQingCommentServlet extends HttpServlet {
 		out.flush();
 		out.close();
 		if (id > 0) {
+			String xinqing_publisher_huanxin_name = "";
 			MembersDao mDao = MembersDaoFactory.getInstance();
-			String xinqing_publisher_huanxin_name = mDao
-					.getHuanXinIDByUserID(xinqing_publisher_id);
 			if (!"".equals(reply_someone_name)) {
 				if (Integer.valueOf(reply_someone_id) == Integer
 						.valueOf(publisher_id)) {
 					return;
 				}
-
+				xinqing_publisher_huanxin_name = mDao
+						.getHuanXinIDByUserID(Integer.valueOf(reply_someone_id));
 				EasemobMessages.sendTextMessageForpXinQingRraiseAndComment(
 						xinqing_id, xinqing_publisher_huanxin_name, "'"
 								+ user_name + "‘ 回复了您的评论");
+				return;
 			}
-			// if (xinqing_publisher_id == Integer.valueOf(publisher_id)) {
-			// return;
-			// }
 
+			if (xinqing_publisher_id == Integer.valueOf(publisher_id)) {
+				return;
+			}
+			xinqing_publisher_huanxin_name = mDao
+					.getHuanXinIDByUserID(xinqing_publisher_id);
 			EasemobMessages.sendTextMessageForpXinQingRraiseAndComment(
 					xinqing_id, xinqing_publisher_huanxin_name, "'" + user_name
 							+ "‘ 评论了您的心情");
